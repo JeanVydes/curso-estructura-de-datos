@@ -32,6 +32,7 @@ void insertarAlFinal(Nodo** cabeza, int nuevoDato) {
     nuevoNodo->siguiente = NULL;
 
     // 2. Si la lista está vacía, la cabeza es el nuevo nodo
+    // el *cabeza se utiliza para desreferenciar el puntero y acceder al nodo original
     if (*cabeza == NULL) {
         *cabeza = nuevoNodo;
     } else {
@@ -63,9 +64,13 @@ int main() {
     Nodo* cabeza = NULL;
 
     // Insertamos 3 nodos
+    // el &cabeza se utiliza para pasar la dirección de la cabeza de la lista
     insertarAlInicio(&cabeza, 30); // La lista es ahora: 30 -> NULL
     insertarAlInicio(&cabeza, 20); // La lista es ahora: 20 -> 30 -> NULL
     insertarAlInicio(&cabeza, 10); // La lista es ahora: 10 -> 20 -> 30 -> NULL
+
+    insertarAlFinal(&cabeza, 40); // La lista es ahora: 10 -> 20 -> 30 -> 40 -> NULL
+    insertarAlFinal(&cabeza, 50); // La lista es ahora: 10 -> 20 -> 30 -> 40 -> 50 -> NULL
 
     std::cout << "La lista enlazada es: " << std::endl;
     mostrarLista(cabeza);

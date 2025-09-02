@@ -81,6 +81,20 @@ public class lista {
         System.out.println("NULL");
     }
 
+    public void mostrarListaAtras() {
+        Nodo nodo = cabeza;
+        // Primero, llegamos al final de la lista
+        while (nodo != null && nodo.siguiente != null) {
+            nodo = nodo.siguiente;
+        }
+        // Luego, recorremos la lista hacia atrás
+        while (nodo != null) {
+            System.out.print(nodo.dato + " <-> ");
+            nodo = nodo.anterior;
+        }
+        System.out.println("NULL");
+    }
+
     public static void main(String[] args) {
         // Creamos una instancia de la lista
         lista lista = new lista();
@@ -99,5 +113,8 @@ public class lista {
 
         System.out.println("\nLa lista despues de insertar al final es: ");
         lista.mostrarListaAdelante();
+
+        System.out.println("\nLa lista en orden inverso es: ");
+        lista.mostrarListaAtras();
     }
 }
