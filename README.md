@@ -2,6 +2,15 @@
 
 Esta guía te ayudará a entender las estructuras de datos más fundamentales en la programación. Aquí encontrarás explicaciones teóricas y ejemplos prácticos en C++, Python y Java para que puedas reforzar tus conocimientos de manera autodidacta.
 
+## Recursos Externos
+
+- [Techie Delight - Static Linked List in C](https://www.techiedelight.com/static-linked-list-c/)
+- [Listas y Colas - Universidad de Cantabria](https://personales.unican.es/corcuerp/progcomp/slides/Listas_Colas.pdf)
+- [GeeksforGeeks - Linked List in C](https://www.geeksforgeeks.org/c/linked-list-in-c/)
+- [GeeksforGeeks - Queue in C](https://www.geeksforgeeks.org/c/queue-in-c/)
+- [W3Schools - C++ Data Structures](https://www.w3schools.com/cpp/cpp_data_structures.asp)
+- [GeeksforGeeks - Pointers and References in C++](https://www.geeksforgeeks.org/cpp/pointers-and-references-in-c/)
+
 ## Introducción
 
 Las estructuras de datos son fundamentales en la programación, ya que nos permiten organizar y manipular datos de manera eficiente. En esta guía, exploraremos las estructuras de datos lineales más comunes, centrándonos en sus características, ventajas y desventajas.
