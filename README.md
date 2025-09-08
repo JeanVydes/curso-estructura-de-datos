@@ -23,7 +23,7 @@ Las estructuras de datos se pueden clasificar en dos categorías principales: li
   * Listas
   * Pilas
   * Colas
-* Estructuras de Datos No Lineales
+  * Estructuras de Datos No Lineales
   * Árboles
   * Grafos
 
@@ -54,6 +54,8 @@ Una lista circular es una lista enlazada donde el último nodo apunta de nuevo a
 Las pilas son estructuras de datos que siguen el principio LIFO (Last In, First Out), lo que significa que el último elemento en entrar es el primero en salir. Se pueden implementar utilizando arreglos o listas enlazadas. Las operaciones principales en una pila son **push** (agregar un elemento) y **pop** (eliminar el elemento superior).
 
 Una aplicación común de las pilas es en la gestión de la memoria, donde se utilizan para realizar un seguimiento de las funciones activas y sus variables locales.
+
+Las pilas también son útiles en la evaluación de expresiones matemáticas y en la conversión entre diferentes notaciones (infijo, postfijo, prefijo).
 
 ## Colas
 

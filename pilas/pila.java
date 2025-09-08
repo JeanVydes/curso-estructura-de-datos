@@ -23,7 +23,7 @@ public class pila {
     public void push(int nuevoDato) {
         Nodo nuevoNodo = new Nodo(nuevoDato);
         nuevoNodo.siguiente = cima;
-        cima = nuevoNodo;
+        this.cima = nuevoNodo;
         System.out.println("Push: " + nuevoDato);
     }
 
@@ -34,7 +34,7 @@ public class pila {
             return -1; // Valor de error
         }
         int dato = cima.dato;
-        cima = cima.siguiente;
+        this.cima = cima.siguiente;
         System.out.println("Pop: " + dato);
         return dato;
     }
