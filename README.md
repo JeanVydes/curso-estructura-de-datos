@@ -57,13 +57,19 @@ Una aplicación común de las pilas es en la gestión de la memoria, donde se ut
 
 Las pilas también son útiles en la evaluación de expresiones matemáticas y en la conversión entre diferentes notaciones (infijo, postfijo, prefijo).
 
+En [Pilas](https://github.com/JeanVydes/curso-estructura-de-datos/blob/main/pilas) podrás encontrar implementaciones en C++, Python y Java, junto con ejemplos prácticos, como la evaluación de expresiones y la reversión de cadenas, asi como el balanceo de paréntesis, y transformación de expresiones infijas a postfijas y prefijas.
+
+[pilaCaracter.py](https://github.com/JeanVydes/curso-estructura-de-datos/blob/main/pilas/pilaCaracter.py), [pilaCaracter.java](https://github.com/JeanVydes/curso-estructura-de-datos/blob/main/pilas/pilaCaracter.java) y [pilaCaracter.cpp](https://github.com/JeanVydes/curso-estructura-de-datos/blob/main/pilas/pilaCaracter.cpp) abordan el tema del balanceo de paréntesis, una aplicación clásica de las pilas. Estos programas verifican si los paréntesis en una expresión están correctamente balanceados, lo que es crucial en la sintaxis de muchos lenguajes de programación. Ademas tambien se aborda la logica de invertir una cadena usando pilas.
+
+[infijoTransformacion.py](https://github.com/JeanVydes/curso-estructura-de-datos/blob/main/pilas/infijoTransformacion.py), [infijoTransformacion.java](https://github.com/JeanVydes/curso-estructura-de-datos/blob/main/pilas/infijoTransformacion.java) y [infijoTransformacion.cpp](https://github.com/JeanVydes/curso-estructura-de-datos/blob/main/pilas/infijoTransformacion.cpp) se centran en la transformación de expresiones infijas a postfijas y prefijas, utilizando pilas para manejar la precedencia de los operadores y los paréntesis.
+
 ## Colas
 
 Las colas son estructuras de datos que siguen el principio FIFO (First In, First Out), lo que significa que el primer elemento en entrar es el primero en salir. Se pueden implementar utilizando arreglos o listas enlazadas. Las operaciones principales en una cola son **enqueue** (agregar un elemento al final) y **dequeue** (eliminar el elemento del frente).
 
 En la vida real las colas tienen muchas aplicaciones, como en la gestión de tareas en segundo plano, la impresión de documentos y la atención al cliente en un centro de llamadas.
 
-En [colas](https://github.com/JeanVydes/curso-estructura-de-datos/blob/main/colas/cola.java) podrás encontrar un ejemplo de implementación de una cola en Java. Y Algunas aplicaciones y ejercicios claves como lo son la fusión de dos colas y ordenarlas.
+En [Colas](https://github.com/JeanVydes/curso-estructura-de-datos/blob/main/colas) podrás encontrar implementaciones en C++, Python y Java, junto con ejemplos prácticos, como ordenamiento de colas y combinación de dos colas.
 
 ## Grafos
 

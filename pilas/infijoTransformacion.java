@@ -1,10 +1,8 @@
 package pilas;
-/*
- * infijo son las expresiones comunes que usamos normalmente
- * postfijo son las expresiones donde el operador va despues de los operandos
- * prefijo son las expresiones donde el operador va antes de los operandos
- */
+
 public class infijoTransformacion {
+
+    // Clase interna para el nodo.
     private class Nodo {
         char dato;
         Nodo siguiente;
@@ -17,27 +15,36 @@ public class infijoTransformacion {
 
     private Nodo cima;
 
+    // Métodos esenciales de la pila.
     public void push(char dato) {
         Nodo n = new Nodo(dato);
         n.siguiente = this.cima;
         this.cima = n;
     }
 
-    public Nodo pop() {
+    public char pop() {
         if (this.cima == null) {
-            return null;
-        }   
-
-        Nodo temp = this.cima;
+            throw new IllegalStateException("La pila está vacía.");
+        }
+        
+        char dato = this.cima.dato;
         this.cima = this.cima.siguiente;
-        return temp;
+        return dato;
     }
 
-    public Nodo peek() {
-        return this.cima;
+    public char peek() {
+        if (this.cima == null) {
+            throw new IllegalStateException("La pila está vacía.");
+        }
+        return this.cima.dato;
     }
 
-    // entre mayor sea el numero, mayor es la prioridad
+    public boolean estaVacia() {
+        return this.cima == null;
+    }
+
+    // Define la prioridad de los operadores. Mayor número = mayor prioridad.
+    // Los paréntesis no tienen prioridad numérica en este contexto.
     private static int prioridad(char operador) {
         switch (operador) {
             case '+':
@@ -53,122 +60,85 @@ public class infijoTransformacion {
         }
     }
 
+    // Convierte una expresión de notación infija a postfija (operador después de operandos).
     public static String infijoAPostfijo(String expr) {
-        // esta pila solo almacenara operadores y parentesis
+        // Pila para almacenar operadores y paréntesis.
         infijoTransformacion pila = new infijoTransformacion();
         StringBuilder postfijo = new StringBuilder();
 
-        // partimos la expresion en un array de caracteres
         for (char c : expr.toCharArray()) {
-            // si es una letra o numero, lo agregamos a la salida directamente
             if (Character.isLetterOrDigit(c)) {
+                // Si es un operando, lo añade directamente a la salida.
                 postfijo.append(c);
-            // si es un parentesis de apertura, lo apilamos
             } else if (c == '(') {
+                // Si es un paréntesis de apertura, se apila.
                 pila.push(c);
             } else if (c == ')') {
-                // si es un parentesis de cierre, desapilamos hasta encontrar el de apertura
-                // porque todo lo que esta dentro de parentesis va primero en la salida
-                /* ejemplo paso a paso para este while
-                (A+B)*C
-                (: apilamos
-                A: salida
-                +: apilamos
-                B: salida
-                ): desapilamos hasta encontrar ( y lo sacamos sin agregar a la salida, en este caso desapilamos + y luego ( sin agregarlo a la salida
-                ...
-                 */
-                while (pila.cima != null && pila.peek().dato != '(') {
-                    postfijo.append(pila.pop().dato);
+                // Si es un paréntesis de cierre, desapila todos los operadores
+                // hasta encontrar el de apertura, agregándolos a la salida.
+                while (!pila.estaVacia() && pila.peek() != '(') {
+                    postfijo.append(pila.pop());
                 }
-
-                // sacamos el '(' de la pila pero no lo agregamos a la salida
-                if (pila.cima != null && pila.peek().dato == '(') {
-                    pila.pop(); // Sacar el '(' de la pila
+                // Saca el '(' de la pila.
+                if (!pila.estaVacia() && pila.peek() == '(') {
+                    pila.pop();
                 }
             } else { // Es un operador
-                // desapilamos mientras la pila no este vacia y el operador en la cima tenga mayor o igual prioridad
-                // porque esos van primero en la salida
-                /*
-                 * ejemplo paso a paso para este while
-                 * A*B+C
-                 * A: salida
-                 * *: apilamos
-                 * B: salida
-                 * +: desapilamos * porque tiene mayor prioridad que + y lo agregamos a la salida, luego apilamos +
-                 * C: salida
-                 */
-                while (pila.cima != null && prioridad(c) <= prioridad(pila.peek().dato)) {
-                    postfijo.append(pila.pop().dato);
+                // Desapila y agrega a la salida los operadores con mayor o igual prioridad.
+                // Esta lógica garantiza la precedencia de las operaciones.
+                while (!pila.estaVacia() && prioridad(c) <= prioridad(pila.peek()) && pila.peek() != '(') {
+                    postfijo.append(pila.pop());
                 }
+                // Apila el operador actual.
                 pila.push(c);
             }
         }
 
-        // al final, desapilamos todo lo que quede en la pila, que seran los operadores restantes
-        while (pila.cima != null) {
-            postfijo.append(pila.pop().dato);
+        // Desapila los operadores restantes y los añade a la salida.
+        while (!pila.estaVacia()) {
+            postfijo.append(pila.pop());
         }
 
         return postfijo.toString();
     }
 
+    // Convierte una expresión infija a prefija (operador antes de operandos).
     public static String infijoAPrefijo(String expr) {
-        // Invertir la expresión y cambiar paréntesis
+        // Estrategia de inversión:
+        // 1. Invertir la expresión infija y los paréntesis.
         StringBuilder exprInvertida = new StringBuilder();
-        // Recorremos la expresión de derecha a izquierda
-        // y cambiamos '(' por ')' y viceversa
-        // Esto se hace para reutilizar la función de infijo a postfijo
         for (int i = expr.length() - 1; i >= 0; i--) {
-            // obtener el caracter actual
             char c = expr.charAt(i);
-
-            // cambiar paréntesis
             if (c == '(') {
                 exprInvertida.append(')');
             } else if (c == ')') {
                 exprInvertida.append('(');
             } else {
-                // otros caracteres se agregan tal cual
                 exprInvertida.append(c);
             }
         }
 
-        // Convertir la expresión invertida a postfija
+        // 2. Convertir la nueva expresión invertida a postfija.
         String postfijoInvertido = infijoAPostfijo(exprInvertida.toString());
 
-        // Invertir la expresión postfija para obtener la prefija
+        // 3. Invertir el resultado para obtener la notación prefija.
         return new StringBuilder(postfijoInvertido).reverse().toString();
     }
-
+    
     public static void main(String[] args) {
-        String expresion = "A+B-C";
-        System.out.println("Expresión postfija: " + infijoAPostfijo(expresion));
-        System.out.println("Expresión prefija: " + infijoAPrefijo(expresion));
-        /*
-        Cómo funciona para "A+B(C-D)"
+        String expresion1 = "A+B-C";
+        System.out.println("Expresión infija: " + expresion1);
+        System.out.println("Expresión postfija: " + infijoAPostfijo(expresion1));
+        System.out.println("Expresión prefija: " + infijoAPrefijo(expresion1));
 
-        A: Es un operando. postfijo = "A"
+        String expresion2 = "(A+B)*C";
+        System.out.println("\nExpresión infija: " + expresion2);
+        System.out.println("Expresión postfija: " + infijoAPostfijo(expresion2));
+        System.out.println("Expresión prefija: " + infijoAPrefijo(expresion2));
 
-        +: Es un operador. Se apila. pila = ["+"]
-
-        B: Es un operando. postfijo = "AB"
-
-        *: Es un operador con mayor prioridad que +. Se apila. pila = ["+", "*"]
-
-        (: Es un paréntesis. Se apila. pila = ["+", "*", "("]
-
-        C: Es un operando. postfijo = "ABC"
-
-        -: Es un operador. Se apila. pila = ["+", "*", "(", "-"]
-
-        D: Es un operando. postfijo = "ABCD"
-
-        ): Es un paréntesis de cierre. Se desapila - y se agrega a la salida. Luego se saca el (. postfijo = "ABCD-", pila = ["+", "*"]
-
-        Fin de la expresión: Se desapilan los operadores restantes y se agregan a la salida. Primero *, luego +. postfijo = "ABCD-*+"
-
-        El resultado final es ABCD-*+. El código funciona como se espera.
-         */
+        String expresion3 = "(A*B)-(C+D)";
+        System.out.println("\nExpresión infija: " + expresion3);
+        System.out.println("Expresión postfija: " + infijoAPostfijo(expresion3));
+        System.out.println("Expresión prefija: " + infijoAPrefijo(expresion3));
     }
 }
