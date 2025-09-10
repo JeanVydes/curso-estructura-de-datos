@@ -68,6 +68,18 @@ class Pila:
             cadena_invertida += pila_temporal.pop()
         
         return cadena_invertida
+    
+    def es_palindromo(self, expresion):
+        self.vaciar()
+        for c in expresion:
+            if c.isalnum():  # Considera solo caracteres alfanuméricos
+                self.push(c.lower())  # Ignora mayúsculas/minúsculas
+
+        for c in expresion:
+            if c.isalnum():
+                if self.pop() != c.lower():
+                    return False
+        return True
 
 # --- Uso de las nuevas funciones ---
 if __name__ == "__main__":

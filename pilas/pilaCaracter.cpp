@@ -3,8 +3,10 @@
 #include <stack>
 #include <algorithm>
 
-bool estaBalanceado(const std::string& expresion) {
-    std::stack<char> pila;
+using namespace std;
+
+bool estaBalanceado(const string& expresion) {
+    stack<char> pila;
 
     for (char c : expresion) {
         if (c == '(' || c == '[' || c == '{') {
@@ -27,14 +29,14 @@ bool estaBalanceado(const std::string& expresion) {
     return pila.empty();
 }
 
-std::string invertir(const std::string& expresion) {
-    std::stack<char> pila;
+string invertir(const string& expresion) {
+    stack<char> pila;
 
     for (char c : expresion) {
         pila.push(c);
     }
 
-    std::string invertida = "";
+    string invertida = "";
     while (!pila.empty()) {
         invertida += pila.top();
         pila.pop();
@@ -43,18 +45,43 @@ std::string invertir(const std::string& expresion) {
     return invertida;
 }
 
-int main() {
-    std::string expresiones[] = {"{[()]}", "{{{([{}])}}}", "{[}]}", "}[{()}]"};
-    
-    std::cout << "--- Verificacion de balanceo de parentesis ---" << std::endl;
-    for (const auto& expr : expresiones) {
-        std::cout << "'" << expr << "' esta balanceado? " << (estaBalanceado(expr) ? "true" : "false") << std::endl;
+bool esPalindromo(const string& expresion) {
+    stack<char> pila;
+    string filtrada = "";
+
+    // Filtrar solo caracteres alfanuméricos y convertir a minúsculas.
+    // Y agregar a la pila.
+    for (char c : expresion) {
+        if (isalnum(c)) {
+            filtrada += tolower(c);
+            pila.push(tolower(c));
+        }
     }
 
-    std::cout << "\n--- Inversion de cadenas ---" << std::endl;
-    std::string original = "Hola Mundo!";
-    std::cout << "Original: '" << original << "'" << std::endl;
-    std::cout << "Invertida: '" << invertir(original) << "'" << std::endl;
+    // Comparar la cadena filtrada con la pila.
+    for (char c : filtrada) {
+        // Si el carácter no coincide, no es un palíndromo.
+        if (c != pila.top()) {
+            return false;
+        }
+        pila.pop();
+    }
+
+    return true;
+}
+
+int main() {
+    string expresiones[] = {"{[()]}", "{{{([{}])}}}", "{[}]}", "}[{()}]"};
+    
+    cout << "--- Verificacion de balanceo de parentesis ---" << endl;
+    for (const auto& expr : expresiones) {
+        cout << "'" << expr << "' esta balanceado? " << (estaBalanceado(expr) ? "true" : "false") << endl;
+    }
+
+    cout << "\n--- Inversion de cadenas ---" << endl;
+    string original = "Hola Mundo!";
+    cout << "Original: '" << original << "'" << endl;
+    cout << "Invertida: '" << invertir(original) << "'" << endl;
     
     return 0;
 }
