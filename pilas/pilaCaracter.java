@@ -77,7 +77,7 @@ public class pilaCaracter {
         return estaVacia();
     }
 
-    public String invertir(String expresion) {
+    public static String invertir(String expresion) {
         pilaCaracter pila = new pilaCaracter();
 
         for (char c : expresion.toCharArray()) {
@@ -111,6 +111,6 @@ public class pilaCaracter {
         pila.vaciar();
         String original = "Hola Mundo!";
         System.out.println("Original: " + original);
-        System.out.println("Invertida: " + pila.invertir(original));
+        System.out.println("Invertida: " + pilaCaracter.invertir(original));
    }
 }
