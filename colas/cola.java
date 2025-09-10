@@ -132,7 +132,7 @@ public class cola {
         System.out.println();
     }
 
-    public static cola unirYOrdenarDescendientemente(cola c1, cola c2) {
+    public static cola unirYOrdenarDosColas(cola c1, cola c2) {
         // 1. Crear una nueva cola que servirá como resultado final.
         cola cola_final = new cola();
 
@@ -146,17 +146,19 @@ public class cola {
             cola_final.enqueue(c2.dequeue());
         }
 
-        // 4. Si la cola final está vacía (si ambas colas originales estaban vacías),
-        // no hay nada que ordenar, así que se devuelve directamente.
-        if (cola_final.estaVacia()) {
-            return cola_final;
+        return bubbleSortOrdenar(cola_final);
+    }
+
+    public static cola bubbleSortOrdenar(cola c) {
+        // 1. Si la cola está vacía, no hay nada que ordenar, así que se devuelve directamente.
+        if (c.estaVacia()) {
+            return c;
         }
 
-        // 5. Implementación del algoritmo de ordenamiento de burbuja (Bubble Sort).
+        // 2. Implementación del algoritmo de ordenamiento de burbuja (Bubble Sort).
         // NOTA: Este es un enfoque muy ineficiente. Su complejidad de tiempo es O(n^2),
         // lo que significa que su rendimiento se degrada rápidamente con colas grandes.
-        // Un método más eficiente sería usar el enfoque de mezcla (merge sort)
-        // si las colas de entrada ya estuvieran ordenadas.
+        // Un método más eficiente sería usar un enfoque diferente, como el merge sort.
 
         // 'intercambio' es una señal que se usa para saber si se ha realizado
         // algún cambio en una pasada iteracion. Si no hay cambios, la cola ya está ordenada.
@@ -164,13 +166,13 @@ public class cola {
         do {
             intercambio = false;
             // 'actual' es un puntero que recorre la lista.
-            Nodo actual = cola_final.frente;
+            Nodo actual = c.frente;
             // Bucle interno para una pasada iteracion de ordenamiento.
             while (actual != null && actual.siguiente != null) {
                 // Compara el dato del nodo actual con el dato del siguiente nodo.
-                // Si el actual es menor que el siguiente, están en el orden incorrecto
-                // (para un orden descendente), por lo que se deben intercambiar.
-                if (actual.dato < actual.siguiente.dato) {
+                // Si el actual es mayor que el siguiente, están en el orden incorrecto
+                // (para un orden ascendente), por lo que se deben intercambiar.
+                if (actual.dato > actual.siguiente.dato) {
                     // Realiza el intercambio de datos entre los dos nodos.
                     // Es importante notar que solo se intercambian los valores, no los nodos.
                     int temp = actual.dato;
@@ -184,8 +186,8 @@ public class cola {
             }
         } while (intercambio); // El bucle se repite mientras haya habido un intercambio.
 
-        // 6. Devuelve la cola que ahora está unida y ordenada descendentemente.
-        return cola_final;
+        // 3. Devuelve la cola que ahora está ordenada ascendentemente.
+        return c;
     }
 
     // Método principal para probar la funcionalidad de la clase 'cola'.
@@ -225,8 +227,8 @@ public class cola {
 
 
 
-        // 10. Prueba el método unirYOrdenarDescendientemente
-        System.out.println("Probando unirYOrdenarDescendientemente:");
+        // 10. Prueba el método unirYOrdenarDosColas
+        System.out.println("Probando unirYOrdenarDosColas:");
         cola c1 = new cola();
         c1.enqueue(5);
         c1.enqueue(15);
@@ -241,7 +243,7 @@ public class cola {
         System.out.println("Cola 2:");
         c2.mostrar();
 
-        cola cola_unida = unirYOrdenarDescendientemente(c1, c2);
+        cola cola_unida = unirYOrdenarDosColas(c1, c2);
         cola_unida.mostrar();
     }
 }

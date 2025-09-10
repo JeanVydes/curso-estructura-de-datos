@@ -63,6 +63,8 @@ Las colas son estructuras de datos que siguen el principio FIFO (First In, First
 
 En la vida real las colas tienen muchas aplicaciones, como en la gestión de tareas en segundo plano, la impresión de documentos y la atención al cliente en un centro de llamadas.
 
+En [colas](https://github.com/JeanVydes/curso-estructura-de-datos/blob/main/colas/cola.java) podrás encontrar un ejemplo de implementación de una cola en Java. Y Algunas aplicaciones y ejercicios claves como lo son la fusión de dos colas y ordenarlas.
+
 ## Grafos
 
 Los grafos son estructuras de datos que consisten en un conjunto de nodos (o vértices) y un conjunto de aristas (o bordes) que conectan pares de nodos. Los grafos pueden ser dirigidos o no dirigidos, y pueden tener pesos en sus aristas. Son útiles para representar relaciones complejas, como redes sociales, mapas y más.
