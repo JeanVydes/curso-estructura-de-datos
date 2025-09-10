@@ -116,6 +116,28 @@ public class pilaCaracter {
         return invertida.toString();
     }
 
+    public static boolean esPalindromo(String expresion) {
+        // Se crea una nueva instancia de la pila para esta operación.
+        pilaCaracter pila = new pilaCaracter();
+
+        // Se recorre la cadena original y cada carácter se apila.
+        for (char c : expresion.toCharArray()) {
+            pila.push(c);
+        }
+
+        // Se usa un StringBuilder para construir la cadena invertida de manera
+        // eficiente.
+        StringBuilder invertida = new StringBuilder();
+
+        // Se desapilan todos los caracteres y se añaden a la nueva cadena.
+        while (!pila.estaVacia()) {
+            invertida.append(pila.pop().dato);
+        }
+
+        // Compara la cadena original con la invertida para determinar si es un palíndromo.
+        return expresion == invertida.toString();
+    }
+
     // --- Método Principal ---
 
     public static void main(String[] args) {

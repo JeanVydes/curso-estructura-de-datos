@@ -23,9 +23,12 @@ Las estructuras de datos se pueden clasificar en dos categorías principales: li
   * Listas
   * Pilas
   * Colas
-  * Estructuras de Datos No Lineales
+  
+* Estructuras de Datos No Lineales
   * Árboles
   * Grafos
+
+En esta guía, nos centraremos en las estructuras de datos lineales: listas, pilas y colas.
 
 ## Listas
 
