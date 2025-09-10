@@ -70,11 +70,3 @@ Las colas son estructuras de datos que siguen el principio FIFO (First In, First
 En la vida real las colas tienen muchas aplicaciones, como en la gestión de tareas en segundo plano, la impresión de documentos y la atención al cliente en un centro de llamadas.
 
 En [Colas](https://github.com/JeanVydes/curso-estructura-de-datos/blob/main/colas) podrás encontrar implementaciones en C++, Python y Java, junto con ejemplos prácticos, como ordenamiento de colas y combinación de dos colas.
-
-## Grafos
-
-Los grafos son estructuras de datos que consisten en un conjunto de nodos (o vértices) y un conjunto de aristas (o bordes) que conectan pares de nodos. Los grafos pueden ser dirigidos o no dirigidos, y pueden tener pesos en sus aristas. Son útiles para representar relaciones complejas, como redes sociales, mapas y más.
-
-Los grafos son una poderosa herramienta para modelar problemas del mundo real, como la optimización de rutas en sistemas de navegación o la representación de relaciones en bases de datos.
-
-Un ejemplo sería Google Maps, que utiliza grafos para representar las intersecciones y caminos de una ciudad, permitiendo calcular rutas óptimas entre diferentes ubicaciones.
