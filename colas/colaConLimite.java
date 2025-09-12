@@ -40,7 +40,8 @@ public class colaConLimite {
         }
 
         // Incrementa el tamaño actual de la cola
-        tamañoActual++;
+        tamañoActual = tamañoActual + 1;
+        //tamañoActual++
     }
 
     public int dequeue() {

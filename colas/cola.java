@@ -172,7 +172,7 @@ public class cola {
                 // Compara el dato del nodo actual con el dato del siguiente nodo.
                 // Si el actual es mayor que el siguiente, están en el orden incorrecto
                 // (para un orden ascendente), por lo que se deben intercambiar.
-                if (actual.dato > actual.siguiente.dato) {
+                if (actual.dato < actual.siguiente.dato) {
                     // Realiza el intercambio de datos entre los dos nodos.
                     // Es importante notar que solo se intercambian los valores, no los nodos.
                     int temp = actual.dato;
