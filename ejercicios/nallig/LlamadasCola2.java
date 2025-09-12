@@ -40,20 +40,24 @@ public class LlamadasCola2 {
             cola.mostrar();
 
             System.out.println("Número de llamadas en espera: " + cola.numElem());
-            System.out.println("Promedio de espera: " + promedioEspera() + " minutos");
+            System.out.println("Promedio de espera: " + promedioEspera(minutos) + " minutos");
 
             minutos++;
         }
     }
 
-    public static int promedioEspera() {
+    public static int promedioEspera(int minutoActual) {
         int totalNodos = 0;
         int sumaEspera = 0;
 
+        if (cola.esVacia()) {
+            return 0;
+        }
+
         Nodo actual = cola.frente;
         do {
-            // Acumulamos los minutos de espera y contamos los nodos
-            sumaEspera += actual.dato;
+            // se acumular el tiempo que ha esperado cada llamada
+            sumaEspera += minutoActual - actual.dato;
             totalNodos++;
 
             actual = actual.siguiente;
