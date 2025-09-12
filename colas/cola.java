@@ -88,9 +88,9 @@ public class cola {
     }
 
     // Método para verificar si la cola está vacía.
-    // Es una simple verificación del puntero del frente.
+    // Es una simple verificación del puntero del frente o del final.
     public boolean estaVacia() {
-        return frente == null;
+        return frente == null && final_de_cola == null;
     }
     
     // Método para invertir la cola usando recursividad.

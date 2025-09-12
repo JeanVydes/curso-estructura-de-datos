@@ -1,8 +1,5 @@
 package pilas;
 
-// A + B
-// A B +
-// + A B
 
 public class infijoTransformacion {
 

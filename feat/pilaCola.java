@@ -150,6 +150,41 @@ public class pilaCola {
 
         return cola;
     }
+    
+    public Cola invertirPrimeros5DeUnaCola(Cola cola) {
+        if (cola.estaVacia()) {
+            return cola;
+        }
+
+        Pila pila = new Pila();
+
+        for(int i=0; i < 5 && !cola.estaVacia(); i++) {
+            pila.push(cola.desencolar());
+        }
+
+        while(!pila.estaVacia()) {
+            cola.encolar(pila.pop());
+        }
+
+        int size = 0;
+        Nodo actual = cola.frente;
+        while(actual != null) {
+            size++;
+            actual = actual.siguiente;
+        }
+
+        int numeroDeElementosNoInvertidos = size - 5; // 1
+
+        if (numeroDeElementosNoInvertidos < 0) {
+            numeroDeElementosNoInvertidos = 0;
+        }
+
+        for(int i=0; i < numeroDeElementosNoInvertidos; i++) {
+            cola.encolar(cola.desencolar());
+        }
+
+        return cola;
+    }
 
     public static void main(String[] args) {
         pilaCola pc = new pilaCola();
