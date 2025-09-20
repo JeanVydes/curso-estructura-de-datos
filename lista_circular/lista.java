@@ -1,11 +1,20 @@
 package lista_circular;
 
+/**
+ * ⚙️ Implementación de una Lista Circular Simple.
+ * * A diferencia de las listas doblemente enlazadas, esta solo tiene un puntero
+ * 'siguiente', por lo que solo podemos recorrerla en una dirección.
+ */
 public class lista {
 
-    // Clase interna para el nodo
+    /**
+     * Define la estructura de cada elemento en la lista.
+     * Es una clase 'interna' porque solo tiene sentido dentro del contexto de la
+     * lista.
+     */
     private static class Nodo {
         int dato;
-        Nodo siguiente;
+        Nodo siguiente; // Solo un puntero, por eso es una lista "simple".
 
         public Nodo(int dato) {
             this.dato = dato;
@@ -13,83 +22,124 @@ public class lista {
         }
     }
 
-    // El ultimo nodo de la lista
+    // Nuestro ÚNICO punto de acceso a la lista. Si es null, la lista está vacía.
     Nodo ultimo;
 
     public lista() {
         this.ultimo = null;
     }
 
-    // Metodo para insertar un nuevo nodo al inicio de la lista circular
+    /**
+     * Inserta un nuevo nodo justo al inicio de la lista (se convierte en la nueva
+     * cabeza).
+     * 
+     * @param nuevoDato El dato del nodo a insertar.
+     */
     public void insertarAlInicio(int nuevoDato) {
-        // 1. Crear el nuevo nodo
+        // 1. Creamos el nuevo nodo.
         Nodo nuevoNodo = new Nodo(nuevoDato);
-        
-        // 2. Si la lista esta vacia
+
+        // 2. Si la lista está vacía, este es el primer y único nodo.
         if (ultimo == null) {
-            // el nuevo nodo se apunta a si mismo
             ultimo = nuevoNodo;
+            // Para cerrar el círculo, se apunta a sí mismo.
+            // .----------.
+            // | [ultimo] |
+            // '----------'
             ultimo.siguiente = ultimo;
         } else {
-            // 3. El nuevo nodo apunta a la cabeza actual
+            // 3. Si ya hay nodos, lo insertamos justo después del último.
+
+            // ANTES: (ultimo) ---> (cabeza) ---> ...
+            //
+            // PASO A: El 'siguiente' del nuevo nodo debe apuntar a la cabeza actual.
+            // La cabeza actual es 'ultimo.siguiente'.
+            //
+            // (nuevoNodo) ---> (cabeza)
             nuevoNodo.siguiente = ultimo.siguiente;
-            // 4. El ultimo nodo apunta al nuevo nodo
+
+            // PASO B: El 'siguiente' del último nodo ahora debe apuntar al nuevo nodo.
+            // Esto convierte al nuevo nodo en la nueva cabeza.
+            //
+            // (ultimo) ---> (nuevoNodo) ---> (cabeza_antigua)
             ultimo.siguiente = nuevoNodo;
         }
     }
 
-    // Metodo para insertar un nuevo nodo al final de la lista circular
+    /**
+     * Inserta un nuevo nodo al final de la lista (se convierte en el nuevo
+     * 'ultimo').
+     * 
+     * @param nuevoDato El dato del nodo a insertar.
+     */
     public void insertarAlFinal(int nuevoDato) {
-        // 1. Crear el nuevo nodo
         Nodo nuevoNodo = new Nodo(nuevoDato);
-        
-        // 2. Si la lista esta vacia
+
         if (ultimo == null) {
-            // el nuevo nodo se apunta a si mismo
             ultimo = nuevoNodo;
             ultimo.siguiente = ultimo;
         } else {
-            // 3. El nuevo nodo apunta a la cabeza actual
+            // Los primeros dos pasos son idénticos a 'insertarAlInicio'
+            // para colocar el nuevo nodo en el lugar correcto.
             nuevoNodo.siguiente = ultimo.siguiente;
-            // 4. El ultimo nodo apunta al nuevo nodo
             ultimo.siguiente = nuevoNodo;
-            // 5. El ultimo ahora es el nuevo nodo
+
+            // PASO CLAVE: Movemos el puntero 'ultimo' para que apunte
+            // a nuestro nuevo nodo. ¡Esto es lo que lo convierte en el nuevo final!
+            //
+            // DESPUÉS DE LOS 2 PRIMEROS PASOS: ... (ultimo_antiguo) -> (nuevoNodo) ->
+            // (cabeza)
+            //
+            // AHORA CON EL PASO FINAL: ... (nodo) -> (nuevoNodo <- se convierte en el
+            // ultimo) -> (cabeza)
             ultimo = nuevoNodo;
         }
     }
 
-    // Metodo para mostrar la lista circular
+    /**
+     * Recorre y muestra todos los elementos de la lista.
+     */
     public void mostrarLista() {
         if (ultimo == null) {
             System.out.println("La lista esta vacia.");
             return;
         }
-        
+
+        // Para empezar a recorrer desde el inicio, comenzamos en el nodo
+        // que está DESPUÉS del último, es decir, la cabeza.
         Nodo temp = ultimo.siguiente;
+
+        // Usamos un bucle do-while para asegurar que se imprima al menos
+        // una vez, incluso si solo hay un nodo en la lista.
         do {
             System.out.print(temp.dato + " -> ");
             temp = temp.siguiente;
-        } while (temp != ultimo.siguiente);
-        
-        System.out.println("...");
+        } while (temp != ultimo.siguiente); // El bucle se detiene cuando damos la vuelta completa.
+
+        System.out.println("...(vuelve al inicio)");
     }
 
+    /**
+     * Método principal para probar nuestra lista.
+     */
     public static void main(String[] args) {
-        // Creamos una instancia de la lista
+        // 1. Creamos una instancia de la lista.
         lista lista = new lista();
 
-        // Insertamos 2 nodos al inicio
-        lista.insertarAlInicio(20);
-        lista.insertarAlInicio(10);
+        // 2. Insertamos 2 nodos al inicio.
+        // Lista: (vacía)
+        lista.insertarAlInicio(20); // Lista: 20
+        lista.insertarAlInicio(10); // Lista: 10 -> 20
 
         System.out.println("La lista despues de insertar al inicio es: ");
-        lista.mostrarLista();
-        
-        // Insertamos 2 nodos al final
-        lista.insertarAlFinal(30);
-        lista.insertarAlFinal(40);
+        lista.mostrarLista(); // Debería mostrar 10 -> 20
+
+        // 3. Insertamos 2 nodos al final.
+        // Lista actual: 10 -> 20
+        lista.insertarAlFinal(30); // Lista: 10 -> 20 -> 30
+        lista.insertarAlFinal(40); // Lista: 10 -> 20 -> 30 -> 40
 
         System.out.println("\nLa lista despues de insertar al final es: ");
-        lista.mostrarLista();
+        lista.mostrarLista(); // Debería mostrar 10 -> 20 -> 30 -> 40
     }
 }
