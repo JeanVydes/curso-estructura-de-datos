@@ -1,79 +1,131 @@
 #include <iostream>
 
-// Definimos la estructura de un nodo
+// Un nodo es como una caja en una cadena.
+// Cada caja tiene un dato y una flecha que apunta a la siguiente caja.
 struct Nodo {
-    // el dato que queremos guardar
-    int dato;
-    // apuntador en memoria al siguiente nodo
-    Nodo* siguiente;
+    int dato;      // El valor que guardamos en la caja.
+    Nodo* siguiente; // La "flecha" que apunta a la siguiente caja.
 };
 
-// Funcion para insertar un nuevo nodo al inicio de la lista
-// el doble puntero es necesario para modificar la cabeza de la lista
-void insertarAlInicio(Nodo** cabeza, int nuevoDato) {
-    // 1. Crear el nuevo nodo
-    Nodo* nuevoNodo = new Nodo();
-    
-    // 2. Asignar el dato
+// 'cabeza' es el puntero al inicio de la cadena de cajas.
+// Si 'cabeza' es nulo, significa que la cadena está vacía.
+Nodo* cabeza = nullptr;
+
+//---
+void insertarAlInicio(int nuevoDato) {
+    // Creamos una nueva caja.
+    Nodo* nuevoNodo = new Nodo;
     nuevoNodo->dato = nuevoDato;
     
-    // 3. Hacer que el siguiente del nuevo nodo apunte a la cabeza actual
-    nuevoNodo->siguiente = *cabeza;
+    // Hacemos que la flecha de la nueva caja apunte a la caja que antes era la primera.
+    nuevoNodo->siguiente = cabeza;
     
-    // 4. Mover la cabeza para que apunte al nuevo nodo
-    // no podemos moverla antes de asignar el siguiente, porque perderiamos la referencia
-    *cabeza = nuevoNodo;
+    // Ahora, la nueva caja es el inicio de la cadena.
+    cabeza = nuevoNodo;
 }
 
-void insertarAlFinal(Nodo** cabeza, int nuevoDato) {
-    // 1. Crear el nuevo nodo
-    Nodo* nuevoNodo = new Nodo();
+//---
+void insertarAlFinal(int nuevoDato) {
+    // Creamos una nueva caja.
+    Nodo* nuevoNodo = new Nodo;
     nuevoNodo->dato = nuevoDato;
-    nuevoNodo->siguiente = NULL;
+    nuevoNodo->siguiente = nullptr; // Su flecha apunta a la nada, porque es la última.
 
-    // 2. Si la lista está vacía, la cabeza es el nuevo nodo
-    // el *cabeza se utiliza para desreferenciar el puntero y acceder al nodo original
-    if (*cabeza == NULL) {
-        *cabeza = nuevoNodo;
-    } else {
-        // 3. Si no, encontramos el último nodo y lo enlazamos
-        Nodo* temp = *cabeza;
-        while (temp->siguiente != NULL) {
-            temp = temp->siguiente;
-        }
-        temp->siguiente = nuevoNodo;
+    // Si la cadena está vacía, la nueva caja se convierte en la primera.
+    if (cabeza == nullptr) {
+        cabeza = nuevoNodo;
+        return;
     }
+    
+    // Recorremos la cadena desde el inicio hasta encontrar la última caja.
+    Nodo* ultimo = cabeza;
+    while (ultimo->siguiente != nullptr) {
+        ultimo = ultimo->siguiente;
+    }
+    
+    // Cuando encontramos la última caja, hacemos que su flecha apunte a la nueva.
+    ultimo->siguiente = nuevoNodo;
 }
 
-// Funcion para mostrar la lista
-void mostrarLista(Nodo* nodo) {
-    while (nodo != NULL) {
-        // al final este se mostrara como: 10 -> 20 -> 30 -> NULL
+//---
+void insertarDespuesDeCualquierNodoQueSeaMayorQue(int nuevoDato, int condicion) {
+    if (cabeza == nullptr) {
+        std::cout << "La lista está vacía." << std::endl;
+        return;
+    }
+
+    // Buscamos una caja que cumpla la condición.
+    Nodo* nodoActual = cabeza;
+    while (nodoActual != nullptr) {
+        if (nodoActual->dato >= condicion) {
+            // Cuando la encontramos, creamos una nueva caja...
+            Nodo* nuevoNodo = new Nodo;
+            nuevoNodo->dato = nuevoDato;
+            // ...hacemos que su flecha apunte a la que apuntaba la caja actual...
+            nuevoNodo->siguiente = nodoActual->siguiente;
+            // ...y hacemos que la flecha de la caja actual apunte a la nueva.
+            nodoActual->siguiente = nuevoNodo;
+            return;
+        }
+        nodoActual = nodoActual->siguiente;
+    }
+
+    std::cout << "No se encontró ningún nodo que cumpla con la condición." << std::endl;
+}
+
+//---
+void insertarDespuesDeLosTresPrimerosNodos(int nuevoDato) {
+    // Nos aseguramos de que haya al menos tres cajas en la cadena.
+    if (cabeza == nullptr || cabeza->siguiente == nullptr || cabeza->siguiente->siguiente == nullptr) {
+        std::cout << "La lista no tiene suficientes nodos." << std::endl;
+        return;
+    }
+
+    // Buscamos la tercera caja.
+    Nodo* tercerNodo = cabeza->siguiente->siguiente;
+
+    // Creamos la nueva caja y la insertamos entre la tercera y la cuarta.
+    Nodo* nuevoNodo = new Nodo;
+    nuevoNodo->dato = nuevoDato;
+    nuevoNodo->siguiente = tercerNodo->siguiente;
+    tercerNodo->siguiente = nuevoNodo;
+}
+
+//---
+void mostrarLista() {
+    // Comenzamos desde la primera caja.
+    Nodo* nodo = cabeza;
+    while (nodo != nullptr) {
+        // Mostramos el dato de la caja actual y una flecha.
         std::cout << nodo->dato << " -> ";
-        // avanzamos al siguiente nodo, reasignando la variable local como el siguiente
-        // por esto el ultimo nodo es null, y acabara el ciclo para imprimir el nodo
+        // Pasamos a la siguiente caja usando su flecha.
         nodo = nodo->siguiente;
     }
-
-    // mostramos null para demostracion
     std::cout << "NULL" << std::endl;
 }
 
+//---
 int main() {
-    // Empezamos con una lista vacia (cabeza es NULL)
-    Nodo* cabeza = NULL;
+    insertarAlInicio(30);
+    insertarAlInicio(20);
+    insertarAlInicio(10);
+    
+    std::cout << "La lista después de insertar al inicio es:" << std::endl;
+    mostrarLista();
 
-    // Insertamos 3 nodos
-    // el &cabeza se utiliza para pasar la dirección de la cabeza de la lista
-    insertarAlInicio(&cabeza, 30); // La lista es ahora: 30 -> NULL
-    insertarAlInicio(&cabeza, 20); // La lista es ahora: 20 -> 30 -> NULL
-    insertarAlInicio(&cabeza, 10); // La lista es ahora: 10 -> 20 -> 30 -> NULL
+    insertarAlFinal(40);
+    insertarAlFinal(50);
 
-    insertarAlFinal(&cabeza, 40); // La lista es ahora: 10 -> 20 -> 30 -> 40 -> NULL
-    insertarAlFinal(&cabeza, 50); // La lista es ahora: 10 -> 20 -> 30 -> 40 -> 50 -> NULL
+    std::cout << "\nLa lista después de insertar al final es:" << std::endl;
+    mostrarLista();
 
-    std::cout << "La lista enlazada es: " << std::endl;
-    mostrarLista(cabeza);
+    insertarDespuesDeCualquierNodoQueSeaMayorQue(35, 30); 
+    std::cout << "\nLa lista después de insertar 35 después del primer nodo >= 30 es:" << std::endl;
+    mostrarLista();
+    
+    insertarDespuesDeLosTresPrimerosNodos(25);
+    std::cout << "\nLa lista después de insertar 25 después del tercer nodo es:" << std::endl;
+    mostrarLista();
 
     return 0;
 }

@@ -44,23 +44,25 @@ public class LlamadasCola1 {
             cola.mostrar();
 
             System.out.println("Número de llamadas en espera: " + cola.numElem());
-            System.out.println("Promedio de espera: " + promedioEspera() + " minutos");
+            System.out.println("Promedio de espera: " + promedioEspera(minutos) + " minutos");
 
             minutos++;
         }
     }
 
-    public static int promedioEspera() {
+    public static int promedioEspera(int minutos) {
         int totalNodos = 0;
         int sumaEspera = 0;
 
         int i = 0;
         while (i < cola.numElem()) {
             int valor = cola.eliminar();
+            // valor es el minuto en que llegó la llamada
 
             // Acumulamos los minutos de espera y contamos los nodos
-            sumaEspera += valor;
-            totalNodos++;
+
+            sumaEspera += minutos - valor;
+            totalNodos = totalNodos + 1;
             i++;
 
             cola.insertar(valor);

@@ -95,6 +95,41 @@ public class lista {
         System.out.println("NULL");
     }
 
+    public void insertarEntre(int nuevoDato, int datoAnterior, int datoSiguiente) {
+        // 1. Crear el nuevo nodo
+        Nodo nuevoNodo = new Nodo(nuevoDato);
+
+        // 2. Verificar que la lista no esté vacía
+        if (cabeza == null) {
+            System.out.println("La lista está vacía.");
+            return;
+        }
+
+        // 3. Buscar el nodo con datoAnterior
+        Nodo actual = cabeza;
+        while (actual != null && actual.dato != datoAnterior) {
+            actual = actual.siguiente;
+        }
+
+        // 4. Si no se encuentra el nodo con datoAnterior
+        if (actual == null) {
+            System.out.println("No se encontró el nodo con dato anterior: " + datoAnterior);
+            return;
+        }
+
+        // 5. Verificar que el siguiente del nodo encontrado sea datoSiguiente
+        if (actual.siguiente == null || actual.siguiente.dato != datoSiguiente) {
+            System.out.println("El nodo siguiente no coincide con el dato siguiente: " + datoSiguiente);
+            return;
+        }
+
+        // 6. Insertar el nuevo nodo entre actual y actual.siguiente
+        nuevoNodo.siguiente = actual.siguiente;
+        nuevoNodo.anterior = actual;
+        actual.siguiente.anterior = nuevoNodo;
+        actual.siguiente = nuevoNodo;
+    }
+
     public static void main(String[] args) {
         // Creamos una instancia de la lista
         lista lista = new lista();

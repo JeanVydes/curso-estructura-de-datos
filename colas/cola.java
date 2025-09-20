@@ -104,7 +104,7 @@ public class cola {
         }
 
         // Saca el primer elemento.
-        int dato = dequeue();
+        int dato = dequeue(); // ELIMINAR
         // Llama a 'invertir' de nuevo con la cola más corta.
         invertir();
         // Cuando las llamadas recursivas terminan, vuelve a agregar el dato.
@@ -112,6 +112,8 @@ public class cola {
         // invirtiendo el orden.
         enqueue(dato);
     }
+
+    // https://github.com/JeanVydes/curso-estructura-de-datos
 
     // Método para imprimir todos los elementos de la cola.
     public void mostrar() {

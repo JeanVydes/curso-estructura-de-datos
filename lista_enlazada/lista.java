@@ -59,6 +59,48 @@ public class lista {
         ultimo.siguiente = nuevoNodo;
     }
 
+    // Insertar un nodo despues de cualquier nodo que sea menor que una condicion
+    // ejemplo, insertar el 40 despues del primer nodo que sea mayor que 30
+    public void insertarDespuesDeCualquierNodoQueSeaMayorQue(int nuevoDato, int condicion) {
+        // 1. Verificar que el nodo anterior no sea nulo
+        if (cabeza == null) {
+            System.out.println("La lista está vacía.");
+            return;
+        }
+
+        // 2. Buscar el nodo que cumple con la condición
+        Nodo nodoActual = cabeza;
+        while (nodoActual != null) {
+            if (nodoActual.dato >= condicion) {
+                // 3. Si lo encontramos, insertamos el nuevo nodo después de él
+                Nodo nuevoNodo = new Nodo(nuevoDato);
+                nuevoNodo.siguiente = nodoActual.siguiente;
+                nodoActual.siguiente = nuevoNodo;
+                return;
+            }
+            nodoActual = nodoActual.siguiente;
+        }
+
+        System.out.println("No se encontró ningún nodo que cumpla con la condición.");
+    }
+
+    // Vamos a insertar un nodo despues de los tres primeros nodos, si existen
+    public void insertarDespuesDeLosTresPrimerosNodos(int nuevoDato) {
+        // 1. Verificar que la lista tenga al menos tres nodos
+        if (cabeza == null || cabeza.siguiente == null || cabeza.siguiente.siguiente == null) {
+            System.out.println("La lista no tiene suficientes nodos.");
+            return;
+        }
+
+        // 2. Encontrar el tercer nodo
+        Nodo tercerNodo = cabeza.siguiente.siguiente;
+
+        // 3. Insertar el nuevo nodo después del tercer nodo
+        Nodo nuevoNodo = new Nodo(nuevoDato);
+        nuevoNodo.siguiente = tercerNodo.siguiente;
+        tercerNodo.siguiente = nuevoNodo;
+    }
+
     // Metodo para mostrar la lista
     public void mostrarLista() {
         // creamos una variable temporal para recorrer la lista, que comience en la cabeza
@@ -92,5 +134,16 @@ public class lista {
 
         System.out.println("\nLa lista despues de insertar al final es:");
         lista.mostrarLista(); // Deberia mostrar: 10 -> 20 -> 30 -> 40 -> 50 -> NULL
+
+        // ahora insertamos un nodo despues del primer nodo que sea mayor que 30
+        lista.insertarDespuesDeCualquierNodoQueSeaMayorQue(35, 30); // La lista es ahora: 10 -> 20 -> 30 -> 35 ->
+        System.out.println("\nLa lista despues de insertar despues del primer nodo que sea mayor que 30 es:");
+        lista.mostrarLista();
+    
+
+        // ahora insertamos un nodo despues de los tres primeros nodos
+        lista.insertarDespuesDeLosTresPrimerosNodos(32); // La lista
+        System.out.println("\nLa lista despues de insertar despues de los tres primeros nodos es:");
+        lista.mostrarLista(); // Deberia mostrar: 10 -> 20 -> 30 -> 32 -> 35 -> 40 -> 50 -> NULL
     }
 }
