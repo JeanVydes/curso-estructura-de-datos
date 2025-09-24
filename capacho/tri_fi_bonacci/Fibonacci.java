@@ -1,4 +1,4 @@
-package capacho.fibonacci;
+package capacho.tri_fi_bonacci;
 
 public class Fibonacci {
     public static int recursiva(int n) {
