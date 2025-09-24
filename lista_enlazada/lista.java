@@ -29,12 +29,7 @@ public class lista {
 
     // 'cabeza' es la "locomotora" de nuestro tren. Es el único punto de acceso
     // y el inicio de la lista. Si la cabeza es null, el tren no tiene vagones.
-    Nodo cabeza;
-
-    public lista() {
-        // Al crear una lista nueva, está vacía, por lo que la cabeza es nula.
-        this.cabeza = null;
-    }
+    Nodo cabeza = null;
 
     /**
      * Engancha un nuevo vagón justo al frente del tren (se convierte en la nueva

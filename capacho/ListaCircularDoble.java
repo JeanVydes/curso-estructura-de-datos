@@ -1,4 +1,4 @@
-package capacho20sep;
+package capacho;
 
 public class ListaCircularDoble {
 
@@ -22,7 +22,7 @@ public class ListaCircularDoble {
             cabeza = nuevo;
             // Al ser circular y tener un solo nodo, este se apunta a sí mismo.
             // (anterior) <== [cabeza] ==> (siguiente)
-            // ^-----------|-----------^
+            //       ^-----------|-----------^
             cabeza.siguiente = cabeza;
             cabeza.anterior = cabeza;
         } else {

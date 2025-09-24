@@ -1,4 +1,4 @@
-package capacho20sep.sistemas_sid;
+package capacho.sistemas_sid;
 
 public class SistemasDeportivosSID {
     public static void main(String[] args) {

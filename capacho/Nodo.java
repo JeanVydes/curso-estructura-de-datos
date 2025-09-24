@@ -1,4 +1,4 @@
-package capacho20sep;
+package capacho;
 
 public class Nodo {
     int codigo;

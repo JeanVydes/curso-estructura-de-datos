@@ -2,8 +2,7 @@ package lista_doblemente_enlazada;
 
 /**
  * 🔗 Implementación de una Lista Doblemente Enlazada.
- * A diferencia de las listas circulares, esta tiene un inicio ('cabeza') y un
- * final bien definidos que apuntan a 'null'.
+ * Tiene un inicio ('cabeza') y un final bien definidos que apuntan a 'null'.
  *
  * Su gran ventaja es que cada nodo conoce a su vecino de adelante ('siguiente')
  * y al de atrás ('anterior'), lo que nos permite recorrer la lista en AMBAS
@@ -31,11 +30,7 @@ public class lista {
     }
 
     // La 'cabeza' es el punto de inicio de nuestra lista. Si es null, la lista está vacía.
-    Nodo cabeza;
-
-    public lista() {
-        this.cabeza = null;
-    }
+    Nodo cabeza = null;
 
     /**
      * Inserta un nuevo nodo al inicio de la lista.

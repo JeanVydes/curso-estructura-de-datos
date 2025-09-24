@@ -23,11 +23,7 @@ public class lista {
     }
 
     // Nuestro ÚNICO punto de acceso a la lista. Si es null, la lista está vacía.
-    Nodo ultimo;
-
-    public lista() {
-        this.ultimo = null;
-    }
+    Nodo ultimo = null;
 
     /**
      * Inserta un nuevo nodo justo al inicio de la lista (se convierte en la nueva
