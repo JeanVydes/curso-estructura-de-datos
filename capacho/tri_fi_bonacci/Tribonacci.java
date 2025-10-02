@@ -2,6 +2,7 @@ package capacho.tri_fi_bonacci;
 
 public class Tribonacci {
 
+    // 0 1 1
     public static int tribonacciRecursivo(int n) {
         if (n == 0) {
             return 0;

@@ -79,11 +79,7 @@ public class lista {
         }
 
         // 🧠 Para insertar al final, primero debemos llegar hasta allí.
-        // Recorremos la lista hasta que encontremos el nodo cuyo 'siguiente' es NULL.
-        Nodo ultimo = cabeza;
-        while (ultimo.siguiente != null) {
-            ultimo = ultimo.siguiente;
-        }
+        Nodo ultimo = cabeza.anterior;
         
         // Ahora que 'ultimo' es el último nodo, lo enlazamos con el nuevo.
         // ANTES: ... <=> [ultimo] -> NULL

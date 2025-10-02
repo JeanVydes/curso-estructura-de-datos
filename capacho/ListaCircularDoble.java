@@ -178,6 +178,7 @@ public class ListaCircularDoble {
         if (cabeza == null) {
             return null;
         }
+
         Nodo nodoAEliminar = buscar(codigo);
         if (nodoAEliminar == null) {
             return null;
