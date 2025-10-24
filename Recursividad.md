@@ -4,8 +4,8 @@ La **recursividad** es un paradigma de programación donde una función se resue
 
 Toda función recursiva se sostiene sobre dos pilares fundamentales:
 
-1.  **Caso Base:** La condición que detiene la "inmersión". Es el sueño más simple, el problema tan pequeño que tiene una respuesta inmediata. Sin esto, la función se llamaría a sí misma infinitamente, causando un **desbordamiento de pila (Stack Overflow)**.
-2.  **Paso Recursivo:** La parte de la función que se llama a sí misma, pero con un problema ligeramente más pequeño, acercándose cada vez más al caso base.
+1. **Caso Base:** La condición que detiene la "inmersión". Es el sueño más simple, el problema tan pequeño que tiene una respuesta inmediata. Sin esto, la función se llamaría a sí misma infinitamente, causando un **desbordamiento de pila (Stack Overflow)**.
+2. **Paso Recursivo:** La parte de la función que se llama a sí misma, pero con un problema ligeramente más pequeño, acercándose cada vez más al caso base.
 
 ## ⚙️ 1. Anatomía de una Llamada Recursiva: `factorial(3)`
 
@@ -15,8 +15,8 @@ Para visualizarlo, analizaremos la función `factorial(n)`, que calcula `n * (n-
 
 La función se define por dos reglas:
 
-  - **Paso Recursivo:** `factorial(n) = n * factorial(n - 1)`
-  - **Caso Base:** `factorial(0) = 1`
+- **Paso Recursivo:** `factorial(n) = n * factorial(n - 1)`
+- **Caso Base:** `factorial(0) = 1`
 
 Vamos a seguir el viaje de `factorial(3)` paso a paso, viendo cómo se sumerge hasta el fondo y cómo regresa con la solución.
 
@@ -120,22 +120,22 @@ La pila queda vacía.
 
 ### 🔧 Características Clave
 
-  * **Pila de Llamadas (Call Stack):** La recursividad depende internamente de una pila para gestionar las llamadas pendientes y sus variables locales.
-  * **Consumo de Memoria:** Cada llamada recursiva consume espacio en la pila. Una "inmersión" demasiado profunda sin un caso base adecuado puede agotarla.
-  * **Elegancia vs. Rendimiento:** El código recursivo puede ser muy limpio y elegante, pero a menudo es menos eficiente en tiempo y memoria que su contraparte iterativa (usando bucles).
+* **Pila de Llamadas (Call Stack):** La recursividad depende internamente de una pila para gestionar las llamadas pendientes y sus variables locales.
+* **Consumo de Memoria:** Cada llamada recursiva consume espacio en la pila. Una "inmersión" demasiado profunda sin un caso base adecuado puede agotarla.
+* **Elegancia vs. Rendimiento:** El código recursivo puede ser muy limpio y elegante, pero a menudo es menos eficiente en tiempo y memoria que su contraparte iterativa (usando bucles).
 
 ## ⚖️ Comparativa: Recursividad vs. Iteración
 
-| Característica | Recursividad | Iteración (Bucles) |
-| :--- | :--- | :--- |
+| Característica                | Recursividad                                                                     | Iteración (Bucles)                                                            |
+| :----------------------------- | :------------------------------------------------------------------------------- | :----------------------------------------------------------------------------- |
 | **Claridad del Código** | **Muy alta** para problemas de naturaleza recursiva (árboles, fractales). | **Muy alta** para tareas secuenciales y repetitivas (recorrer arreglos). |
-| **Rendimiento** | Más lento debido a la sobrecarga de las llamadas a funciones. | **Más rápido**, sin sobrecarga de llamadas. |
-| **Uso de Memoria**| Alto, usa la pila de llamadas. Riesgo de *Stack Overflow*. | **Bajo**, usa memoria para variables de control del bucle. |
-| **Complejidad** | El estado se gestiona implícitamente en la pila. | Requiere gestionar el estado manualmente con variables (contadores, etc.). |
+| **Rendimiento**          | Más lento debido a la sobrecarga de las llamadas a funciones.                   | **Más rápido**, sin sobrecarga de llamadas.                            |
+| **Uso de Memoria**       | Alto, usa la pila de llamadas. Riesgo de*Stack Overflow*.                      | **Bajo**, usa memoria para variables de control del bucle.               |
+| **Complejidad**          | El estado se gestiona implícitamente en la pila.                                | Requiere gestionar el estado manualmente con variables (contadores, etc.).     |
 
 ## 🎯 Aplicaciones Técnicas
 
-  * **Recorrido de Estructuras de Datos No Lineales:** Es la forma más natural de navegar **Árboles** (recorrido in-order, pre-order, post-order) y **Grafos** (Búsqueda en Profundidad - DFS).
-  * **Algoritmos de "Divide y Vencerás":** Problemas que se dividen en subproblemas idénticos, como los algoritmos de ordenamiento **Merge Sort** y **Quick Sort**.
-  * **Backtracking:** Para resolver problemas de búsqueda de caminos, como laberintos o Sudokus, donde se exploran opciones y se "retrocede" si un camino no lleva a una solución.
-  * **Generación de Fractales:** Figuras geométricas que son recursivas por naturaleza, como el copo de nieve de Koch o el triángulo de Sierpinski.
+* **Recorrido de Estructuras de Datos No Lineales:** Es la forma más natural de navegar **Árboles** (recorrido in-order, pre-order, post-order) y **Grafos** (Búsqueda en Profundidad - DFS).
+* **Algoritmos de "Divide y Vencerás":** Problemas que se dividen en subproblemas idénticos, como los algoritmos de ordenamiento **Merge Sort** y **Quick Sort**.
+* **Backtracking:** Para resolver problemas de búsqueda de caminos, como laberintos o Sudokus, donde se exploran opciones y se "retrocede" si un camino no lleva a una solución.
+* **Generación de Fractales:** Figuras geométricas que son recursivas por naturaleza, como el copo de nieve de Koch o el triángulo de Sierpinski.
