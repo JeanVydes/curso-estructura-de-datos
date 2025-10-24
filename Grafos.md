@@ -1,77 +1,77 @@
 ## 📚 ¿Qué es un Grafo?
 
-Un **grafo** es una estructura de datos abstracta que modela relaciones entre entidades mediante un conjunto de **vértices** (nodos) y **aristas** (conexiones). Su propósito principal es representar redes complejas, como rutas en mapas, conexiones sociales o dependencias en sistemas, permitiendo operaciones como búsqueda de caminos, detección de ciclos y optimización de rutas. A diferencia de estructuras lineales como listas o árboles, los grafos son no lineales y pueden ser cíclicos o acíclicos, dirigidos o no, lo que los hace versátiles para problemas del mundo real.
+Un **grafo** es, en esencia, un mapa de conexiones. Es una forma de representar cómo diferentes cosas (entidades) se relacionan entre sí.  Piensa en él como un conjunto de puntos, llamados **vértices** (o **nodos**), y líneas que los unen, llamadas **aristas** (o **conexiones**).
+
+Su propósito principal es modelar redes complejas. Por ejemplo, en un mapa, las ciudades son los *vértices* y las carreteras son las *aristas*. En una red social, las personas son los *vértices* y las "amistades" son las *aristas*.
+
+A diferencia de estructuras de datos más simples como las listas (donde un elemento sigue a otro en orden), los grafos son no lineales. Esto los hace increíblemente versátiles para resolver problemas del mundo real, como encontrar la ruta más corta en un GPS, detectar círculos de amigos en una red social o entender las dependencias en un proyecto.
 
 ### Conceptos Básicos
 
-- **Vértices (Nodos)**: Representan entidades (ej. ciudades, personas).
-- **Aristas (Edges)**: Representan relaciones (ej. carreteras, amistades).
-- **Grado de un Vértice**: Número de aristas conectadas a él.
-- **Camino**: Secuencia de vértices conectados por aristas.
-- **Ciclo**: Camino que regresa al vértice inicial.
-- **Representaciones Comunes**:
-  - **Matriz de Adyacencia**: Tabla 2D donde fila/columna indican conexiones (eficiente para grafos densos).
-  - **Lista de Adyacencia**: Cada vértice tiene una lista de vecinos (eficiente para grafos dispersos).
+Para entender los grafos, necesitas conocer su vocabulario. Los **vértices** (o nodos) son las entidades individuales, como 'Ciudad A', 'Persona X' o 'Tarea 1'. Las **aristas** (o ejes) son las que definen la relación entre esos vértices, como la carretera de 'Ciudad A' a 'Ciudad B'.
+
+El **grado de un vértice** es simplemente el número de aristas que se conectan a él; en una red social, sería tu número de amigos. Un **camino** es una secuencia de vértices que puedes seguir a través de las aristas, como un viaje en coche de ciudad en ciudad. Un **ciclo** es un camino especial que te permite salir de un vértice y, tras seguir varias conexiones, regresar al mismo punto de partida.
+
+Para guardar un grafo en la memoria de una computadora, se usan dos métodos principales. La **Matriz de Adyacencia** es una tabla gigante (como una hoja de cálculo) donde cada fila y columna representa un vértice. Pones un '1' si están conectados y un '0' si no lo están. Es muy rápida para verificar una conexión, pero gasta mucha memoria si hay pocos caminos (un grafo "disperso"). La **Lista de Adyacencia** es más eficiente para esos casos: cada vértice simplemente mantiene una lista de sus vecinos directos.
 
 ### Algoritmos Esenciales
 
-- **BFS (Búsqueda en Anchura)**: Explora nivel por nivel; ideal para caminos más cortos en grafos no ponderados (O(V + E)).
-- **DFS (Búsqueda en Profundidad)**: Explora lo más profundo posible; útil para detectar ciclos o componentes conectadas (O(V + E)).
-- **Dijkstra**: Camino más corto en ponderados con pesos positivos.
-- **Kruskal/Prim**: Árbol de expansión mínima.
+Una vez que tienes el grafo, puedes hacerle preguntas usando algoritmos. Los más comunes son para recorrerlo. **BFS (Búsqueda en Anchura)** explora el grafo "capa por capa", como las ondas que se expanden en un estanque. Es perfecto para encontrar el camino más corto entre dos nodos (si las aristas no tienen "costo" o peso). **DFS (Búsqueda en Profundidad)** explora "yendo a fondo": toma un camino y lo sigue hasta el final antes de retroceder y probar otro. Es excelente para detectar si existen ciclos o para ver qué partes del grafo están conectadas.
+
+Ambos algoritmos tienen una eficiencia de **O(V + E)**. Esta notación (llamada "Big O") solo significa que el tiempo que tardan en ejecutarse es proporcional a la suma de todos los vértices (V) y todas las aristas (E). En resumen: son muy eficientes.
+
+Para grafos más complejos, como un GPS donde las carreteras tienen distancias, usamos algoritmos como **Dijkstra**, que encuentra el camino más corto en grafos con "pesos" (costos) positivos. Si quieres encontrar la forma más barata de conectar *todos* los puntos (como tender el mínimo cableado para conectar varias casas), usas **Kruskal** o **Prim** para encontrar el **Árbol de Expansión Mínima** (MST).
 
 ### Tipos principales que exploraremos:
 
-1. **Grafos No Dirigidos**
-2. **Grafos Dirigidos**
-3. **Grafos Ponderados**
-4. **Grafos Conectados**
-5. **Grafos Acíclicos (DAGs)**
+A continuación, exploraremos los tipos principales: Grafos No Dirigidos, Grafos Dirigidos, Grafos Ponderados, Grafos Conectados y Grafos Acíclicos (DAGs).
 
----
+-----
 
-# 🔗 1. Grafos No Dirigidos
+# 1\. Grafos No Dirigidos
 
-### 🔹 Definición Técnica
+<img src="pics/grafo_no_dirigido.png" alt="Grafo No Dirigido" width="400">
 
-Es un grafo donde las aristas no tienen dirección: una conexión entre A y B es mutua y bidireccional. Matemáticamente, se define como G = (V, E), donde E es un conjunto de pares no ordenados {u, v}.
+### Definición Técnica
 
-### 🧩 Representación Visual en Memoria (Usando Lista de Adyacencia)
+Este es el tipo más simple. Es un grafo donde las aristas son bidireccionales, como una calle de doble sentido. Si el vértice A está conectado al vértice B, entonces B también está conectado a A automáticamente. La relación es mutua.
+
+### Representación Visual en Memoria (Usando Lista de Adyacencia)
+
+Imagina 4 vértices (0, 1, 2, 3). La lista de adyacencia nos dice quién está conectado con quién:
 
 ```ascii
 Vértices: 0, 1, 2, 3
 
 Lista de Adyacencia:
-0 → 1 → 2
-1 → 0 → 3
-2 → 0 → 3
-3 → 1 → 2
+0 → 1, 2  (0 está conectado a 1 y 2)
+1 → 0, 3  (1 está conectado a 0 y 3)
+2 → 0, 3  (2 está conectado a 0 y 3)
+3 → 1, 2  (3 está conectado a 1 y 2)
 
-Dibujo ASCII:
-       0
-      / \
-     /   \
-    1     2
-     \   /
-      \ /
-       3
+Dibujo ASCII (Forma de diamante):
+       (0)
+      /   \
+     /     \
+    (1)     (2)
+     \     /
+      \   /
+       (3)
 ```
 
 ### 🔧 Características Clave
 
-* **Simetría en Relaciones (O(1) para Verificar Conexión)**: Si A está conectado a B, B lo está a A automáticamente. Ideal para modelar amistades mutuas o carreteras bidireccionales.
-* **Sin Dirección**: No hay concepto de "entrada/salida"; el recorrido es libre en ambas direcciones.
-* **Eficiencia en Inserción/Eliminación de Aristas (O(1) en Lista de Adyacencia)**: Agregar una arista solo requiere actualizar listas de ambos vértices.
-* **Uso Común**: Redes sociales (amistades), mapas de rutas sin sentido único.
-* **Desventaja**: No modela flujos unidireccionales; para eso, usa grafos dirigidos.
+La característica principal es la **simetría**. Son perfectos para modelar relaciones mutuas, como "ser amigo de" en Facebook o carreteras de doble sentido. Verificar si dos nodos están conectados es muy rápido. En una lista de adyacencia, agregar o quitar una amistad (arista) también es muy eficiente, aunque debes hacerlo en las listas de *ambos* vértices. Su desventaja es que no pueden modelar relaciones donde la dirección importa, como "A sigue a B" en Twitter (donde B podría no seguir a A).
 
----
+-----
 
 # ➡️ 2. Grafos Dirigidos (Dígrafos)
 
+<img src="pics/grafo_dirigido.png" alt="Grafo Dirigido" width="400"/>
+
 ### 🔹 Definición Técnica
 
-Es un grafo donde las aristas tienen una dirección explícita: una arista de A a B no implica B a A. Matemáticamente, G = (V, E), donde E es un conjunto de pares ordenados (u, v).
+Aquí, las aristas tienen dirección, como una calle de sentido único. Se representan con flechas. Una arista que va de A hacia B *no* implica que exista una arista de B hacia A.
 
 ### 🧩 Representación Visual en Memoria (Usando Lista de Adyacencia)
 
@@ -79,150 +79,153 @@ Es un grafo donde las aristas tienen una dirección explícita: una arista de A 
 Vértices: 0, 1, 2, 3
 
 Lista de Adyacencia:
-0 → 1 → 2
-1 → 3
-2 → 3
-3 → (ninguno)
+0 → 1, 2  (De 0 puedes ir a 1 y 2)
+1 → 3     (De 1 solo puedes ir a 3)
+2 → 3     (De 2 solo puedes ir a 3)
+3 →       (De 3 no puedes ir a ningún lado)
 
-Dibujo ASCII:
-       0
-      / \
-     /   \
-    1     2
-     \   /
-      \ /
-       3
-   (Flechas: 0→1, 0→2, 1→3, 2→3)
+Dibujo ASCII (Con flechas claras):
+       (0)
+      /   \
+     /     \
+    v       v
+   (1)     (2)
+    \       /
+     \     /
+      v   v
+       (3)
 ```
 
 ### 🔧 Características Clave
 
-* **Direccionalidad (O(1) para Verificar Sentido)**: Permite modelar relaciones asimétricas, como "A sigue a B" en redes sociales o dependencias "A precede a B" en tareas.
-* **Posibilidad de Ciclos Dirigidos**: Pueden existir ciclos (ej. A→B→C→A), pero también DAGs (sin ciclos).
-* **Grados Divididos**: Grado de salida (aristas salientes) y entrada (entrantes); útil para análisis de flujo.
-* **Uso Común**: Páginas web (enlaces), flujos de trabajo, grafos de dependencias en software.
-* **Desventaja**: Mayor complejidad en algoritmos (ej. topological sort solo en DAGs); consume más memoria si se simulan bidireccionales.
+La **direccionalidad** es clave. Permiten modelar relaciones asimétricas. Piensa en enlaces web (puedes enlazar a Google, pero Google no te enlaza a ti) o flujos de trabajo (la 'Tarea A' debe completarse *antes* que la 'Tarea B').  Esto introduce nuevos conceptos: un vértice tiene un **grado de salida** (cuántas flechas *salen* de él) y un **grado de entrada** (cuántas flechas *llegan* a él). Son fundamentales para algoritmos que ordenan tareas, conocidos como "ordenamiento topológico".
 
----
+-----
 
 # ⚖️ 3. Grafos Ponderados
 
+<img src="pics/grafo_ponderado.png" alt="Grafo Ponderado" width="400"/>
+
 ### 🔹 Definición Técnica
 
-Es un grafo (dirigido o no) donde cada arista tiene un **peso** asociado, representando un costo, distancia o valor cuantitativo. Matemáticamente, G = (V, E, W), donde W es una función de pesos en E.
+Es un grafo (que puede ser dirigido o no dirigido) donde cada arista tiene un "peso" o "costo" asociado. Este peso es un número que representa algo cuantitativo, como una distancia, tiempo o dinero.
 
 ### 🧩 Representación Visual en Memoria (Usando Matriz de Adyacencia con Pesos)
+
+En lugar de '1' y '0', la matriz almacena el peso. Un '0' (o infinito) significa que no hay conexión.
 
 ```ascii
 Matriz de Adyacencia (Pesos):
   0 1 2 3
-0 0 4 2 0
-1 4 0 0 1
-2 2 0 0 3
+0 0 4 2 0  (Conexión 0-1 pesa 4, 0-2 pesa 2)
+1 4 0 0 1  (Conexión 1-3 pesa 1)
+2 2 0 0 3  (Conexión 2-3 pesa 3)
 3 0 1 3 0
 
-Dibujo ASCII:
-       0
-     4/ \2
-     /   \
-    1     2
-     \1 /3
-      \ /
-       3
+Dibujo ASCII (Con pesos en las aristas):
+       (0)
+      /   \
+    4/     \2
+    /       \
+   (1)       (2)
+    \       /
+    1\     /3
+      \   /
+       (3)
 ```
 
 ### 🔧 Características Clave
 
-* **Pesos en Aristas (O(1) Acceso en Matriz)**: Permite optimizaciones cuantitativas, como caminos más cortos por distancia real.
-* **Adaptable a Dirigido/No Dirigido**: Pesos se aplican en ambas variantes; en dirigidos, pesos pueden diferir por sentido.
-* **Algoritmos Específicos**: Requiere Dijkstra o Bellman-Ford para caminos mínimos; BFS/DFS ignoran pesos.
-* **Uso Común**: GPS (distancias en km), redes de costos (envíos), análisis de eficiencia en circuitos.
-* **Desventaja**: Mayor consumo de memoria (pesos ocupan espacio); algoritmos más complejos (O(E log V) para Dijkstra).
+Los **pesos en las aristas** son su definición. Permiten hacer preguntas de optimización. En lugar de preguntar "¿Cuál es el camino con *menos paradas*?" (BFS), preguntas "¿Cuál es el camino con *menos kilómetros*?" (Dijkstra). Son la base de los sistemas GPS y cualquier problema de logística o red donde el "costo" importa. La desventaja es que los algoritmos para resolverlos son un poco más complejos (por ejemplo, Dijkstra suele ser **O(E log V)**), ya que deben procesar las aristas en orden de peso, no solo por proximidad.
 
----
+-----
 
 # 🌐 4. Grafos Conectados
 
+<img src="pics/grafo_no_conectado.png" alt="Grafo No Conectado" width="400"/>
+
 ### 🔹 Definición Técnica
 
-Es un grafo (no dirigido) donde existe al menos un camino entre cualquier par de vértices. En dirigidos, se habla de "fuertemente conectado" si hay caminos bidireccionales.
+Este es un concepto, más que un tipo. Un grafo (usualmente no dirigido) se considera **conectado** si existe un camino entre *cualquier* par de vértices. Es decir, no hay "islas" o nodos aislados. Todos forman una sola pieza.
 
-### 🧩 Representación Visual en Memoria (Usando Lista de Adyacencia)
+### 🧩 Representación Visual en Memoria
+
+Para entenderlo, es más fácil ver uno que *no* está conectado:
 
 ```ascii
-Vértices: 0, 1, 2, 3 (Todos conectados)
+Ejemplo NO Conectado:
+ (0)---(1)         (2)
+                   |
+                   |
+                  (3)
+(Existen dos "componentes conectadas" o islas.
+ No hay forma de ir de 1 a 2.)
 
-Lista de Adyacencia:
-0 → 1 → 2
-1 → 0 → 3
-2 → 0 → 3
-3 → 1 → 2
-
-Dibujo ASCII:
-       0
-      / \
-     /   \
-    1-----3
-     \   /
-      \ /
-       2
-   (Nota: Añadí 1-3 y 2-3 para conectar todo)
+Ejemplo Conectado (una sola pieza):
+       (0)
+      /   \
+     /     \
+    (1)-----(2)
+      \   /
+       \ /
+       (3)
+(Puedes encontrar un camino desde cualquier nodo
+ a cualquier otro nodo.)
 ```
 
 ### 🔧 Características Clave
 
-* **Conectividad Total (O(V + E) para Verificar)**: BFS/DFS desde cualquier vértice visita todos; no hay componentes aisladas.
-* **Componentes Conectadas**: En no conectados, se divide en subgrafos; aquí, solo una.
-* **Propiedades**: Mínimo V-1 aristas; útil para redes integradas.
-* **Uso Común**: Redes eléctricas (todo debe estar unido), análisis de conectividad en internet.
-* **Desventaja**: Si se desconecta (por falla de arista), requiere algoritmos para reconectar (ej. MST).
+La **conectividad total** es la propiedad. Puedes verificar si un grafo está conectado simplemente ejecutando un BFS o DFS desde *cualquier* vértice; si al final has visitado *todos* los demás vértices, está conectado. Si el grafo no está conectado, se divide en **componentes conectadas** (las "islas" del ejemplo). En grafos dirigidos, el concepto es más estricto: se llama **fuertemente conectado** si puedes ir de A a B *y también* puedes volver de B a A, para cualquier par de nodos.
 
----
+-----
 
 # 🔄 5. Grafos Acíclicos (DAGs)
 
+<img src="pics/grafo_aciclico.png" alt="Grafo Dirigido Acíclico" width="400"/>
+
 ### 🔹 Definición Técnica
 
-Es un grafo dirigido sin ciclos: no hay caminos que regresen al vértice inicial. Matemáticamente, un DAG permite un orden topológico lineal de vértices.
+Un **Grafo Dirigido Acíclico** (o **DAG**, por sus siglas en inglés) es un grafo dirigido que *no tiene ciclos*. Es decir, no hay ningún camino que te permita empezar en un nodo, seguir las flechas y volver al mismo nodo.
 
 ### 🧩 Representación Visual en Memoria (Usando Lista de Adyacencia)
+
+El ejemplo que usamos para grafos dirigidos *ya era* un DAG.
 
 ```ascii
 Vértices: 0, 1, 2, 3 (Sin ciclos)
 
 Lista de Adyacencia:
-0 → 1 → 2
+0 → 1, 2
 1 → 3
 2 → 3
-3 → (ninguno)
+3 →
 
-Dibujo ASCII:
-   0
-  / \
- /   \
-1     2
- \   /
-  \ /
-   3
-   (Flechas dirigidas, sin loops de regreso)
+Dibujo ASCII (Dirigido y sin "vueltas"):
+       (0)
+      /   \
+     /     \
+    v       v
+   (1)     (2)
+    \       /
+     \     /
+      v   v
+       (3)
+(Nota: Si sigues las flechas, siempre avanzas.
+ No puedes caer en un bucle.)
 ```
 
 ### 🔧 Características Clave
 
-* **Ausencia de Ciclos (O(V + E) para Verificar)**: Usa DFS para detectar back-edges; si ninguno, es DAG.
-* **Orden Topológico**: Vértices se ordenan para que aristas vayan de izquierda a derecha (útil para scheduling).
-* **No Recursión Infinita**: Ideal para dependencias sin bucles.
-* **Uso Común**: Planificación de proyectos (PERT), compiladores (dependencias de código), blockchain (transacciones).
-* **Desventaja**: No modela ciclos reales (ej. procesos repetitivos); para eso, usa grafos con ciclos.
+La **ausencia de ciclos** es su propiedad fundamental. Esto los hace increíblemente útiles para modelar dependencias y procesos que tienen un inicio y un fin claros. Su superpoder es que permiten un **Orden Topológico**: una forma de "aplanar" el grafo en una línea recta, asegurando que si hay una flecha de A a B, A siempre aparecerá antes que B en la línea. Piensa en el orden en que debes cursar asignaturas en la universidad (debes cursar 'Cálculo I' *antes* que 'Cálculo II') o las dependencias al compilar código.
 
----
+-----
 
 # ⚖️ Comparativa Técnica de Tipos de Grafos
 
-| Tipo                      | Dirección | Pesos    | Conectividad | Ciclos Permitidos | Representación Preferida | Complejidad BFS/DFS | Usos Típicos                  |
-| ------------------------- | ---------- | -------- | ------------ | ----------------- | ------------------------- | ------------------- | ------------------------------ |
-| **No Dirigido**     | No         | No       | Variable     | Sí               | Lista Adyacencia          | O(V + E)            | Redes sociales, mapas básicos |
-| **Dirigido**        | Sí        | No       | Variable     | Sí               | Lista Adyacencia          | O(V + E)            | Enlaces web, flujos de datos   |
-| **Ponderado**       | Variable   | Sí      | Variable     | Sí               | Matriz o Lista con Pesos  | O(V + E) (BFS)      | GPS, optimización de costos   |
-| **Conectado**       | No         | No       | Total        | Sí               | Cualquiera                | O(V + E)            | Redes integradas, circuitos    |
-| **Acíclico (DAG)** | Sí        | Variable | Variable     | No                | Lista Adyacencia          | O(V + E)            |                                |
+| Tipo | Dirección | Pesos | Conectividad | Ciclos Permitidos | Representación Preferida | Complejidad BFS/DFS | Usos Típicos |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **No Dirigido** | No | No | Variable | Sí | Lista Adyacencia | O(V + E) | Redes sociales, mapas básicos |
+| **Dirigido** | Sí | No | Variable | Sí | Lista Adyacencia | O(V + E) | Enlaces web, flujos de datos |
+| **Ponderado** | Variable | Sí | Variable | Sí | Matriz o Lista con Pesos | O(V + E) (BFS) | GPS, optimización de costos |
+| **Conectado** | No | No | Total | Sí | Cualquiera | O(V + E) | Redes integradas, circuitos |
+| **Acíclico (DAG)** | Sí | Variable | Variable | No | Lista Adyacencia | O(V + E) | Dependencias, planificación |
