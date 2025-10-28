@@ -1,4 +1,4 @@
-package capacho.sistemas_sid;
+package ejercicios.capacho.sistemas_sid;
 
 /**
  * La clase Club gestiona su propia lista de jugadores. ⚽

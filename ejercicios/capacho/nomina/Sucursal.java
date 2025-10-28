@@ -1,4 +1,4 @@
-package capacho.nomina;
+package ejercicios.capacho.nomina;
 
 public class Sucursal {
     public int codigo;

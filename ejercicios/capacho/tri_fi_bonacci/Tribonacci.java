@@ -1,4 +1,4 @@
-package capacho.tri_fi_bonacci;
+package ejercicios.capacho.tri_fi_bonacci;
 
 public class Tribonacci {
 

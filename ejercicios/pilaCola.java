@@ -1,4 +1,4 @@
-package feat;
+package ejercicios;
 
 public class pilaCola {
     private class Nodo {

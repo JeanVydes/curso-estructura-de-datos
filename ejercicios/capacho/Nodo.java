@@ -1,4 +1,4 @@
-package capacho;
+package ejercicios.capacho;
 
 public class Nodo {
     int codigo;

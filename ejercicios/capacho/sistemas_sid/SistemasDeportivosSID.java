@@ -1,4 +1,4 @@
-package capacho.sistemas_sid;
+package ejercicios.capacho.sistemas_sid;
 
 public class SistemasDeportivosSID {
     public static void main(String[] args) {

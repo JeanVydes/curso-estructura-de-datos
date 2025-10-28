@@ -1,4 +1,4 @@
-package capacho.nomina;
+package ejercicios.capacho.nomina;
 
 // lista doblemente enlazada circular de sucursales
 public class Empresa {

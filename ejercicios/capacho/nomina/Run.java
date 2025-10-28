@@ -1,4 +1,4 @@
-package capacho.nomina;
+package ejercicios.capacho.nomina;
 
 public class Run {
     public static void main(String[] args) {

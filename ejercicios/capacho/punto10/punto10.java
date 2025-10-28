@@ -1,6 +1,6 @@
-package capacho.punto10;
+package ejercicios.capacho.punto10;
 
-import capacho.Nodo;
+import ejercicios.capacho.Nodo;
 
 public class punto10 {
     public class NodoNoticiasTelevisivas {
