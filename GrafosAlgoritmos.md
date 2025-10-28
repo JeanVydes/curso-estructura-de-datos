@@ -1,264 +1,425 @@
-## Algoritmos Esenciales para la Exploración de Grafos
+# 🧩 Representación y Recorridos de Grafos en Java
 
-Los algoritmos son el cerebro del grafo. Nos permiten recorrer la red (búsquedas), calcular propiedades (grado, distancia) o clasificar su estructura (ciclos, bipartición). Utilizaremos un grafo no dirigido de **$V=4$** vértices (0, 1, 2, 3) y la **Matriz de Adyacencia** como representación en memoria.
+---
 
-### Grafo de Ejemplo (No Dirigido)
-
-|             | **0** | **1** | **2** | **3** |
-| ----------- | ----------- | ----------- | ----------- | ----------- |
-| **0** | 0           | 1           | 1           | 0           |
-| **1** | 1           | 0           | 0           | 1           |
-| **2** | 1           | 0           | 0           | 1           |
-| **3** | 0           | 1           | 1           | 0           |
-
-**Dibujo ASCII:**
-
-**Code snippet**
+## 📊 Grafo Base
 
 ```
        (0)
       /   \
      /     \
-    (1)----- (2)
+   (1)----- (2)
      \     /
       \   /
        (3)
 ```
 
----
+### Matriz de Adyacencia
 
-### 1. BFS (Búsqueda en Anchura)
-
-El BFS explora el grafo  **nivel por nivel** , como una onda expansiva. Garantiza encontrar el camino más corto en términos de número de aristas.
-
-* **Herramienta Clave** : Una **Cola** (FIFO) para priorizar la exploración.
-
-#### Simulación (Empezando en el Vértice  **0** )
-
-1. **Inicio** :
-
-* Cola: `[0]`
-* Visitados: `{0}`
-* Resultado:
-
-1. **Paso 1** : Sacamos el  **0** . Buscamos sus vecinos NO visitados (1, 2).
-
-* Cola: `[1, 2]`
-* Visitados: `{0, 1, 2}`
-* Resultado: `0 `
-
-1. **Paso 2** : Sacamos el  **1** . Buscamos sus vecinos NO visitados (0 ya visitado,  **3** ).
-
-* Cola: `[2, 3]`
-* Visitados: `{0, 1, 2, 3}`
-* Resultado: `0, 1 `
-
-1. **Paso 3** : Sacamos el  **2** . Buscamos sus vecinos NO visitados (0 ya visitado, 3 ya visitado).
-
-* Cola: `[3]`
-* Visitados: `{0, 1, 2, 3}`
-* Resultado: `0, 1, 2 `
-
-1. **Paso 4** : Sacamos el  **3** . No tiene vecinos NO visitados.
-
-* Cola: `[]`
-* Visitados: `{0, 1, 2, 3}`
-* Resultado: `0, 1, 2, 3 `
-
- **Recorrido Final (BFS)** : **$0 \rightarrow 1 \rightarrow 2 \rightarrow 3$** (o **$0 \rightarrow 2 \rightarrow 1 \rightarrow 3$**)
+|     | 0 | 1 | 2 | 3 |
+|-----|---|---|---|---|
+| **0** | 0 | 1 | 1 | 0 |
+| **1** | 1 | 0 | 0 | 1 |
+| **2** | 1 | 0 | 0 | 1 |
+| **3** | 0 | 1 | 1 | 0 |
 
 ---
 
-### 2. DFS (Búsqueda en Profundidad)
+## 1️⃣ Búsqueda en Anchura (BFS)
 
-El DFS explora el grafo yendo tan **profundo** como pueda por un camino antes de retroceder.
+```java
+static void bfs(int inicio) {
+    boolean[] visitado = new boolean[V];
+    int[] cola = new int[V];
+    int frente = 0, fondo = 0;
+    cola[fondo++] = inicio;
+    visitado[inicio] = true;
 
-* **Herramienta Clave** : La **Recursión** (o una Pila, LIFO) para hacer el  *backtracking* .
+    while (frente < fondo) {
+        int actual = cola[frente];
+        frente++;
+        System.out.print(actual + " ");
+        for (int vecino = 0; vecino < V; vecino++) {
+            if (matriz[actual][vecino] == 1 && !visitado[vecino]) {
+                cola[fondo++] = vecino;
+                visitado[vecino] = true;
+            }
+        }
+    }
+}
+```
 
-#### Simulación (Empezando en el Vértice  **0** )
+### Simulación paso a paso (inicio = **0**)
 
-1. **DFS(0)** : Marcamos **0** como visitado.
+**Estado inicial (después de encolar el inicio):**  
+- Cola: `[0]` (`frente=0`, `fondo=1`)  
+- Visitados: `{0}`
 
-* Resultado: `0 `
+**Paso 1 — Procesar actual = 0**  
+- Se extrae `actual = cola[frente]` → `actual = 0` (`frente` pasa a 1).  
+- Se imprime `0`.  
+- Se lee la fila `matriz[0] = [0, 1, 1, 0]`.  
+- Para `vecino=1`: `matriz[0][1] == 1` y `visitado[1]==false` → se encola `1` (`cola[fondo]=1; fondo++`) y se marca `visitado[1]=true`.  
+- Para `vecino=2`: `matriz[0][2] == 1` y `visitado[2]==false` → se encola `2` y se marca `visitado[2]=true`.  
+- Acciones exactas en el código: comprobación `if (matriz[actual][vecino] == 1 && !visitado[vecino])`, `cola[fondo++] = vecino; visitado[vecino] = true;`.  
+- Cola después del paso: `[1, 2]`.  
+- Visitados: `{0,1,2}`.
 
-1. Buscamos el primer vecino de 0:  **1** . Llamamos  **DFS(1)** .
-   * Marcamos **1** como visitado. Resultado: `0, 1 `
-2. Buscamos el primer vecino de 1: **0** (visitado).
-3. Buscamos el siguiente vecino de 1:  **3** . Llamamos  **DFS(3)** .
-   * Marcamos **3** como visitado. Resultado: `0, 1, 3 `
-4. Buscamos los vecinos de 3: **1** (visitado), **2** (NO visitado). Llamamos  **DFS(2)** .
-   * Marcamos **2** como visitado. Resultado: `0, 1, 3, 2 `
-5. Buscamos los vecinos de 2:  **0, 3** . Ambos están visitados. Retorno (Backtracking).
-6. Volvemos a  **3** . Ya no tiene vecinos NO visitados. Retorno.
-7. Volvemos a  **1** . Ya no tiene vecinos NO visitados. Retorno.
-8. Volvemos a  **0** . Buscamos el siguiente vecino: **2** (visitado). Retorno.
+**Paso 2 — Procesar actual = 1**  
+- Se extrae `actual = 1` (`frente` pasa a 2).  
+- Se imprime `1`.  
+- Se lee la fila `matriz[1] = [1,0,0,1]`.  
+- Vecino `0` está marcado, se ignora.  
+- Vecino `3`: `matriz[1][3] == 1` y `visitado[3]==false` → se encola `3` y `visitado[3]=true`.  
+- Cola después del paso: `[2, 3]`.  
+- Visitados: `{0,1,2,3}`.
 
- **Recorrido Final (DFS)** : **$0 \rightarrow 1 \rightarrow 3 \rightarrow 2$** (La secuencia exacta depende del orden de iteración de los vecinos).
+**Paso 3 — Procesar actual = 2**  
+- Se extrae `actual = 2` (`frente` pasa a 3).  
+- Se imprime `2`.  
+- Se lee la fila `matriz[2] = [1,0,0,1]`.  
+- Vecinos `0` y `3` ya están marcados; no se encola nada.  
+- Cola después del paso: `[3]`.  
+- Visitados: `{0,1,2,3}`.
+
+**Paso 4 — Procesar actual = 3**  
+- Se extrae `actual = 3` (`frente` pasa a 4).  
+- Se imprime `3`.  
+- Se lee la fila `matriz[3] = [0,1,1,0]`.  
+- Vecinos `1` y `2` ya están marcados; no se encola nada.  
+- Cola vacía → termina bucle.  
+- Visitados finales: `{0,1,2,3}`.
+
+**Resultado (orden de impresión):** `0 1 2 3`  
+**Resumen de estados (por pasos):**
+
+| Paso | Cola antes | Nodo actual | Cola después | Visitados |
+|------|------------|-------------|--------------|-----------|
+| 1 | `[0]` | 0 | `[1,2]` | `{0,1,2}` |
+| 2 | `[1,2]` | 1 | `[2,3]` | `{0,1,2,3}` |
+| 3 | `[2,3]` | 2 | `[3]` | `{0,1,2,3}` |
+| 4 | `[3]` | 3 | `[]` | `{0,1,2,3}` |
 
 ---
 
-### 3. Detección de Ciclo
+## 2️⃣ Búsqueda en Profundidad (DFS)
 
-Usa una versión modificada de DFS que rastrea el **padre** (el nodo desde el que se llegó al nodo actual) para distinguir un retroceso en el camino de un verdadero ciclo.
+```java
+static void dfs(int actual) {
+    boolean[] visitado = new boolean[V];
+    dfsRecursivo(actual, visitado);
+    System.out.println();
+}
 
-* **Regla** : Hay ciclo si se encuentra un nodo **visitado** que **NO** es el padre del nodo actual.
-
-#### Simulación (Grafo Acíclico vs. Cíclico)
-
-**Grafo Cíclico de Ejemplo (0-1-2-0):**
-
-**Code snippet**
-
-```
-      (0)
-     /   \
-    /     \
-   (1)---(2)
-```
-
-1. **DFS(0, padre=-1)** : Visitado: `{0}`
-2. Vecino  **1** . Llamamos  **DFS(1, padre=0)** . Visitado: `{0, 1}`
-3. Vecino  **2** . Llamamos  **DFS(2, padre=1)** . Visitado: `{0, 1, 2}`
-4. Vecino  **0** . El nodo **0** está visitado. ¿Es el padre de 2? No, el padre es 1. **¡Ciclo detectado!** (0-1-2-0).
-
-**Grafo Acíclico (DAG) de Ejemplo (0→1→2):**
-
-**Code snippet**
-
-```
-       (0)
-        v
-       (1)
-        v
-       (2)
+static void dfsRecursivo(int actual, boolean[] visitado) {
+    visitado[actual] = true;
+    System.out.print(actual + " ");
+    for (int vecino = 0; vecino < V; vecino++) {
+        if (matriz[actual][vecino] == 1 && !visitado[vecino]) {
+            dfsRecursivo(vecino, visitado);
+        }
+    }
+}
 ```
 
-1. **DFS(0, padre=-1)** : Visitado: `{0}`
-2. Vecino  **1** . Llamamos  **DFS(1, padre=0)** . Visitado: `{0, 1}`
-3. Vecino  **2** . Llamamos  **DFS(2, padre=1)** . Visitado: `{0, 1, 2}`
-4. **2** no tiene vecinos no visitados. Retorno.
-5. **1** no tiene más vecinos no visitados. Retorno.
-6. **0** no tiene más vecinos no visitados. Retorno.  **No se encontró ningún ciclo** .
+### Simulación paso a paso (inicio = **0**)
+
+**Estado inicial:**  
+- Pila de llamadas (recursión): `[]`  
+- Visitados: `{}`
+
+**Paso 1 — dfsRecursivo(0)**  
+- Marca `visitado[0]=true`.  
+- Imprime `0`.  
+- Pila: `[0]`.  
+- Lee `matriz[0] = [0,1,1,0]`. El primer vecino no visitado es `1` → llama `dfsRecursivo(1)`.
+
+**Paso 2 — dfsRecursivo(1)**  
+- Marca `visitado[1]=true`.  
+- Imprime `1`.  
+- Pila: `[0,1]`.  
+- Lee `matriz[1] = [1,0,0,1]`. Vecinos no visitados: `3` (nota: `0` ya está visitado; `2` no es vecino en esta matriz). Llama `dfsRecursivo(3)`.
+
+**Paso 3 — dfsRecursivo(3)**  
+- Marca `visitado[3]=true`.  
+- Imprime `3`.  
+- Pila: `[0,1,3]`.  
+- Lee `matriz[3] = [0,1,1,0]`. Vecino no visitado es `2` → llama `dfsRecursivo(2)`.
+
+**Paso 4 — dfsRecursivo(2)**  
+- Marca `visitado[2]=true`.  
+- Imprime `2`.  
+- Pila: `[0,1,3,2]`.  
+- Lee `matriz[2] = [1,0,0,1]`. Todos sus vecinos están visitados → retorna.
+
+**Backtracking y retornos:**  
+- `dfsRecursivo(2)` retorna a `dfsRecursivo(3)` → `3` no tiene más vecinos no visitados → retorna a `dfsRecursivo(1)` → `1` no tiene más → retorna a `dfsRecursivo(0)` → `0` tiene `2` pero ya visitado → retorna y finaliza.
+
+**Orden de visita (impreso):** `0 1 3 2`
+
+**Resumen de estados (por pasos):**
+
+| Paso | Llamada actual | Pila antes | Visitados | Acción |
+|------|----------------|-----------:|----------:|--------|
+| 1 | dfs(0) | `[]` | `{}` | marcar 0; push 0; llamar dfs(1) |
+| 2 | dfs(1) | `[0]` | `{0}` | marcar 1; push 1; llamar dfs(3) |
+| 3 | dfs(3) | `[0,1]` | `{0,1}` | marcar 3; push 3; llamar dfs(2) |
+| 4 | dfs(2) | `[0,1,3]` | `{0,1,3}` | marcar 2; push 2; retornar |
+| 5 | retorno | `[0,1,3,2] -> ... -> []` | `{0,1,2,3}` | fin |
 
 ---
 
-### 4. Conteo de Componentes Conectadas
+## 3️⃣ Detección de Ciclos
 
-Mide cuántas "islas" independientes hay en el grafo.
-
-* **Funcionamiento** : Se itera sobre *todos* los vértices. Cada vez que se encuentra un vértice  **no visitado** , se inicia un DFS (o BFS). El inicio de cada DFS marca la detección de una nueva componente.
-
-#### Simulación (Grafo Desconectado)
-
-**Grafo Desconectado de Ejemplo:**
-
-**Code snippet**
-
-```
-(0)---(1)         (2)---(3)
-(Componente A)    (Componente B)
+```java
+static boolean tieneCiclo() {
+    boolean[] visitado = new boolean[V];
+    for (int i = 0; i < V; i++) {
+        if (!visitado[i]) {
+            if (tieneCicloDFS(i, visitado, -1))
+                return true;
+        }
+    }
+    return false;
+}
 ```
 
-1. **i = 0** : Vértice 0 NO visitado.
+```java
+private static boolean tieneCicloDFS(int actual, boolean[] visitado, int padre) {
+    visitado[actual] = true;
+    for (int vecino = 0; vecino < V; vecino++) {
+        if (matriz[actual][vecino] == 1) {
+            if (!visitado[vecino]) {
+                if (tieneCicloDFS(vecino, visitado, actual))
+                    return true;
+            } else if (vecino != padre) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+```
 
-* Iniciamos DFS(0).  **Componente = 1** .
-* DFS(0) visita {0, 1}.
+### Simulación (traza)
 
-1. **i = 1** : Vértice 1 ya está visitado. (Ignorar).
-2. **i = 2** : Vértice 2 NO visitado.
+**Paso 1** — `tieneCicloDFS(0, visitado, -1)`  
+- Marca `0` visitado → `visitado = {0}`.  
+- Vecino encontrado: `1` → llamar `tieneCicloDFS(1, visitado, 0)`.
 
-* Iniciamos DFS(2).  **Componente = 2** .
-* DFS(2) visita {2, 3}.
+**Paso 2** — `tieneCicloDFS(1, visitado, 0)`  
+- Marca `1` → `visitado = {0,1}`.  
+- Vecino `3` → llamar `tieneCicloDFS(3, visitado, 1)`.
 
-1. **i = 3** : Vértice 3 ya está visitado. (Ignorar).
+**Paso 3** — `tieneCicloDFS(3, visitado, 1)`  
+- Marca `3` → `visitado = {0,1,3}`.  
+- Vecino `2` → llamar `tieneCicloDFS(2, visitado, 3)`.
 
- **Resultado Final** : El grafo tiene **2** componentes conectadas.
+**Paso 4** — `tieneCicloDFS(2, visitado, 3)`  
+- Marca `2` → `visitado = {0,1,2,3}`.  
+- Revisa vecinos: encuentra `vecino = 0` con `visitado[0] == true` y `vecino != padre (3)` → condición de ciclo se cumple → retorna `true` hacia arriba.
+
+**Resultado:** `tieneCiclo()` devuelve `true`.  
+**Ciclo detectado:** 0 → 1 → 3 → 2 → 0
 
 ---
 
-### 5. Distancia Más Corta (Sin Pesos)
+## 4️⃣ Componentes Conectadas
 
-Usa **BFS** para encontrar la distancia mínima, midiendo el camino en número de pasos.
+```java
+static int contarComponentesConectadas() {
+    boolean[] visitado = new boolean[V];
+    int count = 0;
+    for (int i = 0; i < V; i++) {
+        if (!visitado[i]) {
+            dfsRecursivo(i, visitado);
+            count++;
+        }
+    }
+    return count;
+}
+```
 
-* **Herramienta Adicional** : Un *array* `distancia` para almacenar la longitud del camino desde el inicio.
+### Simulación
 
-#### Simulación (Distancia de **0** a  **3** )
+- Inicio con `i = 0`: `visitado` vacío → llama `dfsRecursivo(0, visitado)` → tras la recursión `visitado = {0,1,2,3}`.  
+- `count` incrementado a `1`.  
+- Siguientes `i = 1,2,3` están ya visitados → no se inicia nueva DFS.
 
-1. **Inicio** (distancia = **$\infty$**, excepto 0):
-   * Cola: `[0]`
-   * Distancia: `[0, -1, -1, -1]` (-1 es no alcanzado)
-2. **Paso 1** : Sacamos **0** (distancia 0). Vecinos: 1 y 2.
-
-* **$dist[1] = dist[0] + 1 = 1$**.
-* **$dist[2] = dist[0] + 1 = 1$**.
-* Cola: `[1, 2]`
-* Distancia: `[0, 1, 1, -1]`
-
-1. **Paso 2** : Sacamos **1** (distancia 1). Vecino:  **3** .
-
-* **$dist[3] = dist[1] + 1 = 2$**.
-* **¡Llegamos al destino 3!** Distancia es  **2** .
-
- **Resultado Final** : El camino más corto de 0 a 3 es de **2 aristas** (0-1-3 o 0-2-3).
+**Resultado:** `contarComponentesConectadas()` = **1**
 
 ---
 
-### 6. Verificación de Grafo Bipartito
+## 5️⃣ Distancia Más Corta (BFS con distancias)
 
-Determina si se puede dividir el grafo en dos conjuntos sin que haya aristas dentro de un mismo conjunto.
+```java
+static int distanciaMasCorta(int inicio, int fin) {
+    if (inicio == fin) return 0;
+    boolean[] visitado = new boolean[V];
+    int[] distancia = new int[V];
+    int[] cola = new int[V];
+    int frente = 0, fondo = 0;
 
-* **Funcionamiento** : Se usa **BFS** para colorear el grafo. Al nodo inicial le asignamos color 0. A sus vecinos les asignamos color 1, a los vecinos de estos, color 0, y así sucesivamente (alternando los colores).
+    cola[fondo++] = inicio;
+    visitado[inicio] = true;
+    distancia[inicio] = 0;
 
-#### Simulación (Grafo de Ejemplo: 0-1, 1-3, 3-2, 2-0)
+    while (frente < fondo) {
+        int actual = cola[frente++];
+        for (int vecino = 0; vecino < V; vecino++) {
+            if (matriz[actual][vecino] == 1 && !visitado[vecino]) {
+                cola[fondo++] = vecino;
+                visitado[vecino] = true;
+                distancia[vecino] = distancia[actual] + 1;
+                if (vecino == fin) return distancia[vecino];
+            }
+        }
+    }
+    return -1;
+}
+```
 
-| **Vértice** | **Color Inicial** |
-| ------------------ | ----------------------- |
-| 0                  | 0                       |
-| 1                  | -1                      |
-| 2                  | -1                      |
-| 3                  | -1                      |
+### Simulación 0 → 3 (detalle)
 
-1. **Inicio (Vértice 0)** : Asignamos  **Color 0** .
+**Estado inicial:**  
+- Cola: `[0]`  
+- Visitados: `{0}`  
+- Distancia: `[0, -, -, -]` (uso `-` para indicar no asignado)
 
-* Vecinos (1, 2) obtienen el color opuesto:  **Color 1** .
-* Cola: `[1, 2]`
-* Color: `[0, 1, 1, -1]`
+**Paso 1 — Procesar actual = 0**  
+- Vecinos: 1 y 2 → ambos encolados.  
+- Cola: `[1,2]`  
+- Visitados: `{0,1,2}`  
+- Distancias: `[0,1,1,-]` (distancia[1] = 1, distancia[2] = 1)
 
-1. **Sacamos 1** (Color 1). Vecinos: **0** y  **3** .
-   * Vecino **0** tiene Color 0 (¡Diferente! Correcto).
-   * Vecino **3** no tiene color. Asignamos el opuesto a 1:  **Color 0** .
-   * Cola: `[2, 3]`
-   * Color: `[0, 1, 1, 0]`
-2. **Sacamos 2** (Color 1). Vecinos: **0** y  **3** .
-   * Vecino **0** tiene Color 0 (¡Diferente! Correcto).
-   * Vecino **3** tiene Color 0 (¡Diferente! Correcto).
+**Paso 2 — Procesar actual = 1**  
+- Vecino 3 no visitado → encolar 3  
+- Cola: `[2,3]`  
+- Visitados: `{0,1,2,3}`  
+- Distancias: `[0,1,1,2]` (distancia[3] = distancia[1] + 1 = 2)  
+- Como `vecino == fin (3)`, el método retorna **2** inmediatamente.
 
- **Resultado Final** : El grafo es  **Bipartito** . Los conjuntos son **$\{0, 3\}$** y **$\{1, 2\}$**.
+**Resultado:** Distancia mínima = **2**
 
 ---
 
-### 7. Verificación de Grafo Árbol
+## 6️⃣ Grado de un Vértice
 
-Un grafo es un Árbol si cumple dos condiciones:
-
-1. Es **Conectado** (solo 1 componente conectada).
-2. Es **Acíclico** (no tiene ciclos).
-
-* **Funcionamiento** : Simplemente llama a los algoritmos **Conteo de Componentes Conectadas** y  **Detección de Ciclo** . Si el primero retorna 1 y el segundo retorna `false`, es un árbol.
-
-#### Pseudocódigo Lógico
-
+```java
+static int gradoVertice(int vertice) {
+    int grado = 0;
+    for (int j = 0; j < V; j++) {
+        grado += matriz[vertice][j];
+    }
+    return grado;
+}
 ```
-fun esArbol(Grafo G):
-    // 1. Debe ser conectado
-    Si ContarComponentesConectadas(G) != 1, entonces retornar FALSO.
 
-    // 2. No debe tener ciclos
-    Si TieneCiclo(G) == VERDADERO, entonces retornar FALSO.
+### Valores
 
-    // Opcional: Para grafos conectados, V-1 aristas es una condición necesaria.
-    // Aunque si las 2 anteriores son verdaderas, esta se cumple.
-    // Si NumAristas(G) != NumVertices(G) - 1, entonces retornar FALSO.
+| Vértice | Fila (matriz) | Suma (grado) |
+|---------|---------------|--------------|
+| 0 | [0,1,1,0] | 2 |
+| 1 | [1,0,0,1] | 2 |
+| 2 | [1,0,0,1] | 2 |
+| 3 | [0,1,1,0] | 2 |
 
-    Retornar VERDADERO.
+**Todos los vértices tienen grado = 2.**
+
+---
+
+## 7️⃣ Grafo Bipartito
+
+```java
+static boolean esBipartito() {
+    int[] color = new int[V];
+    for (int i = 0; i < V; i++) color[i] = -1;
+    for (int i = 0; i < V; i++) {
+        if (color[i] == -1) {
+            if (!esBipartitoBFS(i, color)) return false;
+        }
+    }
+    return true;
+}
 ```
+
+```java
+private static boolean esBipartitoBFS(int inicio, int[] color) {
+    int[] cola = new int[V];
+    int frente = 0, fondo = 0;
+    cola[fondo++] = inicio;
+    color[inicio] = 0;
+
+    while (frente < fondo) {
+        int actual = cola[frente++];
+        for (int vecino = 0; vecino < V; vecino++) {
+            if (matriz[actual][vecino] == 1) {
+                if (color[vecino] == -1) {
+                    color[vecino] = 1 - color[actual];
+                    cola[fondo++] = vecino;
+                } else if (color[vecino] == color[actual]) {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+```
+
+### Simulación de coloreado (inicio = 0)
+
+**Estado inicial:** `color = [-1,-1,-1,-1]`
+
+**Paso 1 — colorear 0**  
+- `color[0] = 0`  
+- Cola: `[0]`
+
+**Paso 2 — procesar 0**  
+- Vecinos 1 y 2 → `color[1]=1`, `color[2]=1`; Cola: `[1,2]`  
+- `color = [0,1,1,-1]`
+
+**Paso 3 — procesar 1**  
+- Vecinos: 0 (ya color 0 ok), 3 (sin color) → `color[3] = 0`; Cola: `[2,3]`  
+- `color = [0,1,1,0]`
+
+**Paso 4 — procesar 2**  
+- Vecinos: 0 (color 0 ok), 3 (ya color 0)  
+- Observación: 1 y 2 son vecinos entre sí? En este grafo concreto **no** (según la matriz actual no hay arista 1–2), por tanto no hay conflicto en este procedimiento. *(Si hubiera arista 1–2, ambos tendrían color 1 y se detectaría conflicto.)*
+
+**Resultado final del algoritmo:** `esBipartito()` devuelve **true** o **false** según la matriz; con la matriz usada en el código (sin 1–2) el coloreado no encuentra conflicto → **bipartito = true**.
+
+---
+
+## 8️⃣ Verificación de Árbol
+
+```java
+static boolean esArbol() {
+    if (contarComponentesConectadas() != 1) return false;
+    if (tieneCiclo()) return false;
+    return true;
+}
+```
+
+### Evaluación
+
+- `contarComponentesConectadas()` = 1 ✅  
+- `tieneCiclo()` = true (según traza de detección de ciclos) ❌
+
+**Resultado:** No es árbol.
+
+---
+
+## 🧾 Resumen Final
+
+| Propiedad | Valor |
+|-----------|-------|
+| Conexo | Sí |
+| Tiene ciclo | Sí |
+| Bipartito | Depende de la arista 1–2 (según la matriz actual en el código: **true**) |
+| Árbol | No |
+| Componentes | 1 |
+| Distancia(0→3) | 2 |
+| Grado promedio | 2 |
+
+---

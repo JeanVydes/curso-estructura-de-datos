@@ -11,11 +11,11 @@ public class GrafoSimple {
 
     public static void main(String[] args) {
         // PASO 1: Inicializamos la matriz de adyacencia.
-        // Recorremos todas las filas y columnas para poner todo en 0.
+        // Recorremos todas las filas y columnas para poner todo en 0.|
         // Esto asegura que no haya conexiones por defecto.
         for (int i = 0; i < V; i++) { // i es el índice de la fila (vértice origen)
             for (int j = 0; j < V; j++) { // j es el índice de la columna (vértice destino)
-                matriz[i][j] = 0; // Ponemos 0: no hay arista entre i y j
+                matriz[i][j] = 0; // No hay arista entre i y j inicialmente
             }
         }
 
