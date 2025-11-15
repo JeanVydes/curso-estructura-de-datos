@@ -12,6 +12,8 @@ public class cola {
             // Al crear un nuevo nodo, 'siguiente' siempre apunta a 'null'
             // porque, por definición, es el último en la cadena por ahora.
             this.siguiente = null; 
+
+            // comentario
         }
     }
 

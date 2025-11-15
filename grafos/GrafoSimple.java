@@ -196,6 +196,7 @@ public class GrafoSimple {
                 }
             }
         }
+        
         // 5. Si terminamos de recorrer todas las componentes sin encontrar ciclos,
         // retornamos false.
         return false;
