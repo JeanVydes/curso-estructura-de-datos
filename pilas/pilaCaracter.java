@@ -116,6 +116,9 @@ public class pilaCaracter {
         return invertida.toString();
     }
 
+    // un palíndromo es una palabra, frase, número u otra secuencia de caracteres
+    // que se lee igual hacia adelante que hacia atrás (ignorando espacios, puntuación y mayúsculas).
+    // Este método verifica si una cadena es un palíndromo utilizando una pila para comparar los caracteres en orden inverso.
     public static boolean esPalindromo(String expresion) {
         // Se crea una nueva instancia de la pila para esta operación.
         pilaCaracter pila = new pilaCaracter();

@@ -61,10 +61,7 @@ public class infijoTransformacion {
         }
     }
 
-    // +A[B-C]
-
-    // [A, +, B] -> A B +
-    // a + b
+    // ejemplo: A+B-C => AB+C-
     // Convierte una expresión de notación infija a postfija (operador después de operandos).
     public static String infijoAPostfijo(String expr) {
         // Pila para almacenar operadores y paréntesis.

@@ -93,6 +93,163 @@ public class lista {
     }
 
     /**
+     * Elimina el primer nodo de la lista (la cabeza).
+     * 
+     * Pasos:
+     * 1. Si la lista está vacía, no hacemos nada.
+     * 2. Si solo hay un nodo, lo eliminamos (ultimo = null).
+     * 3. Si hay varios, movemos la cabeza (ultimo.siguiente) al siguiente.
+     */
+    public void eliminarPrimero() {
+        if (ultimo == null) {
+            System.out.println("Error: La lista está vacía. No hay nada que eliminar.");
+            return;
+        }
+
+        // Caso especial: solo hay un nodo
+        if (ultimo.siguiente == ultimo) {
+            System.out.println("Eliminando primer nodo (único): " + ultimo.dato);
+            ultimo = null;
+            return;
+        }
+
+        // Caso general: hay varios nodos
+        // La cabeza es siempre ultimo.siguiente
+        // ANTES: (cabeza=ultimo.siguiente) -> (nodo2) -> ... -> (ultimo)
+        //
+        Nodo cabezaAntigua = ultimo.siguiente;
+        System.out.println("Eliminando primer nodo: " + cabezaAntigua.dato);
+
+        // Hacemos que ultimo apunte al nodo siguiente a la cabeza antigua
+        // Esto hace que la nueva cabeza sea lo que era nodo2
+        ultimo.siguiente = cabezaAntigua.siguiente;
+        //
+        // DESPUÉS: (cabeza=nodo2) -> (nodo3) -> ... -> (ultimo)
+    }
+
+    /**
+     * Elimina el último nodo de la lista.
+     * 
+     * Pasos:
+     * 1. Si la lista está vacía, no hacemos nada.
+     * 2. Si solo hay un nodo, lo eliminamos (ultimo = null).
+     * 3. Si hay varios, buscamos el penúltimo y lo enlazamos a la cabeza.
+     */
+    public void eliminarUltimo() {
+        if (ultimo == null) {
+            System.out.println("Error: La lista está vacía. No hay nada que eliminar.");
+            return;
+        }
+
+        // Caso especial: solo hay un nodo
+        if (ultimo.siguiente == ultimo) {
+            System.out.println("Eliminando último nodo (único): " + ultimo.dato);
+            ultimo = null;
+            return;
+        }
+
+        // Caso general: hay varios nodos
+        // Buscamos el penúltimo nodo (el que apunta a ultimo)
+        // ANTES: (cabeza) -> ... -> (penúltimo) -> (último) -> (cabeza)
+        //
+        Nodo penultimo = ultimo;
+        while (penultimo.siguiente != ultimo) {
+            penultimo = penultimo.siguiente;
+        }
+
+        System.out.println("Eliminando último nodo: " + ultimo.dato);
+
+        // Hacemos que el penúltimo apunte a la cabeza (cerrando el círculo sin el
+        // último)
+        penultimo.siguiente = ultimo.siguiente; // o penultimo.siguiente = cabeza
+        // Movemos ultimo para que sea el penúltimo
+        ultimo = penultimo;
+        //
+        // DESPUÉS: (cabeza) -> ... -> (penúltimo/nuevo_último) -> (cabeza)
+    }
+
+    /**
+     * Elimina el nodo en la posición n (1-indexed).
+     * 
+     * Ejemplo: Si posicion=1, elimina el primer nodo (la cabeza).
+     * Si posicion=2, elimina el segundo nodo.
+     * 
+     * Pasos:
+     * 1. Validar que la posición sea válida.
+     * 2. Buscar el nodo anterior al que queremos eliminar.
+     * 3. Re-enlazar para saltarse el nodo a eliminar.
+     * 
+     * @param posicion La posición del nodo a eliminar (1-indexed).
+     */
+    public void eliminarPosicion(int posicion) {
+        if (ultimo == null) {
+            System.out.println("Error: La lista está vacía. No hay nada que eliminar.");
+            return;
+        }
+
+        // Validar que la posición sea positiva
+        if (posicion < 1) {
+            System.out.println("Error: La posición debe ser >= 1.");
+            return;
+        }
+
+        // Caso especial: eliminar el primer nodo
+        if (posicion == 1) {
+            eliminarPrimero();
+            return;
+        }
+
+        // Caso general: contar hasta la posición anterior a la que queremos eliminar
+        Nodo anterior = ultimo.siguiente; // Comenzamos en la cabeza
+        int contador = 1;
+
+        // Buscamos el nodo anterior
+        while (contador < posicion - 1 && anterior.siguiente != ultimo.siguiente) {
+            anterior = anterior.siguiente;
+            contador++;
+        }
+
+        Nodo nodoAEliminar = anterior.siguiente;
+
+        // Validar que la posición existe
+        // Si hemos llegado al final de la lista sin encontrar la posición
+        if (contador + 1 > getLongitud()) {
+            System.out.println("Error: La posición " + posicion + " está fuera de rango.");
+            return;
+        }
+
+        // ANTES: ... -> (anterior) -> (nodoAEliminar) -> (siguiente) -> ...
+        //
+        System.out.println("Eliminando nodo en posición " + posicion + ": " + nodoAEliminar.dato);
+
+        // Re-enlazamos saltándonos el nodo a eliminar
+        anterior.siguiente = nodoAEliminar.siguiente;
+
+        // Si el nodo a eliminar era el último, actualizar ultimo
+        if (nodoAEliminar == ultimo) {
+            ultimo = anterior;
+        }
+        //
+        // DESPUÉS: ... -> (anterior) -> (siguiente) -> ...
+    }
+
+    /**
+     * Método auxiliar: retorna la longitud de la lista.
+     */
+    private int getLongitud() {
+        if (ultimo == null) {
+            return 0;
+        }
+        Nodo temp = ultimo.siguiente;
+        int contador = 1;
+        while (temp != ultimo) {
+            contador++;
+            temp = temp.siguiente;
+        }
+        return contador;
+    }
+
+    /**
      * Recorre y muestra todos los elementos de la lista.
      */
     public void mostrarLista() {
@@ -137,5 +294,26 @@ public class lista {
 
         System.out.println("\nLa lista despues de insertar al final es: ");
         lista.mostrarLista(); // Debería mostrar 10 -> 20 -> 30 -> 40
+
+        System.out.println("\n=== PRUEBAS DE ELIMINACIÓN ===");
+
+        // EJEMPLO 1: Eliminar el primer nodo
+        System.out.println("\n1. Eliminando el primer nodo:");
+        lista.eliminarPrimero();
+        lista.mostrarLista();
+
+        // EJEMPLO 2: Eliminar el último nodo
+        System.out.println("\n2. Eliminando el último nodo:");
+        lista.eliminarUltimo();
+        lista.mostrarLista();
+
+        // EJEMPLO 3: Eliminar en posición específica
+        System.out.println("\n3. Eliminando el nodo en posición 1:");
+        lista.eliminarPosicion(1);
+        lista.mostrarLista();
+
+        // EJEMPLO 4: Aclarar que la lista es circular
+        System.out.println("\n4. Estado final de la lista circular:");
+        lista.mostrarLista();
     }
 }

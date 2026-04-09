@@ -158,7 +158,7 @@ Las pilas siguen el principio **LIFO** (Last In, First Out) - el último element
 
 #### 📋 Documentación Teórica
 
-- **[pilas/README.md](pilas/README.md)** - Guía exhaustiva con diagramas detallados de operaciones, casos de uso y ejercicios resueltos
+- **[Pilas.md](Pilas.md)** - Guía exhaustiva con diagramas detallados de operaciones, casos de uso y ejercicios resueltos
 
 #### 🎯 Operaciones Fundamentales
 
@@ -206,7 +206,7 @@ Las colas siguen el principio **FIFO** (First In, First Out) - el primero en ent
 
 #### 📋 Documentación Teórica
 
-- **[colas/README.md](colas/README.md)** - Explicación detallada con diagramas, ejercicios complementarios y analogías visuales
+- **[Colas.md](Colas.md)** - Explicación detallada con diagramas, ejercicios complementarios y analogías visuales
 
 #### 🎯 Operaciones Fundamentales
 

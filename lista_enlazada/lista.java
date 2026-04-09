@@ -149,6 +149,129 @@ public class lista {
     }
 
     /**
+     * Elimina el primer nodo de la lista (la cabeza).
+     * 
+     * Pasos:
+     * 1. Si la lista está vacía, no hacemos nada.
+     * 2. Si hay nodos, movemos la cabeza al siguiente nodo.
+     * 3. El primer nodo se desglosa automáticamente (garbage collection).
+     */
+    public void eliminarPrimero() {
+        if (cabeza == null) {
+            System.out.println("Error: La lista está vacía. No hay nada que eliminar.");
+            return;
+        }
+
+        // ANTES: [cabeza] -> [nodo2] -> [nodo3] -> ...
+        //
+        // Movemos la cabeza al siguiente nodo:
+        System.out.println("Eliminando primer nodo: " + cabeza.dato);
+        cabeza = cabeza.siguiente;
+        //
+        // DESPUÉS: [nodo2] -> [nodo3] -> ...
+        // (El anterior cabeza se descarta automáticamente)
+    }
+
+    /**
+     * Elimina el último nodo de la lista.
+     * 
+     * Pasos:
+     * 1. Si la lista está vacía, no hacemos nada.
+     * 2. Si solo hay un nodo, lo eliminamos (cabeza = null).
+     * 3. Si hay varios, buscamos el penúltimo y cortamos su enlace.
+     */
+    public void eliminarUltimo() {
+        if (cabeza == null) {
+            System.out.println("Error: La lista está vacía. No hay nada que eliminar.");
+            return;
+        }
+
+        // Caso especial: solo hay un nodo
+        if (cabeza.siguiente == null) {
+            System.out.println("Eliminando último nodo (único): " + cabeza.dato);
+            cabeza = null;
+            return;
+        }
+
+        // Caso general: hay varios nodos
+        // ANTES: [nodo1] -> [nodo2] -> ... -> [penúltimo] -> [último] -> NULL
+        //
+        // Buscamos el penúltimo nodo
+        Nodo penultimo = cabeza;
+        while (penultimo.siguiente.siguiente != null) {
+            penultimo = penultimo.siguiente;
+        }
+
+        // Mostramos qué eliminamos
+        System.out.println("Eliminando último nodo: " + penultimo.siguiente.dato);
+
+        // Cortamos el enlace: penúltimo apunta a null
+        penultimo.siguiente = null;
+        //
+        // DESPUÉS: [nodo1] -> [nodo2] -> ... -> [penúltimo] -> NULL
+    }
+
+    /**
+     * Elimina el nodo en la posición n (1-indexed).
+     * 
+     * Ejemplo: Si posicion=1, elimina el primer nodo.
+     * Si posicion=2, elimina el segundo nodo.
+     * 
+     * Pasos:
+     * 1. Validar que la posición sea válida.
+     * 2. Si es posición 1, simplemente eliminamos la cabeza.
+     * 3. Si no, buscamos el nodo anterior y reenlazamos.
+     * 
+     * @param posicion La posición del nodo a eliminar (1-indexed).
+     */
+    public void eliminarPosicion(int posicion) {
+        if (cabeza == null) {
+            System.out.println("Error: La lista está vacía. No hay nada que eliminar.");
+            return;
+        }
+
+        // Validar que la posición sea positiva
+        if (posicion < 1) {
+            System.out.println("Error: La posición debe ser >= 1.");
+            return;
+        }
+
+        // Caso especial: eliminar el primer nodo
+        if (posicion == 1) {
+            System.out.println("Eliminando nodo en posición 1: " + cabeza.dato);
+            cabeza = cabeza.siguiente;
+            return;
+        }
+
+        // Caso general: buscar el nodo anterior al que queremos eliminar
+        Nodo actual = cabeza;
+        int contador = 1;
+
+        // Recorremos hasta encontrar el nodo anterior al que queremos eliminar
+        while (actual.siguiente != null && contador < posicion - 1) {
+            actual = actual.siguiente;
+            contador++;
+        }
+
+        // Validar que la posición existe
+        if (actual.siguiente == null) {
+            System.out.println("Error: La posición " + posicion + " está fuera de rango.");
+            return;
+        }
+
+        // ANTES: ... -> [actual] -> [nodoAEliminar] -> [siguiente] -> ...
+        //
+        Nodo nodoAEliminar = actual.siguiente;
+        System.out.println("Eliminando nodo en posición " + posicion + ": " + nodoAEliminar.dato);
+
+        // Re-enlazamos saltándonos el nodo a eliminar
+        actual.siguiente = nodoAEliminar.siguiente;
+        //
+        // DESPUÉS: ... -> [actual] -> [siguiente] -> ...
+        // (nodoAEliminar se descarta automáticamente)
+    }
+
+    /**
      * Muestra la lista completa desde el inicio hasta el fin.
      */
     public void mostrarLista() {
@@ -182,17 +305,26 @@ public class lista {
         System.out.println("\nLa lista después de insertar al final es:");
         lista.mostrarLista();
 
-        // Prueba de inserción condicional
-        // El primer nodo >= 30 es el 30. Se insertará 35 después de él.
-        lista.insertarDespuesDeCualquierNodoQueSeaMayorQue(35, 30);
-        System.out.println("La lista después de la inserción condicional es:");
+        System.out.println("\n=== PRUEBAS DE ELIMINACIÓN ===");
+
+        // EJEMPLO 1: Eliminar el primer nodo
+        System.out.println("\n1. Eliminando el primer nodo:");
+        lista.eliminarPrimero();
         lista.mostrarLista();
 
-        // Prueba de inserción en posición fija
-        // La lista es: 10 -> 20 -> 30 -> 35 -> 40 -> 50
-        // El 3er nodo es 30. Se insertará 25 después de él.
-        lista.insertarDespuesDeLosTresPrimerosNodos(25);
-        System.out.println("La lista después de insertar en la 3ra posición es:");
+        // EJEMPLO 2: Eliminar el último nodo
+        System.out.println("\n2. Eliminando el último nodo:");
+        lista.eliminarUltimo();
+        lista.mostrarLista();
+
+        // EJEMPLO 3: Eliminar en posición específica
+        System.out.println("\n3. Eliminando el nodo en posición 2:");
+        lista.eliminarPosicion(2);
+        lista.mostrarLista();
+
+        // EJEMPLO 4: Intentar eliminar en posición inválida
+        System.out.println("\n4. Intentando eliminar en posición 20 (fuera de rango):");
+        lista.eliminarPosicion(20);
         lista.mostrarLista();
     }
 }
