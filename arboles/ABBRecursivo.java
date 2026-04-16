@@ -1,13 +1,65 @@
 /**
- * Arbol.java (Implementación Recursiva)
+ * ============================================================================
+ *   🌲 ÁRBOL BINARIO DE BÚSQUEDA (ABB) - IMPLEMENTACIÓN RECURSIVA 🌲
+ * ============================================================================
  *
- * Esta clase implementa un Árbol Binario de Búsqueda (ABB) utilizando
- * exclusivamente métodos recursivos. La recursión es un enfoque muy natural
- * y elegante para las estructuras de datos jerárquicas como los árboles,
- * ya que las operaciones en un árbol completo a menudo se pueden definir
- * en términos de la misma operación en sus subárboles (izquierdo y derecho).
+ * ¿QUÉ ES ESTE ARCHIVO?
+ * Este archivo contiene la implementación "elegante" y matemática de un ABB.
+ * Utiliza la RECURSIVIDAD para todas sus operaciones principales (insertar,
+ * eliminar, buscar, recorrer).
+ *
+ * LA MAGIA DE LA RECURSIÓN EN ÁRBOLES
+ * Piensa en un árbol no como una gran estructura monolítica, sino como un
+ * nodo unido a dos "mini-árboles" (sus subárboles).
+ * 
+ *        (10)  <-- Nodo actual
+ *        /  \
+ *      (5)  (15) <-- Cada hijo es, a su vez, la raíz de su propio mini-árbol.
+ * 
+ * La recursividad nos permite pensar así: "Para insertar un número en el árbol
+ * gigante, solo lo comparo con la raíz actual. Si es menor, le digo al subárbol
+ * izquierdo que se encargue él del problema repitiendo este mismo proceso".
+ * 
+ * ----------------------------------------------------------------------------
+ * 🚀 EJEMPLO VISUAL PASO A PASO: INSERTAR EL NÚMERO 7
+ * ----------------------------------------------------------------------------
+ * Queremos insertar el 7 en este árbol inicial:
+ * 
+ *         [10]
+ *        /    \
+ *      [5]    [15]
+ *        \
+ *        [8]
+ * 
+ * PASO 1: insertarRecursivo(nodo=10, valor=7)
+ *         ¿7 < 10? SÍ. Bajamos por la izquierda y "pausamos" este paso.
+ * 
+ * PASO 2: insertarRecursivo(nodo=5, valor=7)
+ *         ¿7 < 5? NO. ¿7 > 5? SÍ. Bajamos por la derecha y "pausamos".
+ * 
+ * PASO 3: insertarRecursivo(nodo=8, valor=7)
+ *         ¿7 < 8? SÍ. Bajamos por la izquierda y "pausamos".
+ * 
+ * PASO 4: insertarRecursivo(nodo=null, valor=7)  <-- ¡BINGO! CASO BASE.
+ *         Hemos llegado a un espacio vacío. La recursión toca fondo.
+ *         Creamos el nuevo nodo [7] y se lo "devolvemos" (return) al paso 3.
+ * 
+ * EL DESENLACE (Desenrollando las pausas):
+ *         - El nodo [8] recibe el [7] y lo engancha a su izquierda.
+ *         - El nodo [5] actualiza su derecha (sigue siendo el [8], todo bien).
+ *         - El nodo [10] actualiza su izquierda (sigue siendo el [5]).
+ * 
+ * ÁRBOL RESULTANTE:
+ *         [10]
+ *        /    \
+ *      [5]    [15]
+ *        \
+ *        [8]
+ *        /
+ *      [7] <-- ¡Nuevo nodo conectado mágicamente por el retorno recursivo!
+ * ============================================================================
  */
-public class Arbol {
+public class ABBRecursivo {
 
     /**
      * ESTRUCTURA DEL NODO
@@ -39,7 +91,7 @@ public class Arbol {
 
     Nodo raiz;
 
-    public Arbol() {
+    public ABBRecursivo() {
         this.raiz = null;
     }
 
@@ -61,7 +113,8 @@ public class Arbol {
      */
     private Nodo insertarRecursivo(Nodo nodoActual, int valor) {
         // --- PASO 1: CASO BASE - EL PUNTO DE PARADA ---
-        // ¿Qué hace? Comprueba si hemos llegado a un espacio vacío (una referencia nula).
+        // ¿Qué hace? Comprueba si hemos llegado a un espacio vacío (una referencia
+        // nula).
         // ¿Por qué? La recursión debe terminar. Este es el final del camino: hemos
         // encontrado el lugar exacto donde debe ir el nuevo nodo. Creamos el nodo
         // y lo retornamos para que la llamada anterior (su padre) lo "enganche".
@@ -70,7 +123,8 @@ public class Arbol {
         }
 
         // --- PASO 2: PASO RECURSIVO - LA DECISIÓN Y LA LLAMADA ---
-        // ¿Qué hace? Compara el valor con el dato del nodo actual para decidir a dónde ir.
+        // ¿Qué hace? Compara el valor con el dato del nodo actual para decidir a dónde
+        // ir.
         // ¿Por qué? Para mantener la propiedad del ABB.
         if (valor < nodoActual.dato) {
             // ¿Qué hace? Llama a la misma función, pero para el subárbol izquierdo.
@@ -96,11 +150,13 @@ public class Arbol {
      */
     private Nodo eliminarRecursivo(Nodo nodoActual, int valor) {
         // --- PASO 1: BÚSQUEDA - ENCONTRAR EL NODO ---
-        // ¿Qué hace? Si llegamos a un nulo, el valor no existe. Es el caso base de la búsqueda.
+        // ¿Qué hace? Si llegamos a un nulo, el valor no existe. Es el caso base de la
+        // búsqueda.
         if (nodoActual == null) {
             return null;
         }
-        // ¿Qué hace? Llama recursivamente para bajar por el árbol hasta encontrar el nodo.
+        // ¿Qué hace? Llama recursivamente para bajar por el árbol hasta encontrar el
+        // nodo.
         if (valor < nodoActual.dato) {
             nodoActual.izquierdo = eliminarRecursivo(nodoActual.izquierdo, valor);
         } else if (valor > nodoActual.dato) {
@@ -160,18 +216,47 @@ public class Arbol {
     }
 
     private void inOrdenRecursivo(Nodo nodo) {
-        // Secuencia: Izquierda -> Raíz -> Derecha. Visita los nodos en orden ascendente.
+        // Secuencia: Izquierda -> Raíz -> Derecha. Visita los nodos en orden
+        // ascendente.
         if (nodo != null) {
-            inOrdenRecursivo(nodo.izquierdo);   // 1. Resuelve todo lo de la izquierda primero.
+            inOrdenRecursivo(nodo.izquierdo); // 1. Resuelve todo lo de la izquierda primero.
             System.out.print(nodo.dato + " "); // 2. Luego visita la raíz actual.
-            inOrdenRecursivo(nodo.derecho);    // 3. Finalmente, resuelve todo lo de la derecha.
+            inOrdenRecursivo(nodo.derecho); // 3. Finalmente, resuelve todo lo de la derecha.
         }
     }
-    // ... (Los otros recorridos siguen una lógica similar de ordenar las 3 acciones)
-    public void recorridoPreOrden() { System.out.print("Pre-Orden (Recursivo): "); preOrdenRecursivo(raiz); System.out.println(); }
-    private void preOrdenRecursivo(Nodo nodo) { if (nodo != null) { System.out.print(nodo.dato + " "); preOrdenRecursivo(nodo.izquierdo); preOrdenRecursivo(nodo.derecho); } }
-    public void recorridoPostOrden() { System.out.print("Post-Orden (Recursivo):"); postOrdenRecursivo(raiz); System.out.println(); }
-    private void postOrdenRecursivo(Nodo nodo) { if (nodo != null) { postOrdenRecursivo(nodo.izquierdo); postOrdenRecursivo(nodo.derecho); System.out.print(nodo.dato + " "); } }
+
+    // ... (Los otros recorridos siguen una lógica similar de ordenar las 3
+    // acciones)
+    public void recorridoPreOrden() {
+        System.out.print("Pre-Orden (Recursivo): ");
+        preOrdenRecursivo(raiz);
+        System.out.println();
+    }
+
+    private void preOrdenRecursivo(Nodo nodo) {
+        // Secuencia: Raíz -> Izquierda -> Derecha. Usa la raíz antes de explorar los
+        // hijos.
+        if (nodo != null) {
+            System.out.print(nodo.dato + " "); // 1. Visita la raíz primero.
+            preOrdenRecursivo(nodo.izquierdo); // 2. Luego resuelve la izquierda.
+            preOrdenRecursivo(nodo.derecho); // 3. Finalmente resuelve la derecha.
+        }
+    }
+
+    public void recorridoPostOrden() {
+        System.out.print("Post-Orden (Recursivo):");
+        postOrdenRecursivo(raiz);
+        System.out.println();
+    }
+
+    private void postOrdenRecursivo(Nodo nodo) {
+        // Secuencia: Izquierda -> Derecha -> Raíz. Deja la raíz para el final.
+        if (nodo != null) {
+            postOrdenRecursivo(nodo.izquierdo); // 1. Izquierda primero.
+            postOrdenRecursivo(nodo.derecho); // 2. Luego derecha.
+            System.out.print(nodo.dato + " "); // 3. Finalmente la raíz.
+        }
+    }
 
     /**
      * CALCULAR ALTURA (Interfaz pública)
@@ -218,25 +303,28 @@ public class Arbol {
             return true;
         }
         // --- LÓGICA DE VALIDACIÓN ---
-        // ¿Qué hace? Comprueba si el valor del nodo actual está fuera del rango [min, max]
+        // ¿Qué hace? Comprueba si el valor del nodo actual está fuera del rango [min,
+        // max]
         // permitido por sus ancestros.
         // ¿Por qué? No basta con comparar con el padre directo. Un nodo debe respetar a
-        // TODOS sus ancestros. Este rango que se va estrechando garantiza esta propiedad global.
+        // TODOS sus ancestros. Este rango que se va estrechando garantiza esta
+        // propiedad global.
         if ((min != null && nodo.dato <= min) || (max != null && nodo.dato >= max)) {
             return false;
         }
         // --- PASO RECURSIVO ---
         // ¿Qué hace? Llama a la función para sus hijos con los rangos actualizados.
-        // ¿Por qué? Al ir a la izquierda, el valor del nodo actual se convierte en el nuevo MÁXIMO
+        // ¿Por qué? Al ir a la izquierda, el valor del nodo actual se convierte en el
+        // nuevo MÁXIMO
         // permitido. Al ir a la derecha, se convierte en el nuevo MÍNIMO.
         return esArbolValidoRecursivo(nodo.izquierdo, min, nodo.dato) &&
-               esArbolValidoRecursivo(nodo.derecho, nodo.dato, max);
+                esArbolValidoRecursivo(nodo.derecho, nodo.dato, max);
     }
 
     public static void main(String[] args) {
         Arbol arbol = new Arbol();
         System.out.println("--- ÁRBOL RECURSIVO ---");
-        int[] valores = {10, 5, 15, 3, 7, 12, 18};
+        int[] valores = { 10, 5, 15, 3, 7, 12, 18 };
         System.out.print("Insertando: ");
         for (int valor : valores) {
             System.out.print(valor + " ");
@@ -247,7 +335,7 @@ public class Arbol {
         arbol.recorridoInOrden();
         arbol.recorridoPreOrden();
         arbol.recorridoPostOrden();
-        
+
         System.out.println("\nLa altura del arbol es: " + arbol.calcularAltura());
         System.out.println("El arbol es un ABB valido? " + (arbol.esArbolValido() ? "Si" : "No"));
 

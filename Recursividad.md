@@ -7,116 +7,122 @@ Toda función recursiva se sostiene sobre dos pilares fundamentales:
 1. **Caso Base:** La condición que detiene la "inmersión". Es el sueño más simple, el problema tan pequeño que tiene una respuesta inmediata. Sin esto, la función se llamaría a sí misma infinitamente, causando un **desbordamiento de pila (Stack Overflow)**.
 2. **Paso Recursivo:** La parte de la función que se llama a sí misma, pero con un problema ligeramente más pequeño, acercándose cada vez más al caso base.
 
-## ⚙️ 1. Anatomía de una Llamada Recursiva: `factorial(3)`
+## ⚙️ Anatomía de una Llamada Recursiva: `factorial(4)`
 
-Para visualizarlo, analizaremos la función `factorial(n)`, que calcula `n * (n-1) * ... * 1`.
+Para visualizarlo, analizaremos la función matemática `factorial(n)`, que calcula la multiplicación de todos los números desde `n` hasta `1`.
 
 ### 🔹 Definición Técnica
 
-La función se define por dos reglas:
+La función se define por dos reglas fundamentales:
 
 - **Paso Recursivo:** `factorial(n) = n * factorial(n - 1)`
-- **Caso Base:** `factorial(0) = 1`
+- **Caso Base:** `factorial(1) = 1`
 
-Vamos a seguir el viaje de `factorial(3)` paso a paso, viendo cómo se sumerge hasta el fondo y cómo regresa con la solución.
+Vamos a seguir el viaje de `factorial(4)` paso a paso, viendo cómo se sumerge hasta el fondo y cómo regresa con la solución.
+
+```text
+DIAGRAMA DEL PROCESO (Factorial de 4):
+=======================================================
+factorial(4)
+ |__ devuelve: 4 * factorial(3)
+                   |__ devuelve: 3 * factorial(2)
+                                     |__ devuelve: 2 * factorial(1)
+                                                       |__ devuelve: 1 (Caso Base)
+
+EL REGRESO (Desenrollando la pila de llamadas):
+2 * 1 = 2
+3 * 2 = 6
+4 * 6 = 24  <-- Resultado Final
+```
 
 ### 🚀 Fase 1: La Inmersión (Apilando Llamadas)
 
-Cada llamada a la función es un nuevo "nivel de sueño" que queda en espera hasta que el nivel más profundo se resuelva.
+Cada llamada a la función es un nuevo "nivel de sueño" (un marco en la pila de llamadas del sistema) que queda en pausa, esperando a que el nivel más profundo se resuelva.
 
-**Paso 1: Llamada inicial**
-`factorial(3)` no puede resolverse directamente. Llama a `factorial(2)` y espera su resultado.
+- **Paso 1:** `factorial(4)` no sabe su respuesta. Llama a `factorial(3)` y se pausa.
+- **Paso 2:** `factorial(3)` tampoco lo sabe. Llama a `factorial(2)` y se pausa.
+- **Paso 3:** `factorial(2)` hace lo mismo llamando a `factorial(1)`.
+- **Paso 4 (Caso Base):** `factorial(1)` sí sabe la respuesta. No necesita llamar a nadie más, simplemente **devuelve 1**. ¡Aquí tocamos fondo y empieza el regreso!
 
-```ascii
-      Pila de Llamadas
-  +-------------------------+
-  | factorial(3)            | <-- Esperando...
-  +-------------------------+
+### ✨ Fase 2: El Desenlace (Desenrollando la pila)
+
+La solución del nivel más profundo permite que cada nivel superior "despierte", complete su multiplicación pendiente y pase el resultado hacia arriba.
+
+- **Primer despertar:** `factorial(2)` recibe el `1`. Multiplica `2 * 1 = 2` y lo devuelve.
+- **Segundo despertar:** `factorial(3)` recibe el `2`. Multiplica `3 * 2 = 6` y lo devuelve.
+- **Regreso final:** `factorial(4)` recibe el `6`. Multiplica `4 * 6 = 24` y entrega el resultado final al programa principal. La pila de llamadas vuelve a quedar vacía.
+
+---
+
+## 🤯 Tipos de Recursividad
+
+No todas las funciones recursivas se comportan igual. Dependiendo de dónde y cómo se haga la llamada, se clasifican en:
+
+1. **Recursividad Lineal (Simple):** La función se llama a sí misma **una sola vez** por cada ejecución. El ejemplo del `factorial` y recorrer una lista es recursividad lineal.
+2. **Recursividad Múltiple (Ramificada):** La función hace **dos o más llamadas** a sí misma por ejecución. Esto genera un *árbol de llamadas* en lugar de una línea recta (por ejemplo, recorrer un árbol binario o la sucesión de Fibonacci).
+3. **Recursividad de Cola (Tail Recursion):** Es una optimización vital en programación funcional. Ocurre cuando la llamada recursiva es **absolutamente la última operación** que se ejecuta, sin dejar ningún cálculo pendiente (como la multiplicación en el factorial). Algunos lenguajes compilan esto como un bucle tradicional, salvando toda la memoria de la Pila de Llamadas.
+
+---
+
+## 📝 Ejercicios Prácticos y Modelos Comunes
+
+### Ejercicio 1: Sucesión de Fibonacci (Recursividad Múltiple)
+
+La serie de Fibonacci es: `0, 1, 1, 2, 3, 5, 8, 13...` 
+Cada número es la suma de los dos anteriores. Su fórmula recursiva es:
+`fib(n) = fib(n-1) + fib(n-2)`
+*Con dos casos base:* `fib(0) = 0` y `fib(1) = 1`
+
+```text
+DIAGRAMA DEL PROCESO (Fibonacci de 3):
+=======================================================
+fib(3)
+ |__ pide sumar: fib(2) + fib(1)
+                   |         |
+                   |         |__ devuelve: 1 (Caso Base)
+                   |
+                   |__ pide sumar: fib(1) + fib(0)
+                                     |        |
+                                     |        |__ devuelve: 0 (Caso Base)
+                                     |
+                                     |__ devuelve: 1 (Caso Base)
+
+EL REGRESO (Subiendo por las ramas):
+- fib(2) resuelve: 1 + 0 = 1
+- fib(3) resuelve: 1 (de fib(2)) + 1 (de fib(1)) = 2 <-- Resultado Final
+```
+*A diferencia del factorial, esta estrategia "múltiple" consume mucho más tiempo si no se memorizan los resultados anteriores, porque recalcula las mismas ramas docenas de veces (por ejemplo, `fib(1)` y `fib(0)` se calcularían muchísimas veces en `fib(50)`).*
+
+### Ejercicio 2: Invertir una Palabra (Manejo de la pila)
+
+Queremos invertir un string, por ejemplo: `"HOLA" -> "ALOH"`.
+**Paso recursivo:** Toma el primer carácter, invierte el resto, y pon ese primer carácter al final.
+**Caso base:** Si la palabra está vacía o tiene un solo carácter, devuélvela igual.
+
+```text
+DIAGRAMA DEL PROCESO: invert("HOLA")
+=======================================================
+invert("HOLA")
+ |__ devuelve: invert("OLA") + "H"
+                 |__ devuelve: invert("LA") + "O"
+                                 |__ devuelve: invert("A") + "L"
+                                                 |__ devuelve: "A" (Caso Base)
+
+EL REGRESO:
+- "A" + "L" = "AL"
+- "AL" + "O" = "ALO"
+- "ALO" + "H" = "ALOH" <-- Resultado Final
 ```
 
-**Paso 2: Segundo nivel**
-`factorial(2)` tampoco puede resolverse. Llama a `factorial(1)` y se pone en espera.
+---
 
-```ascii
-      Pila de Llamadas
-  +-------------------------+
-  | factorial(2)            | <-- Esperando...
-  +-------------------------+
-  | factorial(3)            |
-  +-------------------------+
-```
+## ⚠️ Errores Típicos en Recursividad
 
-**Paso 3: Tercer nivel**
-`factorial(1)` sigue la misma lógica. Llama a `factorial(0)` y espera.
+1. **Olvidar el Caso Base:** Produce el temido error infinito *Stack Overflow*. La recursión literalmente nunca para.
+2. **Paso Recursivo estancado:** Hacer la llamada a la función pero con exactamente los mismos parámetros (ej. `factorial(n)` llama a `factorial(n)` en vez de `n-1`). Esto nunca avanza al caso base y también causa overflow.
+3. **No propagar la devolución (return):** Confundir el retorno de la llamada profunda y "perder" el resultado olvidando poner la palabra de retorno antes de la propia llamada a la función.
 
-```ascii
-      Pila de Llamadas
-  +-------------------------+
-  | factorial(1)            | <-- Esperando...
-  +-------------------------+
-  | factorial(2)            |
-  +-------------------------+
-  | factorial(3)            |
-  +-------------------------+
-```
-
-**Paso 4: ¡El Caso Base\!**
-`factorial(0)` coincide con el **caso base**. No necesita llamar a nadie más. **Tiene una respuesta directa: `1`**. Ahora comienza el viaje de regreso.
-
-```ascii
-      Pila de Llamadas
-  +-------------------------+
-  | factorial(0) -> Devuelve 1 | <-- ¡Resuelto!
-  +-------------------------+
-  | factorial(1)            |
-  +-------------------------+
-  | factorial(2)            |
-  +-------------------------+
-  | factorial(3)            |
-  +-------------------------+
-```
-
-### ✨ Fase 2: El Desenlace (Resolviendo y Retornando)
-
-La solución del nivel más profundo permite que cada nivel superior "despierte" y complete su propia tarea.
-
-**Paso 1: Primer despertar**
-`factorial(1)` recibe el `1` de `factorial(0)`. Ahora puede calcular su resultado: `1 * 1 = 1`. Devuelve `1` al nivel superior.
-
-```ascii
-      Pila de Llamadas
-  +-------------------------+
-  | factorial(1) -> Devuelve 1 | <-- Resuelto y retornando...
-  +-------------------------+
-  | factorial(2)            |
-  +-------------------------+
-  | factorial(3)            |
-  +-------------------------+
-```
-
-**Paso 2: Segundo despertar**
-`factorial(2)` recibe el `1` de `factorial(1)`. Calcula su resultado: `2 * 1 = 2`. Devuelve `2` al nivel superior.
-
-```ascii
-      Pila de Llamadas
-  +-------------------------+
-  | factorial(2) -> Devuelve 2 | <-- Resuelto y retornando...
-  +-------------------------+
-  | factorial(3)            |
-  +-------------------------+
-```
-
-**Paso 3: El regreso final**
-`factorial(3)` recibe el `2` de `factorial(2)`. Calcula el resultado final: `3 * 2 = 6`. Devuelve `6` al programa principal.
-
-```ascii
-      Pila de Llamadas
-  +-------------------------+
-  | factorial(3) -> Devuelve 6 | <-- ¡Resultado Final!
-  +-------------------------+
-
-La pila queda vacía.
-```
+---
 
 ### 🔧 Características Clave
 

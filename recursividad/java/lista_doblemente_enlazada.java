@@ -146,6 +146,77 @@ public class lista_doblemente_enlazada {
         System.out.print(nodo.dato + " ");
     }
 
+    /**
+     * EJERCICIO DE RECURSIVIDAD 5: Comprobar si un dato existe en la lista desde
+     * atrás (partiendo del último nodo)
+     * usando sólo las referencias en el puntero 'anterior'.
+     * 
+     * Explicación:
+     * Empezamos desde el último nodo y, en lugar de avanzar al 'siguiente',
+     * retrocedemos hacia el 'anterior' en cada llamada recursiva. Es como
+     * leer un libro desde la última página hasta la primera.
+     * 
+     * DIAGRAMA DEL PROCESO (Buscar 'A' leyendo hacia atrás: ... <-> A <-> B <-> C):
+     * =======================================================
+     * buscarHaciaAtrasRecursivo(nodo: C, 'A')
+     * |__ 'C' == 'A'? Falso. Devuelve: buscarHaciaAtrasRecursivo(nodo: B, 'A')
+     * |__ 'B' == 'A'? Falso. Devuelve: buscarHaciaAtrasRecursivo(nodo: A, 'A')
+     * |__ 'A' == 'A'? Verdadero (Caso Base).
+     * |__ devuelve: true
+     * 
+     * EL REGRESO (Desenrollando la pila de llamadas):
+     * Devuelve: true
+     * Devuelve: true
+     * Devuelve: true <-- Resultado Final
+     * 
+     * @param ultimoNodo   El nodo a evaluar de una búsqueda inversa (en reversa).
+     * @param datoBusqueda El valor del dato a contrastar.
+     * @return true si es encontrado, false caso contrario.
+     */
+    public boolean buscarHaciaAtrasRecursivo(Nodo ultimoNodo, char datoBusqueda) {
+        if (ultimoNodo == null) {
+            return false;
+        }
+
+        if (ultimoNodo.dato == datoBusqueda) {
+            return true;
+        }
+
+        return buscarHaciaAtrasRecursivo(ultimoNodo.anterior, datoBusqueda);
+    }
+
+    /**
+     * EJERCICIO DE RECURSIVIDAD 6: Eliminar el primer nodo que contenga cierto
+     * valor
+     * 
+     * @param nodo  actual evaluado.
+     * @param valor a borrar.
+     */
+    public void eliminarNodoRecursivo(Nodo nodo, char valor) {
+        if (nodo == null) {
+            return; // no se encontró el valor
+        }
+
+        if (nodo.dato == valor) {
+            // Desenlazar el nodo
+            if (nodo.anterior != null) {
+                Nodo nodoAnterior = nodo.anterior;
+                nodoAnterior.siguiente = nodo.siguiente;
+            } else {
+                // si es la cabeza, actualizamos
+                cabeza = nodo.siguiente;
+            }
+
+            if (nodo.siguiente != null) {
+                Nodo nodoSiguiente = nodo.siguiente;
+                nodoSiguiente.anterior = nodo.anterior;
+            }
+            return; // Borrado exitoso, termina
+        }
+
+        eliminarNodoRecursivo(nodo.siguiente, valor);
+    }
+
     public static void main(String[] args) {
         lista_doblemente_enlazada lista = new lista_doblemente_enlazada();
 

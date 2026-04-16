@@ -57,31 +57,21 @@ public class cola {
      * EJERCICIO DE RECURSIVIDAD 1: Invertir la cola usando la propia pila de
      * llamadas.
      * 
-     * Las colas son estructuras FIFO (First In, First Out - Primero en entrar,
-     * primero en salir).
-     * Si extraemos elementos (dequeue) y los volvemos a insertar (enqueue)
-     * inmediatamente,
-     * el orden seguirá siendo exactamente el mismo.
-     * 
-     * Sin embargo, con ayuda de la recursión, podemos extraer un elemento, esperar
-     * a que
-     * se extraigan e inserten todos los demás, y al final insertar este elemento,
-     * haciendo
-     * que mágicamente su posición se invierta.
-     * 
-     * DIAGRAMA DEL PROCESO (Cola: [10, 20, 30]):
+     * DIAGRAMA DEL PROCESO (Cola: Frente[10, 20, 30]Fondo):
      * =======================================================
-     * LLAMADA 1: invertirRecursivo() en Cola: Frente[10, 20, 30]Fondo
-     * dato = dequeue() -> Sacamos 10. Cola queda [20, 30].
-     * LLAMADA 2: invertirRecursivo()
-     * dato = dequeue() -> Sacamos 20. Cola queda [30].
-     * LLAMADA 3: invertirRecursivo()
-     * dato = dequeue() -> Sacamos 30. Cola queda [].
-     * LLAMADA 4 (Caso base): Cola vacía. Termina.
-     * <- FIN LLAMADA 3: enqueue(dato) -> enqueue(30). Cola: Frente[30]Fondo
-     * <- FIN LLAMADA 2: enqueue(dato) -> enqueue(20). Cola: Frente[30, 20]Fondo
-     * <- FIN LLAMADA 1: enqueue(dato) -> enqueue(10). Cola: Frente[30, 20, 10]Fondo
-     * =======================================================
+     * invertirRecursivo() // Cola actual: [10, 20, 30]
+     * |__ dato = dequeue() -> 10, Cola queda: [20, 30]
+     * |__ invertirRecursivo()
+     * |__ dato = dequeue() -> 20, Cola queda: [30]
+     * |__ invertirRecursivo()
+     * |__ dato = dequeue() -> 30, Cola queda: []
+     * |__ invertirRecursivo()
+     * |__ devuelve: (Caso Base, cola vacía)
+     * 
+     * EL REGRESO (Desenrollando la pila de llamadas):
+     * enqueue(30). Cola queda: [30]
+     * enqueue(20). Cola queda: [30, 20]
+     * enqueue(10). Cola queda: [30, 20, 10] <-- Resultado Final (Invertida)
      */
     public void invertirRecursivo() {
         // CASO BASE: Si la cola está vacía, la recursión termina.
@@ -108,15 +98,16 @@ public class cola {
     /**
      * EJERCICIO DE RECURSIVIDAD 2: Buscar un elemento en la cola.
      * 
-     * La idea es preguntarle directamente al nodo actual si es el elemento que
-     * buscamos.
-     * - Si lo es, ¡bingo, ya lo encontramos!
-     * - Si no lo es, pasamos la búsqueda a nuestro vecino ("¿Eres el dato?").
-     * - Si llegamos al final (null), entonces no existía.
+     * DIAGRAMA DEL PROCESO (Buscar 20 en [10, 20, 30]):
+     * =======================================================
+     * buscar(nodo: 10, valor: 20)
+     * |__ 10 == 20? Falso. Devuelve: buscar(nodo: 20, valor: 20)
+     * |__ 20 == 20? Verdadero. (Caso Base - Éxito)
+     * |__ devuelve: true
      * 
-     * EJEMPLO DE BÚSQUEDA DEL "20" EN LA COLA [10, 20, 30]:
-     * buscar(nodo=10, 20) -> (10 == 20? No) -> retorna buscar(nodo=20, 20)
-     * buscar(nodo=20, 20) -> (20 == 20? SÍ) -> retorna true!
+     * EL REGRESO (Desenrollando la pila de llamadas):
+     * Devuelve: true
+     * Devuelve: true <-- Resultado Final
      * 
      * @param nodo  El nodo actual desde el cual se sigue la búsqueda.
      * @param valor El valor a buscar.
@@ -138,6 +129,72 @@ public class cola {
         // así que delegamos la responsabilidad de seguir buscando en los nodos
         // siguientes.
         return buscarElementoRecursivo(nodo.siguiente, valor);
+    }
+
+    /**
+     * EJERCICIO DE RECURSIVIDAD 3: Contar todos los elementos de la cola.
+     * 
+     * DIAGRAMA DEL PROCESO (Contar elementos en cola con [10, 20]):
+     * =======================================================
+     * contar(nodo: 10)
+     * |__ devuelve: 1 + contar(nodo: 20)
+     * |__ devuelve: 1 + contar(nodo: null)
+     * |__ devuelve: 0 (Caso Base, fin de cola)
+     * 
+     * EL REGRESO (Desenrollando la pila de llamadas):
+     * 1 + 0 = 1
+     * 1 + 1 = 2 <-- Resultado Final
+     * 
+     * @param nodo El nodo actual en evaluación.
+     * @return El recuento restante de elementos
+     */
+    public int contarElementosRecursivo(Nodo nodo) {
+        if (nodo == null) {
+            return 0;
+        }
+
+        return 1 + contarElementosRecursivo(nodo.siguiente);
+    }
+
+    /**
+     * EJERCICIO DE RECURSIVIDAD 4: Eliminar una aparición específica de la cola.
+     * Si encuentra el valor lo descarta ajustando los enlaces.
+     * 
+     * DIAGRAMA DEL PROCESO (Eliminar 20 en [10, 20, 30]):
+     * =======================================================
+     * eliminar(nodo: 10, prev: null)
+     * |__ 10 == 20? Falso. Llama: eliminar(nodo: 20, prev: 10)
+     * |__ 20 == 20? Verdadero. (Caso Base - Éxito)
+     * |__ prev.siguiente = nodo.siguiente -> 10.siguiente = 30
+     * |__ termina llamada
+     * 
+     * EL REGRESO (Desenrollando la pila de llamadas):
+     * termina llamada
+     * Cola final queda como: [10, 30]
+     * 
+     * @param nodo    El nodo actual a evaluar.
+     * @param prev    El nodo previo (para asegurar el enlace).
+     * @param aBorrar Valor del nodo que queremos borrar.
+     */
+    public void eliminarRecursivo(Nodo nodo, Nodo prev, int aBorrar) {
+        if (nodo == null) {
+            return;
+        }
+
+        if (nodo.dato == aBorrar) {
+            if (prev != null) {
+                prev.siguiente = nodo.siguiente;
+                if (nodo.siguiente == null) {
+                    final_de_cola = prev; // si eliminamos el de atrás
+                }
+            } else {
+                dequeue();
+                return;
+            }
+            return;
+        }
+
+        eliminarRecursivo(nodo.siguiente, nodo, aBorrar);
     }
 
     public void mostrar() {

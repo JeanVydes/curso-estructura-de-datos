@@ -105,35 +105,25 @@ public class pila {
     /**
      * EJERCICIO DE RECURSIVIDAD 3: Invertir la pila.
      * 
-     * MÁGIA DE LA PILA DE LLAMADAS:
-     * Si nosotros extraemos (pop) todos los elementos de la pila y guardamos
-     * cada uno en una llamada recursiva, al regresar de la recursión los habremos
-     * sacado desde el primero hasta el último. Al meterlos "al fondo", el orden
-     * queda completamente invertido.
+     * DIAGRAMA DEL PROCESO (Pila: Cima[A, B, C]Fondo):
+     * =======================================================
+     * invertirPila() // Pila actual: [A, B, C]
+     * |__ dato = pop() -> 'A', Pila queda: [B, C]
+     * |__ invertirPila()
+     * |__ dato = pop() -> 'B', Pila queda: [C]
+     * |__ invertirPila()
+     * |__ dato = pop() -> 'C', Pila queda: []
+     * |__ invertirPila()
+     * |__ devuelve: (Caso Base, pila vacía)
      * 
-     * PROCESO EJEMPLIFICADO (Pila original: Cima[A, B, C]Fondo):
-     * 
-     * -> invertirPila([A, B, C])
-     * Saca 'A', llama invertirPila([B, C])
-     * 
-     * -> invertirPila([B, C])
-     * Saca 'B', llama invertirPila([C])
-     * 
-     * -> invertirPila([C])
-     * Saca 'C', llama invertirPila([])
-     * 
-     * -> invertirPila([]) -> Caso Base (retorna)
-     * 
-     * <- Inserta 'C' en el fondo de [] => Pila: [C]
-     * 
-     * <- Inserta 'B' en el fondo de [C] => Pila: Cima[C, B]Fondo
-     * 
-     * <- Inserta 'A' en el fondo de [C, B] => Pila: Cima[C, B, A]Fondo
-     * (¡Invertida!)
+     * EL REGRESO (Desenrollando la pila de llamadas):
+     * Inserta 'C' al fondo de []. Pila queda: Cima[C]Fondo
+     * Inserta 'B' al fondo de [C]. Pila queda: Cima[C, B]Fondo
+     * Inserta 'A' al fondo de [C, B]. Pila queda: Cima[C, B, A]Fondo <-- Resultado
+     * Final (Invertida)
      */
     public void invertirPila() {
         // CASO BASE: Si la pila está vacía, no hay nada que invertir.
-        // La recursión se detiene.
         if (estaVacia()) {
             return;
         }
@@ -145,56 +135,73 @@ public class pila {
         // 2. Invertimos el resto de la pila mágicamente mediante recursión.
         invertirPila();
 
-        // 3. Insertamos el elemento que sacamos al inicio, pero en el fondo de la pila.
-        insertarEnElFondo(dato);
+        // 3. Insertamos el elemento que sacamos al fondo, usando un bucle simple
+        Nodo nuevoNodo = new Nodo(dato);
+        if (estaVacia()) {
+            cima = nuevoNodo;
+        } else {
+            Nodo actual = cima;
+            while (actual.siguiente != null) {
+                actual = actual.siguiente;
+            }
+            actual.siguiente = nuevoNodo;
+        }
     }
 
     /**
-     * FUNCIÓN AUXILIAR RECURSIVA: Insertar en el fondo.
+     * EJERCICIO DE RECURSIVIDAD 4: Buscar un elemento en la pila de forma
+     * recursiva.
      * 
-     * ¿Por qué necesitamos esto? En una pila tradicional, `push` sólo pone cosas
-     * en la cima (arriba). Si queremos poner algo hasta abajo (fondo), tenemos
-     * que sacar todo lo que está estorbando, poner nuestro elemento, y regresar
-     * lo que sacamos en su mismo orden.
+     * DIAGRAMA DEL PROCESO (Buscar 20 en [10, 20, 30]):
+     * =======================================================
+     * buscar(nodo: 10, valor: 20)
+     * |__ 10 == 20? Falso. Devuelve: buscar(nodo: 20, valor: 20)
+     * |__ 20 == 20? Verdadero. (Caso Base - Éxito)
+     * |__ devuelve: true
      * 
-     * ILUSTRACIÓN ASCII (Insertar 'X' en el fondo de [1, 2]):
-     * ==============================================================
-     * LLAMADA 1: insertarEnElFondo(X) en Pila: Cima[1, 2]Fondo
-     * - ¿Vacía? NO.
-     * - datoTemporal = pop() -> ¡Sacamos el 1! Pila queda [2]
-     * - LLAMADA RECURSIVA a sí misma: insertarEnElFondo(X)
+     * EL REGRESO (Desenrollando la pila de llamadas):
+     * Devuelve: true
+     * Devuelve: true <-- Resultado Final
      * 
-     * LLAMADA 2: insertarEnElFondo(X) en Pila: Cima[2]Fondo
-     * - ¿Vacía? NO.
-     * - datoTemporal = pop() -> ¡Sacamos el 2! Pila queda []
-     * - LLAMADA RECURSIVA a sí misma: insertarEnElFondo(X)
-     * 
-     * LLAMADA 3 (Caso Base): insertarEnElFondo(X) en Pila: Cima[]Fondo
-     * - ¿Vacía? SÍ. -> push(X). Pila queda [X].
-     * - Terminamos y vamos de regreso arriba...
-     * 
-     * <- VOLVEMOS A LLAMADA 2: push(datoTemporal) -> push(2). Pila queda [2, X]
-     * 
-     * <- VOLVEMOS A LLAMADA 1: push(datoTemporal) -> push(1). Pila queda [1, 2, X]
-     * ==============================================================
+     * @param nodo  El nodo actual donde evaluar.
+     * @param valor El valor a buscar en la pila.
+     * @return true si se encuentra, false si llegamos al final sin encontrarlo.
      */
-    private void insertarEnElFondo(int dato) {
-        // CASO BASE: Si la pila está vacía, el fondo es la cima, podemos usar push.
-        if (estaVacia()) {
-            this.push(dato);
-            return;
+    public boolean buscarElementoRecursivo(Nodo nodo, int valor) {
+        if (nodo == null) {
+            return false;
         }
+        if (nodo.dato == valor) {
+            return true;
+        }
+        return buscarElementoRecursivo(nodo.siguiente, valor);
+    }
 
-        // PASO RECURSIVO:
-        // Si no está vacía, quitamos el de arriba para "hacer espacio"...
-        int datoTemporal = this.pop();
-
-        // ... llamamos recursivamente para poner nuestro 'dato' en el fondo
-        insertarEnElFondo(dato);
-
-        // ... y finalmente regresamos a su lugar original el dato que quitamos
-        // como paso previo (ya que todo lo que estaba abajo ya se acomodó).
-        this.push(datoTemporal);
+    /**
+     * EJERCICIO DE RECURSIVIDAD 5: Encontrar el valor máximo en la pila.
+     * 
+     * DIAGRAMA DEL PROCESO (Pila con valores [10, 50, 20]):
+     * =======================================================
+     * obtenerMaximoRecursivo(nodo: 10)
+     * |__ maxResto = obtenerMaximoRecursivo(nodo: 50)
+     * |__ maxResto = obtenerMaximoRecursivo(nodo: 20)
+     * |__ maxResto = obtenerMaximoRecursivo(nodo: null)
+     * |__ devuelve: Integer.MIN_VALUE (Caso Base)
+     * 
+     * EL REGRESO (Desenrollando la pila de llamadas):
+     * Math.max(20, MIN_VALUE) = 20
+     * Math.max(50, 20) = 50
+     * Math.max(10, 50) = 50 <-- Resultado Final (Máximo)
+     * 
+     * @param nodo El nodo actual desde el cual buscar.
+     * @return El valor máximo encontrado.
+     */
+    public int obtenerMaximoRecursivo(Nodo nodo) {
+        if (nodo == null) {
+            return Integer.MIN_VALUE;
+        }
+        int maxResto = obtenerMaximoRecursivo(nodo.siguiente);
+        return Math.max(nodo.dato, maxResto);
     }
 
     public static void main(String[] args) {

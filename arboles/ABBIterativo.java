@@ -2,13 +2,67 @@
 import java.util.LinkedList;
 
 /**
- * ArbolBinarioBusquedaIterativo.java * Esta clase implementa un Árbol Binario
- * de Búsqueda (ABB) utilizando exclusivamente métodos iterativos (bucles while)
- * en lugar de recursión. Esto puede ser más eficiente en términos de uso de
- * memoria para árboles muy profundos, ya que evita el desbordamiento de la pila
- * de llamadas (Stack Overflow).
+ * ============================================================================
+ *   🌲 ÁRBOL BINARIO DE BÚSQUEDA (ABB) - IMPLEMENTACIÓN ITERATIVA 🌲
+ * ============================================================================
+ *
+ * ¿QUÉ ES ESTE ARCHIVO?
+ * Este archivo contiene la implementación "mecánica" y extremadamente eficiente
+ * en memoria de un ABB. En lugar de usar llamadas recursivas, utiliza bucles
+ * clásicos (while) e inteligentemente dos punteros para viajar a pie por los
+ * nodos del árbol.
+ *
+ * ¿POR QUÉ USAR UNA VERSIÓN ITERATIVA?
+ * La recursividad es hermosa y el código queda muy corto (Arbol.java), pero
+ * tiene un defecto mortal para árboles extremadamente desbalanceados: si ingresas
+ * 100,000 números ordenados (1, 2, 3, 4...), tendrías un árbol sin hijos
+ * izquierdos, literalemente una línea recta gigante.
+ *
+ * La recursividad haría 100,000 "pausas" o llamadas a función, consumiendo toda
+ * tu Pila de Llamadas del sistema y causando un error trágico (Stack Overflow).
+ * El enfoque iterativo navega el árbol usando memoria constante O(1), no importa
+ * lo deforme que se vuelva. Protege la memoria a cambio de código más extenso.
+ *
+ * ----------------------------------------------------------------------------
+ * 🚀 EJEMPLO VISUAL PASO A PASO: INSERTAR EL NÚMERO 7
+ * ----------------------------------------------------------------------------
+ * Usamos un "vehículo" explorador llamado `actual` y un "copiloto" llamado
+ * `padre` que recuerda la última posición válida antes de caer al vacío.
+ * 
+ *         [10]
+ *        /    \
+ *      [5]    [15]
+ *        \
+ *        [8]
+ *
+ * INICIO DEL VIAJE (Bucle While buscando un nulo):
+ * `actual` apunta al [10]. `padre` empieza en null.
+ * 
+ * PASO 1 (bucle en 10):
+ *        `padre` copia la posición del `actual`. Ahora `padre` = 10.
+ *         ¿7 < 10? SÍ. `actual` avanza a su izquierda (que es 5).
+ *
+ * PASO 2 (bucle en 5):
+ *         `padre` se queda estacionado en tu última posición (`padre` = 5).
+ *         ¿7 < 5? NO. ¿7 > 5? SÍ. `actual` avanza a su derecha (que es 8).
+ *
+ * PASO 3 (bucle en 8):
+ *         `padre` toma nota (`padre` = 8).
+ *         ¿7 < 8? SÍ. `actual` avanza a su izquierda...
+ * 
+ * ¡BUM! `actual` CAYÓ EN NULL. El bucle while termina, deteniendo el coche.
+ * Sin embargo, el `padre` nos salvó, recordando que antes de caer estábamos
+ * en el 8.
+ *
+ * EL DESENLACE:
+ * Solo queda conectar el [7] nuevo adonde nos diga el copiloto `padre`.
+ * Si el 7 es menor al 8, engánchalo a su izquierda. ¡Listo!
+ *         [8]
+ *        /
+ *      [7] <-- ¡Nuevo nodo conectado perfectamente!
+ * ============================================================================
  */
-public class ArbolBinarioBusquedaIterativo {
+public class ABBIterativo {
 
     static class Nodo {
 
@@ -25,17 +79,18 @@ public class ArbolBinarioBusquedaIterativo {
 
     Nodo raiz;
 
-    public ArbolBinarioBusquedaIterativo() {
+    public ABBIterativo() {
         this.raiz = null;
     }
 
     /**
-     * Inserta un valor en el árbol de forma iterativa. * ¿Qué se busca?
-     * Encontrar la ubicación correcta para el nuevo valor sin romper la regla
-     * del ABB. Un nuevo nodo siempre se insertará como una "hoja" (un nodo sin
-     * hijos). * ¿Cómo se logra? Se desciende por el árbol, comparando en cada
-     * nivel, hasta encontrar un lugar vacío (un puntero null) donde enganchar
-     * el nuevo nodo.
+     * Inserta un valor en el árbol de forma iterativa.
+     * 
+     * ¿Qué se busca? Encontrar la ubicación correcta para el nuevo valor sin romper
+     * la regla del ABB. Un nuevo nodo siempre se insertará como una "hoja" (un nodo sin hijos).
+     * 
+     * ¿Cómo se logra? Se desciende por el árbol de nodo en nodo, usando un bucle while,
+     * hasta encontrar un lugar vacío (un puntero null) donde enganchar el nuevo nodo.
      */
     public void insertar(int valor) {
         Nodo nuevoNodo = new Nodo(valor);
@@ -180,15 +235,18 @@ public class ArbolBinarioBusquedaIterativo {
     }
 
     /**
-     * RECORRIDOS DE MORRIS (SIN PILA) ¿Qué se busca? Recorrer el árbol sin usar
-     * recursión ni una pila explícita. La recursión usa la pila de llamadas del
-     * sistema para recordar a dónde volver. Sin ella, necesitamos un truco para
-     * no perdernos.
+     * RECORRIDOS DE MORRIS (SIN PILA NI RECURSIÓN)
+     * ¿Qué se busca? Recorrer el árbol iterativamente sin sobrecargar la
+     * memoria con un Stack de llamadas.
      *
-     * ¿Cómo se logra? (La idea de los "Hilos") Se modifica temporalmente el
-     * árbol creando "hilos" (punteros de vuelta) desde el nodo más a la derecha
-     * de un subárbol izquierdo hacia su raíz. Este hilo actúa como una "miga de
-     * pan" para saber cómo volver a subir.
+     * ¿Cómo se logra la proeza? A través de hilos (Threads mágicos).
+     * Se modifica temporalmente el árbol en tiempo real creando "hilos" o uniones
+     * entre el último nodo derecho inferior y la raíz. Son como cuerdas para
+     * no perdernos y poder regresar sin que nadie se acuerde con la Pila de dónde
+     * estábamos.
+     * Al terminar de explorar esa rama izquierda, el hilo se corta para dejar el
+     * árbol original intacto. Es ingeniería pura en estructuras de datos con un
+     * costo exacto de memoria O(1) literal.
      */
     public void recorridoInOrdenMorris() {
         System.out.print("In-Orden (Morris):   ");

@@ -113,26 +113,31 @@ Nodo* eliminarRecursivo(Nodo* nodoActual, int valor) {
     return nodoActual;
 }
 
-// --- FUNCIONES DE RECORRIDO
+// --- FUNCIONES DE RECORRIDO ---
 void inOrdenRecursivo(Nodo* nodo) { 
+    // Secuencia: Izquierda -> Raíz -> Derecha. Visita los nodos en orden ascendente.
     if (nodo) { 
-        inOrdenRecursivo(nodo->izquierdo);
-        std::cout << nodo->dato << " ";
-        inOrdenRecursivo(nodo->derecho);
+        inOrdenRecursivo(nodo->izquierdo);   // 1. Resuelve todo lo de la izquierda primero.
+        std::cout << nodo->dato << " ";      // 2. Luego visita la raíz actual.
+        inOrdenRecursivo(nodo->derecho);     // 3. Finalmente, resuelve todo lo de la derecha.
     }
 }
+
 void preOrdenRecursivo(Nodo* nodo) { 
+    // Secuencia: Raíz -> Izquierda -> Derecha. Usa la raíz antes de explorar los hijos.
     if (nodo) { 
-        std::cout << nodo->dato << " "; 
-        preOrdenRecursivo(nodo->izquierdo); 
-        preOrdenRecursivo(nodo->derecho); 
+        std::cout << nodo->dato << " ";      // 1. Visita la raíz primero.
+        preOrdenRecursivo(nodo->izquierdo);  // 2. Luego la izquierda.
+        preOrdenRecursivo(nodo->derecho);    // 3. Finalmente la derecha.
     } 
 }
+
 void postOrdenRecursivo(Nodo* nodo) { 
+    // Secuencia: Izquierda -> Derecha -> Raíz. Deja la raíz para el final.
     if (nodo) { 
-        postOrdenRecursivo(nodo->izquierdo); 
-        postOrdenRecursivo(nodo->derecho); 
-        std::cout << nodo->dato << " "; 
+        postOrdenRecursivo(nodo->izquierdo); // 1. Izquierda primero.
+        postOrdenRecursivo(nodo->derecho);   // 2. Luego derecha.
+        std::cout << nodo->dato << " ";      // 3. Finalmente la raíz.
     } 
 }
 

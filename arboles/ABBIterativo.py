@@ -32,7 +32,7 @@ class Nodo:
         self.derecho = None
 
 
-class ArbolBinarioBusquedaIterativo:
+class ABBIterativo:
     """
     Árbol Binario de Búsqueda con implementación iterativa y algoritmos de Morris.
     """

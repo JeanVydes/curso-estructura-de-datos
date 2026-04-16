@@ -29,7 +29,7 @@ class Nodo:
         self.derecho = None
 
 
-class ArbolBinarioBusqueda:
+class ABBRecursivo:
     """
     Árbol Binario de Búsqueda con implementación recursiva.
     """
