@@ -2,3 +2,31 @@ run
 *.class
 *.zip
 *.jar
+
+# Compilados de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Compilados de C/C++
+*.o
+*.obj
+*.out
+*.exe
+*.dll
+*.so
+*.dylib
+# Propios binarios manuales de prueba
+iterativo
+recursivo
+gs
+
+# Entornos e IDEs
+.vscode/
+.idea/
+.settings/
+.classpath
+.project
+bin/
+.DS_Store
+

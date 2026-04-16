@@ -206,4 +206,37 @@ public class ArbolGeneral {
             recorridoInOrden(nodoActual.hijos.get(i));
         }
     }
+
+    public static void main(String[] args) {
+        System.out.println("--- PRUEBA ÁRBOL GENERAL ---");
+        ArbolGeneral arbol = new ArbolGeneral("/");
+
+        System.out.println("\nInsertando nodos...");
+        arbol.insertar(arbol.raiz, "/", "home");
+        arbol.insertar(arbol.raiz, "/", "etc");
+        arbol.insertar(arbol.raiz, "/", "var");
+        arbol.insertar(arbol.raiz, "home", "Jean");
+        arbol.insertar(arbol.raiz, "home", "admin");
+        arbol.insertar(arbol.raiz, "Jean", "docs");
+        arbol.insertar(arbol.raiz, "Jean", "downloads");
+
+        System.out.print("\nRecorrido Pre-Orden   (Raíz -> Hijos):       ");
+        arbol.recorridoPreOrden(arbol.raiz);
+        System.out.println();
+
+        System.out.print("Recorrido Post-Orden  (Hijos -> Raíz):       ");
+        arbol.recorridoPostOrden(arbol.raiz);
+        System.out.println();
+
+        System.out.print("Recorrido In-Orden    (1er Hijo -> Raíz -> Hijos): ");
+        arbol.recorridoInOrden(arbol.raiz);
+        System.out.println();
+
+        System.out.println("\nEliminando el nodo 'Jean' (y toda su descendencia)...");
+        arbol.eliminar(arbol.raiz, "Jean");
+
+        System.out.print("Recorrido Pre-Orden tras eliminar a 'Jean':  ");
+        arbol.recorridoPreOrden(arbol.raiz);
+        System.out.println();
+    }
 }

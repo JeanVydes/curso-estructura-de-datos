@@ -66,13 +66,6 @@ void bfs(int inicio) {
     }
 }
 
-void dfs(int inicio) {
-    // DFS en grafo dirigido: sigue solo direcciones salientes
-    bool visitado[V] = {false};
-    dfs_recursivo(inicio, visitado);
-    std::cout << std::endl;
-}
-
 void dfs_recursivo(int actual, bool visitado[]) {
     visitado[actual] = true;
     std::cout << actual << " ";
@@ -81,6 +74,13 @@ void dfs_recursivo(int actual, bool visitado[]) {
             dfs_recursivo(vecino, visitado);
         }
     }
+}
+
+void dfs(int inicio) {
+    // DFS en grafo dirigido: sigue solo direcciones salientes
+    bool visitado[V] = {false};
+    dfs_recursivo(inicio, visitado);
+    std::cout << std::endl;
 }
 
 int main() {

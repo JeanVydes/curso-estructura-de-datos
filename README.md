@@ -273,9 +273,9 @@ Los árboles son estructuras jerárquicas donde cada nodo tiene un padre (except
 
 **Versiones Completas:**
 
-- [`arboles/Arbol.cpp`](arboles/Arbol.cpp) - Implementación procedural recursiva en C++
-- [`arboles/Arbol.java`](arboles/Arbol.java) - Versión orientada a objetos en Java
-- [`arboles/Arbol.py`](arboles/Arbol.py) - Implementación recursiva en Python
+- [`arboles/ABBRecursivo.cpp`](arboles/ABBRecursivo.cpp) - Implementación procedural recursiva en C++
+- [`arboles/ABBRecursivo.java`](arboles/ABBRecursivo.java) - Versión orientada a objetos en Java
+- [`arboles/ABBRecursivo.py`](arboles/ABBRecursivo.py) - Implementación recursiva en Python
 
 **Operaciones implementadas:**
 
@@ -291,9 +291,9 @@ Los árboles son estructuras jerárquicas donde cada nodo tiene un padre (except
 
 #### 💻 Implementaciones Iterativas
 
-- [`arboles/ArbolBinarioBusquedaIterativo.cpp`](arboles/ArbolBinarioBusquedaIterativo.cpp) - Versión iterativa con algoritmo Morris
-- [`arboles/ArbolBinarioBusquedaIterativo.java`](arboles/ArbolBinarioBusquedaIterativo.java) - Java iterativo con Morris
-- [`arboles/ArbolBinarioBusquedaIterativo.py`](arboles/ArbolBinarioBusquedaIterativo.py) - Python iterativo con Morris
+- [`arboles/ABBIterativo.cpp`](arboles/ABBIterativo.cpp) - Versión iterativa con algoritmo Morris
+- [`arboles/ABBIterativo.java`](arboles/ABBIterativo.java) - Java iterativo con Morris
+- [`arboles/ABBIterativo.py`](arboles/ABBIterativo.py) - Python iterativo con Morris
 
 **Características especiales:**
 
@@ -475,12 +475,12 @@ curso-estructura-de-datos/
 │   ├── colaConLimite.*                ← Colas con capacidad
 │
 ├── arboles/                           ← Árboles binarios
-│   ├── Arbol.cpp                      ← ABB recursivo C++
-│   ├── Arbol.java                     ← ABB recursivo Java
-│   ├── Arbol.py                       ← ABB recursivo Python
-│   ├── ArbolBinarioBusquedaIterativo.cpp  ← ABB iterativo C++
-│   ├── ArbolBinarioBusquedaIterativo.java ← ABB iterativo Java
-│   └── ArbolBinarioBusquedaIterativo.py   ← ABB iterativo Python
+│   ├── ABBRecursivo.cpp                      ← ABB recursivo C++
+│   ├── ABBRecursivo.java                     ← ABB recursivo Java
+│   ├── ABBRecursivo.py                       ← ABB recursivo Python
+│   ├── ABBIterativo.cpp  ← ABB iterativo C++
+│   ├── ABBIterativo.java ← ABB iterativo Java
+│   └── ABBIterativo.py   ← ABB iterativo Python
 │
 └── grafos/                            ← Grafos
     ├── GrafoSimple.*                  ← No dirigido

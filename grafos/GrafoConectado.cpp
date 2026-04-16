@@ -66,6 +66,7 @@ void bfs(int inicio) {
     }
 }
 
+void dfs_recursivo(int, bool[]);
 void dfs(int inicio) {
     // DFS en grafo conectado: cubre todo el grafo
     bool visitado[V] = {false};

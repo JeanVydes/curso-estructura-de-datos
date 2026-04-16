@@ -3,7 +3,7 @@ import java.util.LinkedList;
 
 /**
  * ============================================================================
- *   🌲 ÁRBOL BINARIO DE BÚSQUEDA (ABB) - IMPLEMENTACIÓN ITERATIVA 🌲
+ * 🌲 ÁRBOL BINARIO DE BÚSQUEDA (ABB) - IMPLEMENTACIÓN ITERATIVA 🌲
  * ============================================================================
  *
  * ¿QUÉ ES ESTE ARCHIVO?
@@ -14,13 +14,15 @@ import java.util.LinkedList;
  *
  * ¿POR QUÉ USAR UNA VERSIÓN ITERATIVA?
  * La recursividad es hermosa y el código queda muy corto (Arbol.java), pero
- * tiene un defecto mortal para árboles extremadamente desbalanceados: si ingresas
+ * tiene un defecto mortal para árboles extremadamente desbalanceados: si
+ * ingresas
  * 100,000 números ordenados (1, 2, 3, 4...), tendrías un árbol sin hijos
  * izquierdos, literalemente una línea recta gigante.
  *
  * La recursividad haría 100,000 "pausas" o llamadas a función, consumiendo toda
  * tu Pila de Llamadas del sistema y causando un error trágico (Stack Overflow).
- * El enfoque iterativo navega el árbol usando memoria constante O(1), no importa
+ * El enfoque iterativo navega el árbol usando memoria constante O(1), no
+ * importa
  * lo deforme que se vuelva. Protege la memoria a cambio de código más extenso.
  *
  * ----------------------------------------------------------------------------
@@ -29,26 +31,26 @@ import java.util.LinkedList;
  * Usamos un "vehículo" explorador llamado `actual` y un "copiloto" llamado
  * `padre` que recuerda la última posición válida antes de caer al vacío.
  * 
- *         [10]
- *        /    \
- *      [5]    [15]
- *        \
- *        [8]
+ * [10]
+ * / \
+ * [5] [15]
+ * \
+ * [8]
  *
  * INICIO DEL VIAJE (Bucle While buscando un nulo):
  * `actual` apunta al [10]. `padre` empieza en null.
  * 
  * PASO 1 (bucle en 10):
- *        `padre` copia la posición del `actual`. Ahora `padre` = 10.
- *         ¿7 < 10? SÍ. `actual` avanza a su izquierda (que es 5).
+ * `padre` copia la posición del `actual`. Ahora `padre` = 10.
+ * ¿7 < 10? SÍ. `actual` avanza a su izquierda (que es 5).
  *
  * PASO 2 (bucle en 5):
- *         `padre` se queda estacionado en tu última posición (`padre` = 5).
- *         ¿7 < 5? NO. ¿7 > 5? SÍ. `actual` avanza a su derecha (que es 8).
+ * `padre` se queda estacionado en tu última posición (`padre` = 5).
+ * ¿7 < 5? NO. ¿7 > 5? SÍ. `actual` avanza a su derecha (que es 8).
  *
  * PASO 3 (bucle en 8):
- *         `padre` toma nota (`padre` = 8).
- *         ¿7 < 8? SÍ. `actual` avanza a su izquierda...
+ * `padre` toma nota (`padre` = 8).
+ * ¿7 < 8? SÍ. `actual` avanza a su izquierda...
  * 
  * ¡BUM! `actual` CAYÓ EN NULL. El bucle while termina, deteniendo el coche.
  * Sin embargo, el `padre` nos salvó, recordando que antes de caer estábamos
@@ -57,9 +59,9 @@ import java.util.LinkedList;
  * EL DESENLACE:
  * Solo queda conectar el [7] nuevo adonde nos diga el copiloto `padre`.
  * Si el 7 es menor al 8, engánchalo a su izquierda. ¡Listo!
- *         [8]
- *        /
- *      [7] <-- ¡Nuevo nodo conectado perfectamente!
+ * [8]
+ * /
+ * [7] <-- ¡Nuevo nodo conectado perfectamente!
  * ============================================================================
  */
 public class ABBIterativo {
@@ -87,10 +89,13 @@ public class ABBIterativo {
      * Inserta un valor en el árbol de forma iterativa.
      * 
      * ¿Qué se busca? Encontrar la ubicación correcta para el nuevo valor sin romper
-     * la regla del ABB. Un nuevo nodo siempre se insertará como una "hoja" (un nodo sin hijos).
+     * la regla del ABB. Un nuevo nodo siempre se insertará como una "hoja" (un nodo
+     * sin hijos).
      * 
-     * ¿Cómo se logra? Se desciende por el árbol de nodo en nodo, usando un bucle while,
-     * hasta encontrar un lugar vacío (un puntero null) donde enganchar el nuevo nodo.
+     * ¿Cómo se logra? Se desciende por el árbol de nodo en nodo, usando un bucle
+     * while,
+     * hasta encontrar un lugar vacío (un puntero null) donde enganchar el nuevo
+     * nodo.
      */
     public void insertar(int valor) {
         Nodo nuevoNodo = new Nodo(valor);
@@ -193,9 +198,9 @@ public class ABBIterativo {
             } // Si 'actual' es un hijo izquierdo, su padre ahora apunta a 'hijo'.
             else if (actual == padre.izquierdo) {
                 /*
-                 * (padre)             (padre)
-                 * |                   |
-                 * (actual)    --->    (hijo)
+                 * (padre) (padre)
+                 * | |
+                 * (actual) ---> (hijo)
                  * |
                  * (hijo)
                  */
@@ -205,11 +210,11 @@ public class ABBIterativo {
                 padre.derecho = hijo;
             }
         } // --- CASO 3: EL NODO TIENE DOS HIJOS ---
-        // Este es el caso más complejo. No podemos simplemente eliminarlo.
-        // Estrategia: Reemplazar el valor del nodo a eliminar con un valor
-        // adecuado de uno de sus subárboles y luego eliminar ese nodo sustituto.
-        // El sustituto ideal es el "sucesor in-orden": el valor más pequeño
-        // del subárbol derecho.
+          // Este es el caso más complejo. No podemos simplemente eliminarlo.
+          // Estrategia: Reemplazar el valor del nodo a eliminar con un valor
+          // adecuado de uno de sus subárboles y luego eliminar ese nodo sustituto.
+          // El sustituto ideal es el "sucesor in-orden": el valor más pequeño
+          // del subárbol derecho.
         else {
             // 1. Encontrar el sucesor (el nodo más a la izquierda del subárbol derecho).
             Nodo padreSucesor = actual;
@@ -219,7 +224,8 @@ public class ABBIterativo {
                 sucesor = sucesor.izquierdo;
             }
 
-            // 2. Copiar el valor del sucesor al nodo que originalmente queríamos "eliminar".
+            // 2. Copiar el valor del sucesor al nodo que originalmente queríamos
+            // "eliminar".
             // Ahora, lógicamente, el nodo 'actual' está a salvo, pero tenemos un duplicado.
             actual.dato = sucesor.dato;
 
@@ -252,7 +258,8 @@ public class ABBIterativo {
         System.out.print("In-Orden (Morris):   ");
         Nodo actual = raiz;
         while (actual != null) {
-            // Si no hay subárbol izquierdo, es simple: visitamos el nodo y vamos a la derecha.
+            // Si no hay subárbol izquierdo, es simple: visitamos el nodo y vamos a la
+            // derecha.
             if (actual.izquierdo == null) {
                 System.out.print(actual.dato + " ");
                 actual = actual.derecho;
@@ -272,11 +279,12 @@ public class ABBIterativo {
                     // Ahora, descendemos por la izquierda para procesar ese subárbol.
                     actual = actual.izquierdo;
                 } // Si el puntero derecho ya apunta a 'actual', significa que el hilo ya existía.
-                // Esto nos indica que ya terminamos de recorrer el subárbol izquierdo.
+                  // Esto nos indica que ya terminamos de recorrer el subárbol izquierdo.
                 else {
                     // --- QUITAR HILO ---
                     predecesor.derecho = null; // Restauramos el puntero original del árbol.
-                    // AHORA es el momento de visitar el nodo en In-Orden (Izquierda -> *Raíz* -> Derecha).
+                    // AHORA es el momento de visitar el nodo en In-Orden (Izquierda -> *Raíz* ->
+                    // Derecha).
                     System.out.print(actual.dato + " ");
                     // Ya terminamos con la izquierda y la raíz, ahora vamos a la derecha.
                     actual = actual.derecho;
@@ -317,10 +325,13 @@ public class ABBIterativo {
 
     public void recorridoPostOrdenMorris() {
         System.out.print("Post-Orden (Morris): ");
-        // Lógica: Post-Orden directo (Izquierda -> Derecha -> Raíz) es muy complejo con Morris.
+        // Lógica: Post-Orden directo (Izquierda -> Derecha -> Raíz) es muy complejo con
+        // Morris.
         // El truco es hacer un recorrido modificado (Raíz -> Derecha -> Izquierda)
-        // y añadir cada elemento visitado al FRENTE de una lista. Esto revierte el orden.
-        // El resultado de revertir (Raíz, Derecha, Izquierda) es (Izquierda, Derecha, Raíz).
+        // y añadir cada elemento visitado al FRENTE de una lista. Esto revierte el
+        // orden.
+        // El resultado de revertir (Raíz, Derecha, Izquierda) es (Izquierda, Derecha,
+        // Raíz).
         LinkedList<Integer> resultado = new LinkedList<>();
         Nodo actual = raiz;
         while (actual != null) {
@@ -354,9 +365,9 @@ public class ABBIterativo {
     }
 
     public static void main(String[] args) {
-        ArbolBinarioBusquedaIterativo arbol = new ArbolBinarioBusquedaIterativo();
+        ABBIterativo arbol = new ABBIterativo();
         System.out.println("--- ÁRBOL ITERATIVO ---");
-        int[] valores = {10, 5, 15, 3, 7, 12, 18};
+        int[] valores = { 10, 5, 15, 3, 7, 12, 18 };
         System.out.print("Insertando: ");
         for (int valor : valores) {
             System.out.print(valor + " ");

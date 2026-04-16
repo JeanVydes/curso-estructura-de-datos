@@ -258,7 +258,7 @@ def main():
     """
     Función principal para probar la implementación del árbol iterativo.
     """
-    arbol = ArbolBinarioBusquedaIterativo()
+    arbol = ABBIterativo()
     
     print("--- ÁRBOL ITERATIVO EN PYTHON ---")
     valores = [10, 5, 15, 3, 7, 12, 18]

@@ -64,6 +64,7 @@ void bfs(int inicio) {
     }
 }
 
+void dfs_recursivo(int, bool[]);
 void dfs(int actual) {
     bool visitado[V] = {false};
     dfs_recursivo(actual, visitado);
@@ -80,6 +81,7 @@ void dfs_recursivo(int actual, bool visitado[]) {
     }
 }
 
+bool tiene_ciclo_dfs(int, bool[], int);
 bool tiene_ciclo() {
     bool visitado[V] = {false};
     for (int i = 0; i < V; ++i) {
@@ -153,6 +155,7 @@ int grado_vertice(int vertice) {
     return grado;
 }
 
+bool es_bipartito_bfs(int, int[]);
 bool es_bipartito() {
     int color[V];
     std::fill(color, color + V, -1);

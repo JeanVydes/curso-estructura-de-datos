@@ -271,7 +271,7 @@ def main():
     """
     Función principal para probar la implementación del árbol.
     """
-    arbol = ArbolBinarioBusqueda()
+    arbol = ABBRecursivo()
     
     print("--- ÁRBOL RECURSIVO EN PYTHON ---")
     valores = [10, 5, 15, 3, 7, 12, 18]

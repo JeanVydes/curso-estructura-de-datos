@@ -67,6 +67,7 @@ void bfs(int inicio) {
     }
 }
 
+void dfs_recursivo(int, bool[]);
 void dfs(int inicio) {
     // DFS adaptado para grafo ponderado (ignora pesos)
     bool visitado[V] = {false};

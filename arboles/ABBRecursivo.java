@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- *   🌲 ÁRBOL BINARIO DE BÚSQUEDA (ABB) - IMPLEMENTACIÓN RECURSIVA 🌲
+ * 🌲 ÁRBOL BINARIO DE BÚSQUEDA (ABB) - IMPLEMENTACIÓN RECURSIVA 🌲
  * ============================================================================
  *
  * ¿QUÉ ES ESTE ARCHIVO?
@@ -12,9 +12,9 @@
  * Piensa en un árbol no como una gran estructura monolítica, sino como un
  * nodo unido a dos "mini-árboles" (sus subárboles).
  * 
- *        (10)  <-- Nodo actual
- *        /  \
- *      (5)  (15) <-- Cada hijo es, a su vez, la raíz de su propio mini-árbol.
+ * (10) <-- Nodo actual
+ * / \
+ * (5) (15) <-- Cada hijo es, a su vez, la raíz de su propio mini-árbol.
  * 
  * La recursividad nos permite pensar así: "Para insertar un número en el árbol
  * gigante, solo lo comparo con la raíz actual. Si es menor, le digo al subárbol
@@ -25,38 +25,38 @@
  * ----------------------------------------------------------------------------
  * Queremos insertar el 7 en este árbol inicial:
  * 
- *         [10]
- *        /    \
- *      [5]    [15]
- *        \
- *        [8]
+ * [10]
+ * / \
+ * [5] [15]
+ * \
+ * [8]
  * 
  * PASO 1: insertarRecursivo(nodo=10, valor=7)
- *         ¿7 < 10? SÍ. Bajamos por la izquierda y "pausamos" este paso.
+ * ¿7 < 10? SÍ. Bajamos por la izquierda y "pausamos" este paso.
  * 
  * PASO 2: insertarRecursivo(nodo=5, valor=7)
- *         ¿7 < 5? NO. ¿7 > 5? SÍ. Bajamos por la derecha y "pausamos".
+ * ¿7 < 5? NO. ¿7 > 5? SÍ. Bajamos por la derecha y "pausamos".
  * 
  * PASO 3: insertarRecursivo(nodo=8, valor=7)
- *         ¿7 < 8? SÍ. Bajamos por la izquierda y "pausamos".
+ * ¿7 < 8? SÍ. Bajamos por la izquierda y "pausamos".
  * 
- * PASO 4: insertarRecursivo(nodo=null, valor=7)  <-- ¡BINGO! CASO BASE.
- *         Hemos llegado a un espacio vacío. La recursión toca fondo.
- *         Creamos el nuevo nodo [7] y se lo "devolvemos" (return) al paso 3.
+ * PASO 4: insertarRecursivo(nodo=null, valor=7) <-- ¡BINGO! CASO BASE.
+ * Hemos llegado a un espacio vacío. La recursión toca fondo.
+ * Creamos el nuevo nodo [7] y se lo "devolvemos" (return) al paso 3.
  * 
  * EL DESENLACE (Desenrollando las pausas):
- *         - El nodo [8] recibe el [7] y lo engancha a su izquierda.
- *         - El nodo [5] actualiza su derecha (sigue siendo el [8], todo bien).
- *         - El nodo [10] actualiza su izquierda (sigue siendo el [5]).
+ * - El nodo [8] recibe el [7] y lo engancha a su izquierda.
+ * - El nodo [5] actualiza su derecha (sigue siendo el [8], todo bien).
+ * - El nodo [10] actualiza su izquierda (sigue siendo el [5]).
  * 
  * ÁRBOL RESULTANTE:
- *         [10]
- *        /    \
- *      [5]    [15]
- *        \
- *        [8]
- *        /
- *      [7] <-- ¡Nuevo nodo conectado mágicamente por el retorno recursivo!
+ * [10]
+ * / \
+ * [5] [15]
+ * \
+ * [8]
+ * /
+ * [7] <-- ¡Nuevo nodo conectado mágicamente por el retorno recursivo!
  * ============================================================================
  */
 public class ABBRecursivo {
@@ -322,7 +322,7 @@ public class ABBRecursivo {
     }
 
     public static void main(String[] args) {
-        Arbol arbol = new Arbol();
+        ABBRecursivo arbol = new ABBRecursivo();
         System.out.println("--- ÁRBOL RECURSIVO ---");
         int[] valores = { 10, 5, 15, 3, 7, 12, 18 };
         System.out.print("Insertando: ");
