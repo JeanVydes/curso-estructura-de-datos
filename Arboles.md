@@ -1,10 +1,10 @@
-# 🌲 ¿Qué son los Árboles en Estructuras de Datos?
+# ¿Qué son los Árboles en Estructuras de Datos?
 
 Así como las listas o las pilas organizan datos de forma lineal (uno detrás de otro), un **árbol** es una estructura de datos **jerárquica** y **no lineal**. Piensa en un árbol genealógico o en la estructura de carpetas de tu computadora: hay un ancestro común desde el cual se ramifican diferentes descendientes.
 
 Todo árbol está compuesto por **Nodos**.
 
-### 🧱 Anatomía de un Árbol
+### Anatomía de un Árbol
 
 1. **Raíz (Root):** El nodo superior del árbol. Es el único nodo que no tiene un "padre". Toda la estructura nace de aquí.
 2. **Hijos y Padres:** Si un nodo se conecta hacia abajo con otro nodo, el primero es el padre y el segundo es el hijo.
@@ -14,7 +14,7 @@ Todo árbol está compuesto por **Nodos**.
 
 ---
 
-## 🤯 Tipos de Árboles
+## Tipos de Árboles
 
 Dependiendo de las reglas con las que se conecten los nodos, los árboles reciben distintos nombres:
 
@@ -23,7 +23,7 @@ Dependiendo de las reglas con las que se conecten los nodos, los árboles recibe
 
 Dentro de los árboles binarios existe una sub-categoría vital para la informática:
 
-### 🔎 Árbol Binario de Búsqueda (ABB o BST - Binary Search Tree)
+### Árbol Binario de Búsqueda (ABB o BST - Binary Search Tree)
 
 El **ABB** impone una regla estricta sobre cómo se ordenan los datos, permitiendo que la búsqueda de cualquier elemento sea ridículamente rápida (similar a buscar en un diccionario físico abriendo el libro a la mitad).
 
@@ -36,21 +36,24 @@ El **ABB** impone una regla estricta sobre cómo se ordenan los datos, permitien
 #### ¿Cómo identificar algorítmicamente un ABB? (Validación de Límites)
 A simple vista, un ABB parece válido si cada hijo izquierdo es menor a su padre y el derecho es mayor. Sin embargo, **esto no es suficiente**.
 
-Para validar o identificar correctamente un ABB completo mediante código, no basta con mirar al padre directo. Debemos arrastrar los "límites" a medida que bajamos por el árbol:
+Para validar o identificar correctamente un ABB completo mediante código, no basta con mirar al padre directo. Debemos **ir ajustando dinámicamente un rango de valores permitidos** a medida que descendemos por el árbol:
 
-1. Comenzamos en la raíz con el rango `[-Infinito, +Infinito]`.
-2. Cuando pasamos al **hijo izquierdo**, su **límite máximo** se vuelve el valor del padre.
-3. Cuando pasamos al **hijo derecho**, su **límite mínimo** se vuelve el valor del padre.
-4. Si algún nodo de ese subárbol viola este rango, **no es un ABB**.
+1. Comenzamos en la raíz con el rango permitido de `[-Infinito, +Infinito]`.
+2. Cuando pasamos al **hijo izquierdo**, su **límite máximo** se actualiza al valor del padre. *(¿Qué quiere decir esto? Si el padre vale `50`, absolutamente todo lo que esté en su rama izquierda tiene **prohibido** ser mayor a `50`. Por tanto, el valor del padre se convierte en el nuevo "techo" para todos esos descendientes).*
+3. Cuando pasamos al **hijo derecho**, su **límite mínimo** se actualiza al valor del padre. *(De forma análoga, todo en la rama derecha debe ser estrictamente mayor a `50`. Así que el padre se convierte en el nuevo "piso" o base para verificar a esos descendientes).*
+4. Si algún nodo durante el recorrido viola este rango modificado (por ejemplo, encontramos un `55` perdido en el subárbol izquierdo de `50`), entonces **no es un ABB válido**.
 
 *(Si quieres ver esto más a fondo, revisa el archivo `ArbolesLimites.md` donde se detalla el por qué un "simple vistazo" no basta).*
 
 #### Otros Árboles Notables:
-* **AVL / Red-Black Trees:** Son Árboles Binarios de Búsqueda "Autobalanceados". Evitan que el árbol se convierta en una línea recta (una lista) si insertas números ordenados secuencialmente (1, 2, 3... desencadenando en un árbol degenerado).
+* **Árbol AVL (Adelson-Velsky y Landis):** Es un tipo específico de Árbol Binario de Búsqueda "Autobalanceado". Su regla fundamental es que, para cualquier nodo del árbol, la diferencia de alturas entre su subárbol izquierdo y su subárbol derecho **nunca puede ser mayor a 1**. A esta diferencia se le llama *factor de equilibrio*.
+  * Si al insertar o borrar un nodo, el factor de equilibrio de algún nodo padre llega a 2 o -2 (el árbol se desbalancea), el AVL detecta esto y realiza automáticamente operaciones llamadas **rotaciones** (rotación simple a la izquierda, a la derecha, o rotaciones dobles) para reestructurarse y volver a equilibrarse.
+  * **¿Cuál es la ventaja?** Evitan el peor escenario de los árboles binarios comunes: convertirse en una simple línea recta (similar a una lista enlazada) si alertas elementos ya ordenados secuencialmente (1, 2, 3...). Al estar balanceado, garantiza que el tiempo de búsqueda, inserción y eliminación sea siempre extremadamente rápido, concretamente $O(\log n)$.
+* **Red-Black Trees (Árboles Rojinegros):** Pertenecen a la misma familia de árboles autobalanceados, pero utilizan un sistema de "colores" (rojo y negro) en los nodos en lugar de un cálculo riguroso de alturas. Suelen reestructurarse más rápido que los AVL ante muchas inserciones y eliminaciones sucesivas.
 
 ---
 
-## 🛤️ Recorridos de un Árbol Binario (Inorden, Preorden, Postorden)
+## Recorridos de un Árbol Binario (Inorden, Preorden, Postorden)
 
 A diferencia de un arreglo donde solo puedes ir del índice 0 al final, en un árbol tienes que decidir en qué orden visitar la "Raíz" en comparación con sus subárboles "Izquierdo" y "Derecho". Esa decisión te da tres tipos de recorridos diferentes.
 
