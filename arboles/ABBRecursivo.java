@@ -259,6 +259,16 @@ public class ABBRecursivo {
         return 1 + elMasAlto;
     }
 
+    // esABB(raiz, null, null)
+    // [10]
+    // / \
+    // [8] [15]
+    // \
+    // [7]
+    // esABB([10], null, null)
+    //   esABB([8], null, 10)
+    //      esABB([7], 8, 10) INVALIDO, porque 7 no puede ser menor o igual a 8 (su ancestro izquierdo)
+    //   esABB([15], 10, null)
     private boolean esABB(Nodo nodo, Integer min, Integer max) {
         // --- CASO BASE ---
         // ¿Qué hace? Si el nodo es nulo, la rama es válida.
@@ -273,7 +283,12 @@ public class ABBRecursivo {
         // ¿Por qué? No basta con comparar con el padre directo. Un nodo debe respetar a
         // TODOS sus ancestros. Este rango que se va estrechando garantiza esta
         // propiedad global.
-        if ((min != null && nodo.dato <= min) || (max != null && nodo.dato >= max)) {
+        if ((min != null && nodo.dato <= min) // El nodo actual no puede ser menor o igual al mínimo permitido (que
+                                              // viene de un ancestro izquierdo).
+                || // o, osea cualquiera de las dos condiciones es suficiente para invalidar el ABB
+                (max != null && nodo.dato >= max)) // El nodo actual no puede ser mayor o igual al máximo permitido (que
+                                                   // viene de un ancestro derecho).
+        {
             return false;
         }
         // --- PASO RECURSIVO ---
@@ -281,6 +296,12 @@ public class ABBRecursivo {
         // ¿Por qué? Al ir a la izquierda, el valor del nodo actual se convierte en el
         // nuevo MÁXIMO
         // permitido. Al ir a la derecha, se convierte en el nuevo MÍNIMO.
+        // Esto asegura que cada nodo respete la propiedad de ordenamiento con respecto
+        // a
+        // todos sus ancestros, no solo el padre directo.
+        // es decir, vamos estrechando el rango de valores permitidos a medida que
+        // bajamos por el árbol, lo que garantiza que no haya violaciones de la
+        // propiedad del ABB en ningún nivel.
         return esABB(nodo.izquierdo, min, nodo.dato) &&
                 esABB(nodo.derecho, nodo.dato, max);
     }
@@ -298,7 +319,7 @@ public class ABBRecursivo {
     }
 
     /**
-     * INSERCIÓN RECURSIVA 
+     * INSERCIÓN RECURSIVA
      * 
      * ¿QUÉ SE BUSCA?: Insertar un nuevo valor en el árbol, encontrando
      * exactamente
@@ -367,6 +388,20 @@ public class ABBRecursivo {
         // este nodo no cambia. Devolverlo asegura que los enlaces por encima de él
         // en la cadena de recursión permanezcan intactos.
         return nodoActual;
+    }
+
+    private Nodo buscarAncestroComún(Nodo nodoActual, int valor1, int valor2) {
+        if (nodoActual == null) {
+            return null;
+        }
+
+        if (valor1 < nodoActual.dato && valor2 < nodoActual.dato) {
+            return buscarAncestroComún(nodoActual.izquierdo, valor1, valor2);
+        } else if (valor1 > nodoActual.dato && valor2 > nodoActual.dato) {
+            return buscarAncestroComún(nodoActual.derecho, valor1, valor2);
+        } else {
+            return nodoActual; // Este nodo es el ancestro común
+        }
     }
 
     /**
@@ -471,7 +506,8 @@ public class ABBRecursivo {
             // que el resto de posibles candidatos derechos.
             // Es básicamente el "siguiente número" en la secuencia ascendente. El sustituto
             // ideal para no romper nada.
-            // int predecesor = encontrarMaximo(nodoActual.izquierdo); // Alternativa: usar el máximo del lado izquierdo
+            // int predecesor = encontrarMaximo(nodoActual.izquierdo); // Alternativa: usar
+            // el máximo del lado izquierdo
             int sucesor = encontrarMinimo(nodoActual.derecho);
             nodoActual.dato = sucesor;
             nodoActual.derecho = eliminarRecursivo(nodoActual.derecho, sucesor);

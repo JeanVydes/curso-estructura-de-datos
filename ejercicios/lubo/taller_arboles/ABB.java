@@ -24,10 +24,10 @@ public class ABB {
      *
      * 60
      * / \
-     *  30  90
+     * 30 90
      * / \ / \
-     *  20 50 80 100
-     *  / \    / \
+     * 20 50 80 100
+     * / \ / \
      * 10 25 35 55
      *
      * Regla InOrden:
@@ -39,19 +39,19 @@ public class ABB {
      * inOrden(60)
      * ├── inOrden(30)
      * │ ├── inOrden(20)
-     * │ │  ├── inOrden(10) -> print(10)
-     * │ │  ├── print(20)
-     * │ │  └── inOrden(25) -> print(25)
+     * │ │ ├── inOrden(10) -> print(10)
+     * │ │ ├── print(20)
+     * │ │ └── inOrden(25) -> print(25)
      * │ ├── print(30)
      * │ └── inOrden(50)
-     * │    ├── inOrden(35) -> print(35)
-     * │    ├── print(50)
-     * │    └── inOrden(55) -> print(55)
+     * │ ├── inOrden(35) -> print(35)
+     * │ ├── print(50)
+     * │ └── inOrden(55) -> print(55)
      * ├── print(60)
      * └── inOrden(90)
-     *    ├── inOrden(80) -> print(80)
-     *    ├── print(90)
-     *    └── inOrden(100) -> print(100)
+     * ├── inOrden(80) -> print(80)
+     * ├── print(90)
+     * └── inOrden(100) -> print(100)
      *
      * Salida final InOrden:
      * 10 20 25 30 35 50 55 60 80 90 100
@@ -102,8 +102,8 @@ public class ABB {
         } else if (valor > nodoActual.id_juego) {
             nodoActual.derecho = insertarRecursivo(nodoActual.derecho, valor);
         }
-
-        return nodoActual;
+        
+        return nodoActual; // No se permiten valores duplicados
     }
 
     private Nodo eliminarRecursivo(Nodo nodoActual, int valor) {
