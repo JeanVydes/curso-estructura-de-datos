@@ -107,8 +107,7 @@ public class ABB {
         // Este se convertira en el hijo izquierdo de C150, porque "C15" es menor que
         // "C150"
         // La solucion para el caso del taller, era primero eliminar el nodo "C150" y
-        // luego insertar "C15", pero no es necesario eliminarlo, porque el ABB se
-        // encarga de colocar cada nodo en su lugar correcto
+        // luego insertar "C15" (solo queriamos insertar el C15)
         arbol.insertar("C15", "N");
 
         // y para los que se pregunta, para que esa logica funcione
