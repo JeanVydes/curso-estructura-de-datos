@@ -56,6 +56,15 @@ public class ABBRecursivo {
 
     // --- MÉTODOS DE RECORRIDO ---
 
+    /*
+     *  5
+     * / \
+     * 3 8
+     * In-Orden: 3 5 8
+     * Pre-Orden: 5 3 8
+     * Post-Orden: 3 8 5
+     */
+
     /**
      * RECORRIDO IN-ORDEN
      * 
@@ -239,23 +248,13 @@ public class ABBRecursivo {
      * ↳ Retorna 1 + (max=1) = 2. (El árbol tiene altura total 2).
      */
     private int calcularAlturaRecursivo(Nodo nodo) {
-        // --- CASO BASE ---
-        // ¿Qué hace? Si el nodo es nulo, devuelve -1.
-        // ¿Por qué? Un espacio vacío no tiene altura. El -1 hace que la matemática
-        // para un nodo hoja (un nodo sin hijos) sea correcta: 1 + max(-1, -1) = 0.
         if (nodo == null) {
             return -1;
         }
-        // --- PASO RECURSIVO ---
-        // ¿Qué hace? Calcula la altura de cada subárbol por separado.
-        // ¿Por qué? La altura es el camino más largo. Debemos explorar ambos
-        // caminos (izquierdo y derecho) para saber cuál es más largo.
+
         int alturaIzquierda = calcularAlturaRecursivo(nodo.izquierdo);
         int alturaDerecha = calcularAlturaRecursivo(nodo.derecho);
         int elMasAlto = Math.max(alturaIzquierda, alturaDerecha);
-        // ¿Qué hace? Devuelve 1 más la altura del subárbol más alto.
-        // ¿Por qué? El '1' cuenta el nivel del nodo actual, y el 'max' elige el
-        // camino más largo que encontró entre sus hijos.
         return 1 + elMasAlto;
     }
 
@@ -266,9 +265,10 @@ public class ABBRecursivo {
     // \
     // [7]
     // esABB([10], null, null)
-    //   esABB([8], null, 10)
-    //      esABB([7], 8, 10) INVALIDO, porque 7 no puede ser menor o igual a 8 (su ancestro izquierdo)
-    //   esABB([15], 10, null)
+    // esABB([8], null, 10)
+    // esABB([7], 8, 10) INVALIDO, porque 7 no puede ser menor o igual a 8 (su
+    // ancestro izquierdo)
+    // esABB([15], 10, null)
     private boolean esABB(Nodo nodo, Integer min, Integer max) {
         // --- CASO BASE ---
         // ¿Qué hace? Si el nodo es nulo, la rama es válida.

@@ -187,6 +187,14 @@ class ABBRecursivo:
             return nodo.dato
         return self._encontrar_minimo(nodo.izquierdo)
 
+     #  5
+     # / \
+     # 3 8
+     # In-Orden: 3 5 8
+     # Pre-Orden: 5 3 8
+     # Post-Orden: 3 8 5
+     #
+
     def _in_orden_recursivo(self, nodo):
         """
         Recorrido In-Orden recursivo: Izquierda -> Raíz -> Derecha
@@ -216,27 +224,12 @@ class ABBRecursivo:
             print(nodo.dato, end=" ")                   # 3. Finalmente la raíz.
 
     def _calcular_altura_recursivo(self, nodo):
-        """
-        CALCULAR ALTURA (Método auxiliar)
-        
-        --- CASO BASE ---
-        ¿Qué hace? Si el nodo es None, devuelve -1.
-        ¿Por qué? Un espacio vacío no tiene altura. El -1 hace que la matemática
-        para un nodo hoja (un nodo sin hijos) sea correcta: 1 + max(-1, -1) = 0.
-        """
         if nodo is None:
             return -1
 
-        # --- PASO RECURSIVO ---
-        # ¿Qué hace? Calcula la altura de cada subárbol por separado.
-        # ¿Por qué? La altura es el camino más largo. Debemos explorar ambos
-        # caminos (izquierdo y derecho) para saber cuál es más largo.
         altura_izquierda = self._calcular_altura_recursivo(nodo.izquierdo)
         altura_derecha = self._calcular_altura_recursivo(nodo.derecho)
-
-        # ¿Qué hace? Devuelve 1 más la altura del subárbol más alto.
-        # ¿Por qué? El '1' cuenta el nivel del nodo actual, y el 'max' elige el
-        # camino más largo que encontró entre sus hijos.
+        
         return 1 + max(altura_izquierda, altura_derecha)
 
     def _es_arbol_valido_recursivo(self, nodo, minimo, maximo):

@@ -102,7 +102,7 @@ public class ABB {
         } else if (valor > nodoActual.id_juego) {
             nodoActual.derecho = insertarRecursivo(nodoActual.derecho, valor);
         }
-        
+
         return nodoActual; // No se permiten valores duplicados
     }
 
@@ -185,9 +185,14 @@ public class ABB {
         }
         int alturaIzquierda = altura(nodo.izquierdo);
         int alturaDerecha = altura(nodo.derecho);
-        return 1 + Math.max(alturaIzquierda, alturaDerecha);
+        return 1 + max(alturaIzquierda, alturaDerecha);
     }
 
+    /*
+     * 60
+     * / \
+     * 30 90
+     */
     private int contarNodos(Nodo nodo) {
         if (nodo == null) {
             return 0;
@@ -195,6 +200,11 @@ public class ABB {
         return 1 + contarNodos(nodo.izquierdo) + contarNodos(nodo.derecho);
     }
 
+    /*
+     * 60
+     * / \
+     * 30 90
+     */
     private int contarHojas(Nodo nodo) {
         if (nodo == null) {
             return 0;
