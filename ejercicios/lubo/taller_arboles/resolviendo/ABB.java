@@ -111,6 +111,12 @@ public class ABB {
         // encarga de colocar cada nodo en su lugar correcto
         arbol.insertar("C15", "N");
 
+        // y para los que se pregunta, para que esa logica funcione
+        // se deberia comparar unicamente el primer digito,
+        // pero en las funciones que les dieron, se compara toda la cadena
+        // primero tenian que leer como funcionaba la funcion de insercion para poder
+        // entender como funcionaba especificamente
+
         arbol.inOrdenPrioritarioRecursivo(arbol.raiz);
 
         Nodo nodo = arbol.buscarRecursivo(arbol.raiz, "A10");
